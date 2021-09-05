@@ -2,7 +2,13 @@ var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectId
 var database = require('../public/javascripts/DataBaseInterface');
+const { BlobServiceClient } = require('@azure/storage-blob');
+const AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=soakaraokestorage;AccountKey=DRhzPgINTEWI8IeQ9MjMBQol/vEnLbECZDYI53+2yCkQAT8qva6BbbUnFWhaqkA/t4H6omWvlJ1bobcR7O8ETg==;EndpointSuffix=core.windows.net";
 
+
+/**
+ * Endpoint para obtener todas las canciones publicas
+ */
 router.get('/', async function(req, res, next) {
   try{
     let data = await database.publicSongs.find()
@@ -18,6 +24,9 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+/**
+ * Endpoint para obtener todas las canciones privadas
+ */
 router.get('/:owner', async function(req, res, next) {
   try{
     let data = await database.privateSongs.find({owner:req.params.owner})
@@ -33,6 +42,10 @@ router.get('/:owner', async function(req, res, next) {
   }
 });
 
+
+/**
+ * Endpoint para editar una cancion
+ */
 router.put('/', async function(req, res, next) {
     let songsCollection = database.privateSongs
     let id = req.body._id
@@ -55,6 +68,10 @@ router.put('/', async function(req, res, next) {
   
 });
 
+
+/**
+ * Endpoint para subir una cancion
+ */
 router.post('/', async function(req, res, next) {
   try{
     let songsCollection = database.privateSongs
@@ -73,15 +90,31 @@ router.post('/', async function(req, res, next) {
   }
 });
 
+
+/**
+ * Endpoint para eliminar una cancion
+ */
 router.delete('/:id', async function(req, res, next) {
   try{
     let songsCollection = database.privateSongs
+
+    // Se busca la cancion en la base de datos
+    let data = await songsCollection.find({_id: new ObjectId(req.params.id)})
+    let song
+    await data.forEach(file => {
+      song = file
+    });
+    // Se elimina la cancion del almacenamiento de azure
+    const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
+    const containerClient = blobServiceClient.getContainerClient(song.owner)
+    containerClient.deleteBlob(song.filename)
+    // Se elimina la cancion de la base de datos
     const result = await songsCollection.deleteOne({_id: new ObjectId(req.params.id)})
     if(result.deletedCount === 1){
       res.jsonp({message:"Successfully deleted one song.", result});
     }else{
       res.jsonp({message:"No songs matched the query. Deleted 0 songs.", result});
-    }
+    } 
   }
   catch(error){
     console.log(error)
