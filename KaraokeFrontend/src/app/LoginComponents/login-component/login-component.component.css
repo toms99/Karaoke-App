@@ -1,0 +1,58 @@
+.fondo{
+  height: 100vh;
+  background: linear-gradient(65deg, black, darkblue);
+  padding-top: 20vh;
+}
+.container{
+  width: 500px;
+  height: 400px;
+  background: linear-gradient(65deg, #833BEC, #FFBE0B);
+  border-radius: 50px;
+  opacity: 85%;
+}
+
+img{
+  margin: auto;
+  width: 150px;
+
+}
+.checkBox{
+  margin-top: 25px;
+  margin-left: 20px;
+}
+.Aux{
+  margin-left: 10px;
+}
+.inputA{
+  color: black;
+  margin-top: 10px;
+  background-color: wheat;
+  border-radius: 15px;
+  width: 450px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.btnA {
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  text-transform: initial;
+  width: 250px;
+  font-size: 18px;
+  border-radius: 50px;
+  background-color: #051821;
+  color: white;
+}
+
+.btnA:hover{
+  color: white;
+  background-color: #1e2f37;
+}
+
+.modal{
+  background: linear-gradient(65deg, #833BEC, #FFBE0B);
+}
+.modal-content{
+  border-radius: 25px;
+}

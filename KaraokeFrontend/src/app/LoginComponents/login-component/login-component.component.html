@@ -1,0 +1,55 @@
+<div class="fondo">
+  <div class="container">
+    <div class="row">
+      <img src="https://media.discordapp.net/attachments/824372507015643159/847678323861487616/Asset_54x-8.png?width=457&height=676">
+    </div>
+    <div class="row">
+      <form>
+        <div class="row">
+          <input type="email" name="email" class="inputA" id="InputEmail1" placeholder="Correo Electronico"
+                 aria-label="CorreoElectronico" required="">
+        </div>
+        <div class="row ">
+          <input type="password" name="password" class="inputA" id="InputPassword" placeholder="Contraseña"
+                 aria-label="contraseña" required="">
+        </div>
+        <div class="row">
+          <button class="btn btnA" type="submit" >Aceptar</button>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      <label type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear Cuenta</label>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">BIENVENIDO A KARAOKE</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <form>
+            <div class="row">
+              <input type="email" name="email" class="inputA" id="CrearCuentaEmail" placeholder="Correo Electronico"
+                     aria-label="CorreoElectronico" required="">
+            </div>
+            <div class="row ">
+              <input type="password" name="password" class="inputA" id="CrearCuentaPassword" placeholder="Contraseña"
+                     aria-label="contraseña" required="">
+            </div>
+              <input type="checkbox" id="Premium" name="PremiumA" value="PremiumAux" class="checkBox">
+              <label class="Aux" for="Premium">  Cuenta Premium  </label><br>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btnA" type="submit">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
