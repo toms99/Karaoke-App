@@ -17,18 +17,13 @@ img{
   width: 40%;
 
 }
-.checkBox{
+/* .checkBox{
   margin-top: 25px;
   margin-left: 20px;
 }
 .Aux{
   margin-left: 10px;
-}
+} */
 
 
-.modal{
-  background-color: var(--k-primary);
-}
-.modal-content{
-  border-radius: 25px;
-}
+

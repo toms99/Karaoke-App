@@ -14,7 +14,7 @@ export class NavComponent implements OnInit {
   }
 
   public navegation(): void{
-    this.router.navigate(['/Usuario']);
+    this.router.navigate(['/stream']);
   }
 
 }

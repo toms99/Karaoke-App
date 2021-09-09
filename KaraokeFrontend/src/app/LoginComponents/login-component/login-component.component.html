@@ -6,11 +6,11 @@
     <div class="row">
       <form>
         <div class="row">
-          <input type="email" name="email" class="kinput-primary" id="InputEmail1" placeholder="Correo Electronico"
+          <input type="email" name="email" class="kinput-main" id="InputEmail1" placeholder="Correo Electronico"
                  aria-label="CorreoElectronico" required="">
         </div>
         <div class="row ">
-          <input type="password" name="password" class="kinput-primary" id="InputPassword" placeholder="Contraseña"
+          <input type="password" name="password" class="kinput-main" id="InputPassword" placeholder="Contraseña"
                  aria-label="contraseña" required="">
         </div>
         <div class="row">
@@ -24,15 +24,16 @@
   </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal kmodal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">BIENVENIDO A KARAOKE</h4>
+    <div class="modal-content kmodal-content">
+      <div class="modal-header ">
+        <h4 class="modal-title" id="exampleModalLabel">Bienvenido</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
+          <p>Ingresa tus datos para que puedas ser registrado.</p>
           <form>
             <div class="row">
               <input type="email" name="email" class="kinput-primary" id="CrearCuentaEmail" placeholder="Correo Electronico"
@@ -42,8 +43,8 @@
               <input type="password" name="password" class="kinput-primary" id="CrearCuentaPassword" placeholder="Contraseña"
                      aria-label="contraseña" required="">
             </div>
-              <input type="checkbox" id="Premium" name="PremiumA" value="PremiumAux" class="checkBox">
-              <label class="Aux" for="Premium">  Cuenta Premium  </label><br>
+              <input type="checkbox" id="Premium" name="PremiumA" value="PremiumAux" class="kcheckBox">
+              <label class="Aux" for="Premium">  Deseo una cuenta premium.  </label><br>
           </form>
         </div>
       </div>
