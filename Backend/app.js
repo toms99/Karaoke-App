@@ -68,6 +68,6 @@ app.use(function(err, req, res, next) {
 // doAsync(fs).readFile('./2021-07-27 16-43-07.mkv')
 //     .then((data) => test(data));
 
-
+// Se conecta a la base de datos
 DataBaseInterface.connect()
 module.exports = app;

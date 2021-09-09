@@ -56,10 +56,10 @@ router.put('/', async function(req, res, next) {
         if(result.modifiedCount === 1 ){
           res.jsonp({message:"Successfully edited one song.", result});
         }else{
-          res.jsonp({message:"No songs matched the query. Edited 0 songs.", result});
+          res.status(404).jsonp({message:"No songs matched the query. Edited 0 songs.", result});
         }
       }else{
-        res.jsonp({message:"The id of the song to update was not provided. No songs were edited"});
+        res.status(400).jsonp({message:"The id of the song to update was not provided. No songs were edited"});
       }
     }catch(error){
       console.log(error)
@@ -79,9 +79,9 @@ router.post('/', async function(req, res, next) {
     console.log(req.body)
     let result = await songsCollection.insertOne(req.body)
     if(result.acknowledged){
-      res.jsonp({message:"Successfully added one song.", _id: result.insertedId});
+      res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId});
     }else{
-      res.jsonp({message:"An error ocurred. The song was not uploaded", result});
+      res.status(500).jsonp({message:"An error ocurred. The song was not uploaded", result});
     }
   }
   catch(error){
@@ -108,13 +108,16 @@ router.delete('/:id', async function(req, res, next) {
     const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
     const containerClient = blobServiceClient.getContainerClient(song.owner)
     containerClient.deleteBlob(song.filename)
-    // Se elimina la cancion de la base de datos
-    const result = await songsCollection.deleteOne({_id: new ObjectId(req.params.id)})
-    if(result.deletedCount === 1){
-      res.jsonp({message:"Successfully deleted one song.", result});
-    }else{
-      res.jsonp({message:"No songs matched the query. Deleted 0 songs.", result});
-    } 
+
+    if(!req.query.storageonly){
+      // Se elimina la cancion de la base de datos
+      const result = await songsCollection.deleteOne({_id: new ObjectId(req.params.id)})
+      if(result.deletedCount === 1){
+        res.jsonp({message:"Successfully deleted one song.", result});
+      }else{
+        res.status(404).jsonp({message:"No songs matched the query. Deleted 0 songs.", result});
+      } 
+    }
   }
   catch(error){
     console.log(error)
