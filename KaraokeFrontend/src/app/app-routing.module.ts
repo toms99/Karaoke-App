@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponentComponent} from "./LoginComponents/login-component/login-component.component";
 import {NavComponent} from "./NavComponent/nav/nav.component";
+import { StreamComponent } from './stream/stream.component';
 
 
 /**
@@ -9,7 +10,8 @@ import {NavComponent} from "./NavComponent/nav/nav.component";
  */
 export let rutas: Routes;
 rutas = [ {path: '', component: LoginComponentComponent},
-  {path: 'Usuario' , component: NavComponent}
+  { path: 'Usuario', component: NavComponent },
+  {path: 'stream', component: StreamComponent}
 ];
 
 @NgModule({

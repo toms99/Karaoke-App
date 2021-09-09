@@ -1,18 +1,36 @@
+@import url("../../../styles.css");
+
 input{
   width: 550px;
 }
 
-nav{
-
+.knav{
+  background: transparent;
+  border: transparent;
+  color: var(--k-cuaternary);
 }
 
+<<<<<<< HEAD
 .dropdown{
   margin-right: 30px;
+=======
+.logo{
+  left: 0px;
+  height: 50px;
+  margin-left: 20px;
+>>>>>>> JS_FrontEnd_WIP
 }
-.btnsearch{
+
+.kbtn-secondary{
+  margin: 0%;
 }
-.fondo{
+
+.kbtn-secondary:hover{
+  margin: 0%;
 }
+
+
+
 
 .dropdown-toggle{
   margin-right: 100px;
