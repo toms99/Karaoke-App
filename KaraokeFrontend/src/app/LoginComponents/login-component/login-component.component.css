@@ -1,19 +1,20 @@
+@import url("../../../styles.css");
+
 .fondo{
   height: 100vh;
 
-  padding-top: 20vh;
 }
 
 .container{
-  width: 500px;
-  height: 400px;
-  border-radius: 50px;
-  opacity: 85%;
+  padding-top: 5%;
+  width: 50%;
+  height: auto;
 }
+
 
 img{
   margin: auto;
-  width: 150px;
+  width: 40%;
 
 }
 .checkBox{
@@ -23,31 +24,10 @@ img{
 .Aux{
   margin-left: 10px;
 }
-.inputA{
 
-  margin-top: 10px;
-
-  border-radius: 15px;
-  width: 450px;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.btnA {
-  margin-top: 20px;
-  margin-right: auto;
-  margin-left: auto;
-  text-transform: initial;
-  width: 250px;
-  font-size: 18px;
-  border-radius: 50px;
-
-}
-
-.btnA:hover{
-}
 
 .modal{
+  background-color: var(--k-primary);
 }
 .modal-content{
   border-radius: 25px;
