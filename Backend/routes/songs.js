@@ -7,11 +7,12 @@ const AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountN
 
 
 /**
- * Endpoint para obtener todas las canciones publicas
+ * Endpoint para obtener todas las canciones
  */
 router.get('/', async function(req, res, next) {
   try{
-    let data = await database.publicSongs.find()
+    let query = { owner: { $in: ["public", req.query.user] } };
+    let data = await database.songs.find(query)
     let songs = []
     await data.forEach(song => {
       songs.push(song)
@@ -24,42 +25,32 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-/**
- * Endpoint para obtener todas las canciones privadas
+/** 
+ * Endpoint para obtener una cancion
  */
-router.get('/:owner', async function(req, res, next) {
+ router.get('/:id', async function(req, res, next) {
   try{
-    let data = await database.privateSongs.find({owner:req.params.owner})
-    let songs = []
-    await data.forEach(song => {
-      songs.push(song)
-    });
-    res.jsonp(songs);
+    let query = {_id: new ObjectId(req.params.id)}
+    let song = await database.songs.findOne(query);
+    res.jsonp(song);
   }
   catch(error){
     console.log(error)
     res.status(500).jsonp({error});
   }
 });
-
 
 /**
  * Endpoint para editar una cancion
  */
-router.put('/', async function(req, res, next) {
-    let songsCollection = database.privateSongs
-    let id = req.body._id
-    delete req.body._id
+router.put('/:id', async function(req, res, next) {
     try{
-      if(id){
-        let result = await songsCollection.updateOne({_id: new ObjectId(id)},{"$set":req.body})
-        if(result.modifiedCount === 1 ){
-          res.jsonp({message:"Successfully edited one song.", result});
-        }else{
-          res.status(404).jsonp({message:"No songs matched the query. Edited 0 songs.", result});
-        }
+      const id = req.params.id
+      const result = await database.songs.updateOne({_id: new ObjectId(id)},{"$set":req.body})
+      if(result.modifiedCount === 1 ){
+        res.jsonp({message:"Successfully edited one song.", result});
       }else{
-        res.status(400).jsonp({message:"The id of the song to update was not provided. No songs were edited"});
+        res.status(404).jsonp({message:"No songs matched the query. Edited 0 songs.", result});
       }
     }catch(error){
       console.log(error)
@@ -74,10 +65,8 @@ router.put('/', async function(req, res, next) {
  */
 router.post('/', async function(req, res, next) {
   try{
-    let songsCollection = database.privateSongs
     delete req.body._id
-    console.log(req.body)
-    let result = await songsCollection.insertOne(req.body)
+    let result = await database.songs.insertOne(req.body)
     if(result.acknowledged){
       res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId});
     }else{
@@ -96,10 +85,8 @@ router.post('/', async function(req, res, next) {
  */
 router.delete('/:id', async function(req, res, next) {
   try{
-    let songsCollection = database.privateSongs
-
     // Se busca la cancion en la base de datos
-    let data = await songsCollection.find({_id: new ObjectId(req.params.id)})
+    let data = await database.songs.find({_id: new ObjectId(req.params.id)})
     let song
     await data.forEach(file => {
       song = file
@@ -111,7 +98,7 @@ router.delete('/:id', async function(req, res, next) {
 
     if(!req.query.storageonly){
       // Se elimina la cancion de la base de datos
-      const result = await songsCollection.deleteOne({_id: new ObjectId(req.params.id)})
+      const result = await database.songs.deleteOne({_id: new ObjectId(req.params.id)})
       if(result.deletedCount === 1){
         res.jsonp({message:"Successfully deleted one song.", result});
       }else{

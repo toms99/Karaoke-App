@@ -32,6 +32,7 @@ describe('GET /songs', function () {
                 expect(res.body[0]).to.have.property("letra");
                 expect(res.body[0]).to.have.property("artista");
                 expect(res.body[0]).to.have.property("album");
+                expect(res.body[0]).to.have.property("url");
                 done();
             })
             .catch((err) => done(err));
@@ -44,7 +45,7 @@ describe('GET /songs', function () {
 describe('GET /songs/:id', function () {
 
     /**
-     * Se inserta una cancion privada directamente a la base de datos
+     * Se inserta una cancion directamente a la base de datos
      */
     let insertedId
     before(async () => {
@@ -58,7 +59,7 @@ describe('GET /songs/:id', function () {
                 "owner":"test",
                 "test":"true"
             }    
-            let result = await DataBaseInterface.privateSongs.insertOne(song)
+            let result = await DataBaseInterface.songs.insertOne(song)
             insertedId = result.insertedId
             } catch (err) {
         console.error(err);
@@ -66,20 +67,20 @@ describe('GET /songs/:id', function () {
     });      
      
     /**
-     * Test de obtencion de canciones privadas de un usuario
+     * Test de obtencion de cancion
      */
     it('Obtain private songs', function (done) {
         request(app)
-            .get('/songs/test')
+            .get('/songs/'+insertedId)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
             .then((res) => {
-                expect(res.body[0]).to.have.property("_id");
-                expect(res.body[0]).to.have.property("nombre");
-                expect(res.body[0]).to.have.property("letra");
-                expect(res.body[0]).to.have.property("artista");
-                expect(res.body[0]).to.have.property("album");
+                expect(res.body).to.have.property("_id");
+                expect(res.body).to.have.property("nombre");
+                expect(res.body).to.have.property("letra");
+                expect(res.body).to.have.property("artista");
+                expect(res.body).to.have.property("album");
                 done();
             })
             .catch((err) => done(err));
@@ -90,7 +91,7 @@ describe('GET /songs/:id', function () {
      */
     after(async () => {
         try {
-            await DataBaseInterface.privateSongs.deleteOne({ test: "true" });
+            await DataBaseInterface.songs.deleteOne({ test: "true" });
         } catch (err) {
             console.error(err);
         }
@@ -102,7 +103,7 @@ describe('GET /songs/:id', function () {
  */
 describe('POST /songs', function () {
     /**
-     * Se prueba la creacion de una cancion privada
+     * Se prueba la creacion de una cancion
      */
     it('Post a private song', function (done) {
         let song = {
@@ -126,7 +127,7 @@ describe('POST /songs', function () {
      */
     after(async () => {
         try {
-          await DataBaseInterface.privateSongs.deleteOne({ test: "true" });
+          await DataBaseInterface.songs.deleteOne({ test: "true" });
         } catch (err) {
           console.error(err);
         }
@@ -140,7 +141,7 @@ describe('POST /songs', function () {
 describe('PUT /songs', function () {
     
     /**
-     * Se inserta una cancion privada directamente a la base de datos
+     * Se inserta una cancion directamente a la base de datos
      */
     let insertedId
     before(async () => {
@@ -154,7 +155,7 @@ describe('PUT /songs', function () {
                 "owner":"test",
                 "test":"true"
             }    
-            let result = await DataBaseInterface.privateSongs.insertOne(song)
+            let result = await DataBaseInterface.songs.insertOne(song)
             insertedId = result.insertedId
             } catch (err) {
           console.error(err);
@@ -167,12 +168,11 @@ describe('PUT /songs', function () {
      */
     it('Update a private song', function (done) {
         song = {
-            "_id": insertedId,
             "nombre": "nombre2",
             "letra": "letra2",
         }    
         request(app)
-            .put('/songs')
+            .put('/songs/'+insertedId)
             .send(song)
             .set('Accept', 'application/json')
             .expect(200, done);
@@ -180,30 +180,10 @@ describe('PUT /songs', function () {
 
 
     /**
-     * Test para confirmar que no se puede editar una cancion sin su _id
-     */
-    it('cannot update a song without _id', function (done) {
-        let song = {
-            "nombre": "vncvn",
-            "letra": "cvnbc",
-            "tipo": "sfdg",
-            "artista": "jhkjhgk",
-            "album": "",
-            "owner":"a"
-        }    
-        request(app)
-            .put('/songs')
-            .send(song)
-            .set('Accept', 'application/json')
-            .expect(400, done);
-    });
-
-    /**
      * Test para confirmar que no se puede editar una cancion que no existe
      */
     it('cannot edit a song that does not exist', function (done) {
         let song = {
-            "_id":"61746a9e05dfeff4990dc6ad",
             "nombre": "vncvn",
             "letra": "cvnbc",
             "tipo": "dsfgs",
@@ -212,7 +192,7 @@ describe('PUT /songs', function () {
             "owner":"a"
         }
         request(app)
-            .put('/songs')
+            .put('/songs/61746a9e05dfeff4990dc6ad')
             .send(song)
             .set('Accept', 'application/json')
             .expect(404, done);
@@ -237,7 +217,7 @@ describe('PUT /songs', function () {
 describe('DELETE /songs:id', function () {
 
     /**
-     * Se inserta una cancion privada directamente a la base de datos
+     * Se inserta una cancion directamente a la base de datos
      */
     let insertedId
 
@@ -252,7 +232,7 @@ describe('DELETE /songs:id', function () {
                 "owner":"test",
                 "test":"true"
             }    
-            let result = await DataBaseInterface.privateSongs.insertOne(song)
+            let result = await DataBaseInterface.songs.insertOne(song)
             insertedId = result.insertedId
             } catch (err) {
           console.error(err);
