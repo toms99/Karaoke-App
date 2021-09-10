@@ -9,7 +9,7 @@ var DataBaseInterface = require('../public/javascripts/DataBaseInterface');
  */
 before(
     function(done) {
-        setTimeout(done, 1500);
+        setTimeout(done, 1900);
     }
 );
 
@@ -29,7 +29,6 @@ describe('GET /songs', function () {
             .then((res) => {
                 expect(res.body[0]).to.have.property("_id");
                 expect(res.body[0]).to.have.property("nombre");
-                expect(res.body[0]).to.have.property("letra");
                 expect(res.body[0]).to.have.property("artista");
                 expect(res.body[0]).to.have.property("album");
                 expect(res.body[0]).to.have.property("url");
@@ -69,7 +68,7 @@ describe('GET /songs/:id', function () {
     /**
      * Test de obtencion de cancion
      */
-    it('Obtain private songs', function (done) {
+    it('Obtain songs', function (done) {
         request(app)
             .get('/songs/'+insertedId)
             .set('Accept', 'application/json')
@@ -105,7 +104,7 @@ describe('POST /songs', function () {
     /**
      * Se prueba la creacion de una cancion
      */
-    it('Post a private song', function (done) {
+    it('Post a song', function (done) {
         let song = {
             "nombre": "nombre",
             "letra": "letra",
@@ -166,7 +165,7 @@ describe('PUT /songs', function () {
     /**
      * Test para actualizar una cancion
      */
-    it('Update a private song', function (done) {
+    it('Update a song', function (done) {
         song = {
             "nombre": "nombre2",
             "letra": "letra2",
@@ -203,7 +202,7 @@ describe('PUT /songs', function () {
      */
     after(async () => {
         try {
-            await DataBaseInterface.privateSongs.deleteOne({ test: "true" });
+            await DataBaseInterface.songs.deleteOne({ test: "true" });
         } catch (err) {
             console.error(err);
         }
