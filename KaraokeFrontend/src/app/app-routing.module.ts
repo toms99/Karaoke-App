@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponentComponent} from "./LoginComponents/login-component/login-component.component";
 import {NavComponent} from "./NavComponent/nav/nav.component";
 import { StreamComponent } from './stream/stream.component';
+import {VistaPremiumComponent} from "./PremiumComponent/vista-premium/vista-premium.component";
 
 
 /**
@@ -10,7 +11,7 @@ import { StreamComponent } from './stream/stream.component';
  */
 export let rutas: Routes;
 rutas = [ {path: '', component: LoginComponentComponent},
-  { path: 'Usuario', component: NavComponent },
+  { path: 'Usuario', component: NavComponent},
   {path: 'stream', component: StreamComponent}
 ];
 

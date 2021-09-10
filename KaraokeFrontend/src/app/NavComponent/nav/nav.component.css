@@ -10,15 +10,10 @@ input{
   color: var(--k-cuaternary);
 }
 
-<<<<<<< HEAD
-.dropdown{
-  margin-right: 30px;
-=======
 .logo{
   left: 0px;
   height: 50px;
   margin-left: 20px;
->>>>>>> JS_FrontEnd_WIP
 }
 
 .kbtn-secondary{
