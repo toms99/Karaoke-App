@@ -1,0 +1,32 @@
+@import url("../../../styles.css");
+
+input{
+  width: 550px;
+}
+
+.knav{
+  background: transparent;
+  border: transparent;
+  color: var(--k-cuaternary);
+}
+
+.logo{
+  left: 0px;
+  height: 50px;
+  margin-left: 20px;
+}
+
+.kbtn-secondary{
+  margin: 0%;
+}
+
+.kbtn-secondary:hover{
+  margin: 0%;
+}
+
+
+
+
+.dropdown-toggle{
+  margin-right: 100px;
+}
