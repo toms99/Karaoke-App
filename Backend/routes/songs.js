@@ -272,7 +272,7 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
         req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
       }
       const result = await database.songs.updateOne({_id: new ObjectId(id)},{"$set":req.body})
-      if(result.modifiedCount === 1 ){
+      if(result.matchedCount === 1 ){
         res.jsonp({message:"Successfully edited one song.", result});
       }else{
         res.status(404).jsonp({message:"No songs matched the query. Edited 0 songs.", result});
