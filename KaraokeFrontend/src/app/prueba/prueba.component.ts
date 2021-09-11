@@ -7,17 +7,18 @@ import {BlobServiceClient, ContainerClient} from '@azure/storage-blob';
 })
 export class PruebaComponent implements OnInit {
 
-  sasToken = 'sp=racwdl&st=2021-09-05T21:44:07Z&se=2023-01-02T05:44:07Z&sv=2020-08-04&sr=c&sig=BsOBHmTyA47jYOoegAT1rGUlRfifZFCR39FW2fbQcOg%3D'; // Fill string with your SAS token
+  sasToken = 'sp=racwdl&st=2021-08-30T07:58:37Z&se=2021-11-17T15:58:37Z&sv=2020-08-04&sr=c&sig=%2BjC8VVk%2FWlIrm66FnLQKdm0bx31%2F8Plg3EaO3EGFLnQ%3D'; // Fill string with your SAS token
   containerName = 'user1';
   storageAccountName = 'soakaraokestorage';
-  files: FileList = new FileList();
   constructor() { }
 
   ngOnInit(): void {
 
   }
 
-  uploadFileToBlob = async (file: File | null): Promise<void> =>{
+  uploadFileToBlob = async (event: any): Promise<void> =>{
+    let file = event.target.files[0]
+    console.log(file)
     if (!file) return ;
 
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
@@ -27,9 +28,7 @@ export class PruebaComponent implements OnInit {
 
     // get Container - full public read access
     const containerClient: ContainerClient = blobService.getContainerClient(this.containerName);
-    await containerClient.createIfNotExists({
-      access: 'container',
-    });
+
 
     await this.createBlobInContainer(containerClient, file);
 
@@ -43,7 +42,6 @@ export class PruebaComponent implements OnInit {
 
     // set mimetype as determined from browser with file upload control
     const options = { blobHTTPHeaders: { blobContentType: file.type } };
-
     // upload file
     await blobClient.uploadBrowserData(file, options);
   }
