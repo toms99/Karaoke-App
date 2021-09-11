@@ -20,6 +20,8 @@
     "@angular/router": "~12.2.0",
     "bootstrap": "^5.1.0",
     "jquery": "^3.6.0",
+    "lyrics.js": "^0.4.2",
+    "rabbit-lyrics": "^2.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
