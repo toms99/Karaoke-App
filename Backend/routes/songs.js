@@ -21,7 +21,7 @@ var app = require('../app')
  *           Song:
  *             type: object
  *             properties:
- *               id:
+ *               _id:
  *                   type: string
  *                   description: El ID del objeto.
  *                   example: 613b14eadd11665197679c14
@@ -195,6 +195,8 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
   }
 });
 
+
+
  /**
  * @swagger
  * /songs/{id}:
@@ -209,7 +211,19 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *         description: Indica el id de la cancion a solicitar.
  *         example: 613b14eadd11665197679c14
  *         schema:
- *           type: string  
+ *           type: string
+ *       - in: body
+ *         required: true
+ *         description: Indica la cancion actualizada.
+ *         schema:
+ *          $ref: '#/components/schemas/Song'
+ *       - in: query
+ *         name: updateurl
+ *         required: false
+ *         description: Indica si se debe de actualizar el url de la cancion con los valores dados.
+ *         example: true
+ *         schema:
+ *           type: bool
  *     responses:
  *       200:
  *         description: Mensaje de exito.
@@ -254,6 +268,9 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
   router.put('/:id', cors(app.corsOptions), async function(req, res, next) {
     try{
       const id = req.params.id
+      if(req.query.updateurl === "true"){
+        req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
+      }
       const result = await database.songs.updateOne({_id: new ObjectId(id)},{"$set":req.body})
       if(result.modifiedCount === 1 ){
         res.jsonp({message:"Successfully edited one song.", result});
@@ -268,6 +285,7 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
 });
 
 
+
  /**
  * @swagger
  * /songs:
@@ -275,6 +293,12 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *     tags: [Songs]
  *     summary: Endpoint para subir una cancion.
  *     description: Endpoint para subir una cancion.
+ *     parameters:
+ *       - in: body
+ *         required: true
+ *         description: Indica la cancion actualizada.
+ *         schema:
+ *          $ref: '#/components/schemas/Song'
  *     responses:
  *       201:
  *         description: Mensaje de exito.
@@ -319,6 +343,7 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
 router.post('/', cors(app.corsOptions), async function(req, res, next) {
   try{
     delete req.body._id
+    req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
     let result = await database.songs.insertOne(req.body)
     if(result.acknowledged){
       res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId});

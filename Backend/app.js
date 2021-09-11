@@ -9,7 +9,7 @@ var swaggerUi = require("swagger-ui-express");
 var songsRouter = require('./routes/songs');
 var DataBaseInterface = require('./public/javascripts/DataBaseInterface');
 var corsOptions = {
-  origin: 'http://localhost:5000/',
+  origin: 'http://localhost:4200/',
   optionsSuccessStatus: 200
 }
 
