@@ -9,6 +9,9 @@ var DataBaseInterface = require('./public/javascripts/DataBaseInterface');
 
 var app = express();
 
+const keycloak = require('./config/keycloak.js').initKeycloak();
+app.use(keycloak.middleware());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -19,7 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/songs', songsRouter);
+var testController = require('./routes/testcontroller.js');
+app.use('/test', testController);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
