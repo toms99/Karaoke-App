@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 export class NavComponent implements OnInit {
 
   constructor(private router: Router) { }
-  vistaPremium = false
+  vistaPremium = true
   premium = true
   ngOnInit(): void {
   }

@@ -3,6 +3,12 @@
     <div class="container-fluid">
       <img class="logo" src="..\assets\imgs\Asset 3logo_mic.svg">
       <form class="d-flex">
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Tipo de busqueda</option>
+          <option value="Artista">Artista</option>
+          <option value="Album">Album</option>
+          <option value="Letra">Letra</option>
+        </select>
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btnsearch kbtn-secondary" type="submit">Buscar</button>
       </form>
@@ -27,6 +33,5 @@
   <div *ngIf="vistaPremium">
     <app-vista-premium></app-vista-premium>
   </div>
-
 </div>
 
