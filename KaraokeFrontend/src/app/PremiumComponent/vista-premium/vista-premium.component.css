@@ -14,6 +14,7 @@
   color: var(--k-tertiary);
   background-color: transparent;
   width: 33%;
+  margin-left: 50px;
 }
 .btnplay:hover{
   color: var(--k-light);

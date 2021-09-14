@@ -9,7 +9,7 @@ export class ReproductionFileComponent implements OnInit {
 
   constructor() { }
 
-  premium = true
+
   ngOnInit(): void {
   }
 
