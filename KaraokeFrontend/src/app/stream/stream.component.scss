@@ -21,6 +21,17 @@ p {
     color: var(--k-primary-complementary);
 }
 
-.kbtn-primary {
-    vertical-align: middle;
+.play-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin-left: 47%;
+}
+
+.play-button:hover {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin-left: 47%;
+
 }
