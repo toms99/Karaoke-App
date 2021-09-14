@@ -11,8 +11,14 @@
   margin-left: 10%;
 }
 .btnplay{
-  color: black;
-  background-color: var(--k-secondary-complementary);
+  color: var(--k-tertiary);
+  background-color: transparent;
+  width: 33%;
+}
+.btnplay:hover{
+  color: var(--k-light);
+  background-color: var(--k-tertiary);
+
 }
 
 .btnAux{
@@ -31,3 +37,5 @@
   border-radius: 5px;
   box-shadow: 0px 0px 10px var(--k-secondary-complementary);
 }
+
+
