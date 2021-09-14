@@ -9,12 +9,19 @@ import {Router} from "@angular/router";
 export class NavComponent implements OnInit {
 
   constructor(private router: Router) { }
-
+  vistaPremium = true
+  premium = true
   ngOnInit(): void {
   }
 
-  public navegation(): void{
-    this.router.navigate(['/stream']);
+  public navigate(comprobacion: string): void {
+    if(comprobacion === 'UsuarioPremium'){
+      this.vistaPremium = true;
+    }
+    if(comprobacion === 'Inicio'){
+      this.vistaPremium = false;
+    }
+
   }
 
 }

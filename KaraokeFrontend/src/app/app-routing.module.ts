@@ -5,12 +5,13 @@ import {NavComponent} from "./NavComponent/nav/nav.component";
 import { StreamComponent } from './stream/stream.component';
 
 
+
 /**
  * Se utiliza para moverse en las diferentes rutas del proyecto
  */
 export let rutas: Routes;
 rutas = [ {path: '', component: LoginComponentComponent},
-  { path: 'Usuario', component: NavComponent },
+  { path: 'Usuario', component: NavComponent},
   {path: 'stream', component: StreamComponent}
 ];
 

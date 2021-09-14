@@ -8,6 +8,8 @@ import { NavComponent } from './NavComponent/nav/nav.component';
 import { ReproductionFileComponent } from './SelectComponents/reproduction-file/reproduction-file.component';
 import { ScrollAnimationDirective } from './directives/scroll-animation.directive';
 import { StreamComponent } from './stream/stream.component';
+import { VistaPremiumComponent } from './PremiumComponent/vista-premium/vista-premium.component';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { StreamComponent } from './stream/stream.component';
     ReproductionFileComponent,
     ScrollAnimationDirective,
     StreamComponent,
+    VistaPremiumComponent,
   ],
   imports: [
     BrowserModule,

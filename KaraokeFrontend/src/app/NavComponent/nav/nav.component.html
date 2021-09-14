@@ -3,6 +3,12 @@
     <div class="container-fluid">
       <img class="logo" src="..\assets\imgs\Asset 3logo_mic.svg">
       <form class="d-flex">
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Tipo de busqueda</option>
+          <option value="Artista">Artista</option>
+          <option value="Album">Album</option>
+          <option value="Letra">Letra</option>
+        </select>
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btnsearch kbtn-secondary" type="submit">Buscar</button>
       </form>
@@ -14,12 +20,18 @@
           </svg>
         </a>
         <ul class="dropdown-menu " aria-labelledby="navbarDropdown1">
-          <li><a class="dropdown-item btn ">Subir a cuenta premium</a></li>
-          <li><a class="dropdown-item btn"  (click)="navegation()">Lista de reproduccion</a></li>
+          <li *ngIf="!premium"><a class="dropdown-item btn">Subir a cuenta premium</a></li>
+          <li *ngIf="premium"><a class="dropdown-item btn" (click)="navigate('UsuarioPremium')">Lista de reproduccion</a></li>
           <li><a class="dropdown-item btn">Cerrar sesión</a></li>
         </ul>
       </button>
     </div>
   </nav>
+  <div *ngIf="!vistaPremium">
+    <app-reproduction-file></app-reproduction-file>
+  </div>
+  <div *ngIf="vistaPremium">
+    <app-vista-premium></app-vista-premium>
+  </div>
 </div>
 
