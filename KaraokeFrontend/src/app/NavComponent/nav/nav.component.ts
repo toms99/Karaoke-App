@@ -9,8 +9,10 @@ import {Router} from "@angular/router";
 export class NavComponent implements OnInit {
 
   constructor(private router: Router) { }
-  vistaPremium = true
+  vistaPremium = false
   premium = true
+
+
   ngOnInit(): void {
   }
 
@@ -20,6 +22,9 @@ export class NavComponent implements OnInit {
     }
     if(comprobacion === 'Inicio'){
       this.vistaPremium = false;
+    }
+    if(comprobacion === 'CerrarSesion'){
+      this.router.navigateByUrl('');
     }
 
   }

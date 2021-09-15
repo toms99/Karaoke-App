@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-reproduction-file',
@@ -7,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReproductionFileComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
-  premium = true
+
   ngOnInit(): void {
+  }
+
+  public IrAStrem(): void{
+    this.router.navigateByUrl('/stream');
   }
 
 }
