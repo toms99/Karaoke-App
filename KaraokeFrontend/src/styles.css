@@ -73,6 +73,25 @@
     box-shadow: 0px 0px 10px var(--k-secondary-complementary);
   }
 
+  .kbtn-tertiary {
+    color: var(--k-light);
+    background-color: var(--k-cuaternary);
+    margin-top: 5%;
+    width: 40%;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px var(--k-cuaternary-complementary);
+  }
+
+.kbtn-tertiary:hover {
+    color: var(--k-light);
+    background-color: var(--k-cuaternary-complementary);
+    margin-top: 5%;
+    width: 40%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px var(--k-cuaternary-complementary);
+  }
+
+
 .kinput-main {
     background: transparent;
     color: var(--k-light);
