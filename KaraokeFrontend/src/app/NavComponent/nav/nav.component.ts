@@ -23,6 +23,9 @@ export class NavComponent implements OnInit {
     if(comprobacion === 'Inicio'){
       this.vistaPremium = false;
     }
+    if(comprobacion === 'CerrarSesion'){
+      this.router.navigateByUrl('');
+    }
 
   }
 

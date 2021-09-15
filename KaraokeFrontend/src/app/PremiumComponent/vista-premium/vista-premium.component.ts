@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {BlobServiceClient, ContainerClient} from "@azure/storage-blob";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-vista-premium',
@@ -12,10 +13,20 @@ export class VistaPremiumComponent implements OnInit {
   sasToken = 'sp=racwdl&st=2021-08-30T07:58:37Z&se=2021-11-17T15:58:37Z&sv=2020-08-04&sr=c&sig=%2BjC8VVk%2FWlIrm66FnLQKdm0bx31%2F8Plg3EaO3EGFLnQ%3D'; // Fill string with your SAS token
   containerName = 'user1';
   storageAccountName = 'soakaraokestorage';
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
 
+  }
+
+  public navigate(comprobacion: string): void {
+    if(comprobacion === 'UsuarioPremium'){
+
+    }
+  }
+
+  public IrAStrem(): void{
+    this.router.navigateByUrl('/stream');
   }
 
   uploadFileToBlob = async (event: any): Promise<void> =>{
