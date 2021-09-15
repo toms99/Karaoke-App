@@ -7,6 +7,8 @@ var swaggerJsdoc = require("swagger-jsdoc")
 var swaggerUi = require("swagger-ui-express");
 
 var songsRouter = require('./routes/songs');
+var usersRouter = require('./routes/users');
+
 var DataBaseInterface = require('./public/javascripts/DataBaseInterface');
 var corsOptions = {
   origin: 'http://localhost:4200/',
@@ -61,6 +63,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/songs', songsRouter);
+app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
