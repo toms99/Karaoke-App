@@ -22,7 +22,6 @@ export class VistaPremiumComponent implements OnInit {
   listaDeCacniones: Cancion[] = [];
   cancionActual: Cancion = new Cancion();
   cancionSubir: Cancion = new  Cancion();
-  urlLetraString: string = ''
 
 
 
@@ -37,6 +36,9 @@ export class VistaPremiumComponent implements OnInit {
 
   fileContent: string = '';
 
+  private existeLaMusica(): void{
+
+  }
   public onChange(event: any): void {
     let fileList = event.target.files;
     let file = fileList[0];
@@ -52,14 +54,26 @@ export class VistaPremiumComponent implements OnInit {
   public crearCancion(): void{
     this.cancionSubir.letra = this.playerAux.letra;
     this.cancionSubir.owner = 'user1'
-    this.cancionSubir.filename = this.playerAux.nombreCancion;
-    console.log(this.cancionSubir.filename);
     this.service.subirUnaCancion(this.cancionSubir).subscribe(respuesta => {
       console.log(respuesta);
+      // @ts-ignore
+      this.cancionSubir.filename = respuesta.filename;
+      this.uploadFileToBlob();
       this.ngOnInit()
-    },error => console.log(error)
-    )
+    },error => console.log(error))
+  }
 
+  public itemActual(item: Cancion){
+    this.cancionActual = item;
+  }
+  public ediarCancionLetra(){
+    this.cancionActual.letra = this.playerAux.letra;
+    this.service.editarCancion(this.cancionActual._id,this.cancionActual)
+  }
+
+  public editarCancionMusica(): void{
+
+    this.uploadFileToBlob();
   }
 
   public navigate(comprobacion: string): void {
@@ -72,27 +86,26 @@ export class VistaPremiumComponent implements OnInit {
     this.router.navigateByUrl('/stream');
   }
 
+  fileSelected: any;
 
+  actualizarFile = async (event: any): Promise<void> =>{
+    this.fileSelected = event.target.files[0]
+  }
 
-
-  uploadFileToBlob = async (event: any): Promise<void> =>{
-    let file = event.target.files[0]
-    this.playerAux.nombreCancion = file.name;
-    console.log(file.name)
-    if (!file) return ;
+  public async uploadFileToBlob(): Promise<void> {
+    let file = this.fileSelected;
+    file.name = this.cancionActual.filename;
+    if (!file) return;
 
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
     const blobService = new BlobServiceClient(
-      "https://"+this.storageAccountName+".blob.core.windows.net/?"+this.sasToken
+      "https://" + this.storageAccountName + ".blob.core.windows.net/?" + this.sasToken
     );
 
     // get Container - full public read access
     const containerClient: ContainerClient = blobService.getContainerClient(this.containerName);
 
-
     await this.createBlobInContainer(containerClient, file);
-
-
   };
 
   createBlobInContainer = async (containerClient: ContainerClient, file: File) => {
