@@ -6,6 +6,7 @@ const { BlobServiceClient } = require('@azure/storage-blob');
 const AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=soakaraokestorage;AccountKey=DRhzPgINTEWI8IeQ9MjMBQol/vEnLbECZDYI53+2yCkQAT8qva6BbbUnFWhaqkA/t4H6omWvlJ1bobcR7O8ETg==;EndpointSuffix=core.windows.net";
 var cors = require('cors')
 var app = require('../app')
+var uuid = require('uuid');
 
  /**
  * @swagger
@@ -273,9 +274,10 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
   router.put('/:id', cors(app.corsOptions), async function(req, res, next) {
     try{
       const id = req.params.id
-      if(req.query.updateurl === "true"){
-        req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
-      }
+      delete req.body._id
+      delete req.body.url
+      delete req.body.owner
+      delete req.body.filename
       const result = await database.songs.updateOne({_id: new ObjectId(id)},{"$set":req.body})
       if(result.matchedCount === 1 ){
         res.jsonp({message:"Successfully edited one song.", result});
@@ -345,13 +347,14 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
-router.post('/', cors(app.corsOptions), async function(req, res, next) {
+ router.post('/', cors(app.corsOptions), async function(req, res, next) {
   try{
     delete req.body._id
+    req.body.filename = uuid.v1();
     req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
     let result = await database.songs.insertOne(req.body)
     if(result.insertedId){
-      res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId});
+      res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId, filename: req.body.filename});
     }else{
       res.status(502).jsonp({message:"An error ocurred. The song was not uploaded", result});
     }
