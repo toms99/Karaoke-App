@@ -476,3 +476,4 @@ router.delete('/:id', cors(app.corsOptions), async function(req, res, next) {
 
 
 module.exports = router;
+router.options('/', cors(app.corsOptions)) // enable pre-flight request for DELETE request
