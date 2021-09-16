@@ -62,12 +62,12 @@ var app = require('../app')
  *   get:
  *     tags: [Songs]
  *     summary: Endpoint para obtener las canciones.
- *     description: Endpoint para obtener todas las canciones publicas y privadas asocidas al user.
+ *     description: Endpoint para obtener todas las canciones publicas o privadas.
  *     parameters:
  *       - in: query
  *         name: user
  *         required: false
- *         description: El username del dueño en el cual buscar canciones privadas.
+ *         description: El username del dueño en el cual buscar canciones privadas, si se desean las privadas.
  *         example: user1234
  *         schema:
  *           type: string
@@ -115,7 +115,12 @@ var app = require('../app')
 
 router.get('/', cors(app.corsOptions), async function(req, res, next) {
   try{
-    let query = { owner: { $in: ["public", req.query.user] } };
+    let query
+    if(req.query.user){
+      query = { owner: req.query.user};
+    }else{
+      query = { owner:"public"};
+    }
     let data = await database.songs.find(query)
     let songs = []
     await data.forEach(song => {
