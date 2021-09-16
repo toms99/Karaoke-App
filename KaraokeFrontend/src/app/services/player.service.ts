@@ -7,5 +7,5 @@ import { Injectable } from '@angular/core';
 })
 export class PlayerService {
   public letra: string = ''
-
+  public fileName: string = ''
 }

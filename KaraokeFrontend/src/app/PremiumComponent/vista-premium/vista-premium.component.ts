@@ -20,7 +20,9 @@ export class VistaPremiumComponent implements OnInit {
   storageAccountName = 'soakaraokestorage';
 
   listaDeCacniones: Cancion[] = [];
+
   cancionActual: Cancion = new Cancion();
+
   cancionSubir: Cancion = new  Cancion();
 
 
@@ -36,20 +38,6 @@ export class VistaPremiumComponent implements OnInit {
 
   fileContent: string = '';
 
-  private existeLaMusica(): void{
-
-  }
-  public onChange(event: any): void {
-    let fileList = event.target.files;
-    let file = fileList[0];
-    let fileReader: FileReader = new FileReader();
-    let self = this;
-    fileReader.onloadend = function(x) {
-      self.playerAux.letra = (fileReader.result) ? fileReader.result.toString() : "";
-    }
-    fileReader.readAsText(file);
-  }
-
 
   public crearCancion(): void{
     this.cancionSubir.letra = this.playerAux.letra;
@@ -58,7 +46,7 @@ export class VistaPremiumComponent implements OnInit {
       console.log(respuesta);
       // @ts-ignore
       this.cancionSubir.filename = respuesta.filename;
-      this.uploadFileToBlob();
+      this.uploadFileToBlob(this.cancionSubir.filename);
       this.ngOnInit()
     },error => console.log(error))
   }
@@ -70,11 +58,20 @@ export class VistaPremiumComponent implements OnInit {
     this.cancionActual.letra = this.playerAux.letra;
     this.service.editarCancion(this.cancionActual._id,this.cancionActual).subscribe(respuesta =>{
       console.log(respuesta)
+      this.ngOnInit();
     })
   }
 
   public editarCancionMusica(): void{
-    this.uploadFileToBlob();
+    this.uploadFileToBlob(this.cancionActual.filename);
+    this.ngOnInit();
+  }
+
+  public eliminarCancion(): void{
+    this.service.eliminarCancion(this.cancionActual._id).subscribe(respuesta =>{
+      console.log(respuesta)
+      this.ngOnInit();
+    })
   }
 
   public navigate(comprobacion: string): void {
@@ -93,9 +90,8 @@ export class VistaPremiumComponent implements OnInit {
     this.fileSelected = event.target.files[0]
   }
 
-  public async uploadFileToBlob(): Promise<void> {
+  public async uploadFileToBlob(fileName: string): Promise<void> {
     let file = this.fileSelected;
-    file.name = this.cancionActual.filename;
     if (!file) return;
 
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
@@ -106,17 +102,29 @@ export class VistaPremiumComponent implements OnInit {
     // get Container - full public read access
     const containerClient: ContainerClient = blobService.getContainerClient(this.containerName);
 
-    await this.createBlobInContainer(containerClient, file);
+    await this.createBlobInContainer(containerClient, file , fileName);
   };
 
-  createBlobInContainer = async (containerClient: ContainerClient, file: File) => {
+  createBlobInContainer = async (containerClient: ContainerClient, file: File, fileName: string) => {
 
     // create blobClient for container
-    const blobClient = containerClient.getBlockBlobClient(file.name);
+    const blobClient = containerClient.getBlockBlobClient(fileName);
 
     // set mimetype as determined from browser with file upload control
     const options = { blobHTTPHeaders: { blobContentType: file.type } };
     // upload file
     await blobClient.uploadBrowserData(file, options);
+  }
+
+
+  public onChange(event: any): void {
+    let fileList = event.target.files;
+    let file = fileList[0];
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    fileReader.onloadend = function(x) {
+      self.playerAux.letra = (fileReader.result) ? fileReader.result.toString() : "";
+    }
+    fileReader.readAsText(file);
   }
 }
