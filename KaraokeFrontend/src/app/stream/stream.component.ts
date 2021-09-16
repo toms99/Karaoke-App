@@ -18,25 +18,39 @@ export class StreamComponent implements OnInit {
   constructor(private router: Router){}
 
   ngOnInit() {
+    this.loadAudio();
+  }
+
+  loadLyrics() {
     let lyrics = song.Lyrics;
     this.lyrics = lyrics[0].words;
     this.nextLyrics = lyrics[1].words;
   }
 
+  loadAudio() {
+    this.loadLyrics();
+    this.audio.src = "../../assets/input1.wav";
+    this.audio.load();
+  }
+
   playAudio() {
     if (!this.isPlaying) {
-      this.audio.src = "../../assets/input1.wav";
-      this.audio.load();
       this.audio.play();
       this.isPlaying = true;
       this.Run();
 
     } else {
       this.audio.pause();
-      this.audio.currentTime = 0;
       this.isPlaying = false;
     }
 
+  }
+
+  stopAudio() {
+    this.loadLyrics();
+    this.audio.pause();
+    this.audio.currentTime = 0;
+    this.isPlaying = false;
   }
 
   async Run() {
