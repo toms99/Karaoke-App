@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "test": "mocha 'tests/apiTests.js' --exit "
   },
   "dependencies": {
     "@azure/storage-blob": "^12.7.0",
@@ -19,12 +20,17 @@
     "http-errors": "~1.6.3",
     "keycloak-admin": "^1.14.20",
     "keycloak-connect": "^15.0.2",
+    "mocha": "^9.1.1",
     "mongodb": "^4.1.1",
     "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6"
     "pug": "2.0.0-beta11",
     "qs": "^6.10.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.6"
   }
 }

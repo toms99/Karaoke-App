@@ -1,0 +1,29 @@
+@import url("../../../styles.css");
+
+.fondo{
+  height: 100vh;
+
+}
+
+.container{
+  padding-top: 5%;
+  width: 50%;
+  height: auto;
+}
+
+
+img{
+  margin: auto;
+  width: 40%;
+
+}
+/* .checkBox{
+  margin-top: 25px;
+  margin-left: 20px;
+}
+.Aux{
+  margin-left: 10px;
+} */
+
+
+

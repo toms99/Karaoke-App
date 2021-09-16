@@ -1,0 +1,32 @@
+<div class="fondo">
+  <nav class="navbar knav">
+    <div class="container-fluid">
+      <img class="logo" src="..\assets\imgs\Asset 3logo_mic.svg">
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btnsearch kbtn-secondary" type="submit">Buscar</button>
+      </form>
+
+      <button class="nav-item dropdown btn">
+        <a class="dropdown-toggle btn btnAux kdropdown"  id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+          </svg>
+        </a>
+        <ul class="dropdown-menu " aria-labelledby="navbarDropdown1">
+          <li *ngIf="!premium"><a class="dropdown-item btn">Subir a cuenta premium</a></li>
+          <li *ngIf="premium"><a class="dropdown-item btn" (click)="navigate('UsuarioPremium')">Lista de reproduccion</a></li>
+          <li><a class="dropdown-item btn">Cerrar sesión</a></li>
+        </ul>
+      </button>
+    </div>
+  </nav>
+  <div *ngIf="!vistaPremium">
+    <app-reproduction-file></app-reproduction-file>
+  </div>
+  <div *ngIf="vistaPremium">
+    <app-vista-premium></app-vista-premium>
+  </div>
+
+</div>
+
