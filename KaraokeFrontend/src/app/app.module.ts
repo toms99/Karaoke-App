@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './AppComponent/app.component';
 import { LoginComponentComponent } from './LoginComponents/login-component/login-component.component';
@@ -9,6 +8,8 @@ import { ReproductionFileComponent } from './SelectComponents/reproduction-file/
 import { ScrollAnimationDirective } from './directives/scroll-animation.directive';
 import { StreamComponent } from './stream/stream.component';
 import { VistaPremiumComponent } from './PremiumComponent/vista-premium/vista-premium.component';
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -21,11 +22,15 @@ import { VistaPremiumComponent } from './PremiumComponent/vista-premium/vista-pr
     StreamComponent,
     VistaPremiumComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+
+    ],
   providers: [],
   bootstrap: [AppComponent]
+
 })
 export class AppModule { }

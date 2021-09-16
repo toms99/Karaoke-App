@@ -8,8 +8,13 @@ import {Observable} from "rxjs";
 })
 export class CancionesService {
   URL = 'http://localhost:3000/songs'
-  constructor(private http: HttpClient) {  }
-  public obtenerListaCancionesPublicas(user: string): Observable<Cancion[]>{
+  constructor(private http: HttpClient) {
+
+  }
+  public obtenerListaCancionesPublicas(): Observable<Cancion[]>{
+    return this.http.get<Cancion[]>(this.URL);
+  }
+  public obtenerListaCancionesPrivadas(user: string): Observable<Cancion[]>{
     return this.http.get<Cancion[]>(this.URL, {params: {user}});
   }
   public subirUnaCancion(cancion: Cancion):Observable<Object>{
@@ -27,4 +32,5 @@ export class CancionesService {
   public eliminarCancionStorageOnly(id: string){
     return this.http.delete(this.URL + '/' + id,  {params: {storageonly: true}});
   }
+
 }

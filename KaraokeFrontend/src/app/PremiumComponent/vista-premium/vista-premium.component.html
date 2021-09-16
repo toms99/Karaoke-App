@@ -1,13 +1,13 @@
 <div class="container">
   <button class="btn btnAux" data-bs-toggle="modal" data-bs-target="#SubirCancion">Subir cancion </button>
   <div class="row">
-    <div class="col">
+    <div class="col" *ngFor="let item of listaDeCacniones">
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">Nombre de la cancion</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Artista</h6>
-          <h6 class="card-subtitle mb-2 text-muted">Album</h6>
-          <p class="card-text">Pedacito de la cancion</p>
+          <h5 class="card-title">{{item.nombre}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{item.artista}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{item.album}}</h6>
+          <p class="card-text">{{item.letra}}</p>
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btnplay" data-bs-toggle="modal" data-bs-target="#EditarLetra">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -42,28 +42,24 @@
         <h5 class="modal-title" id="SubirCancionLabel">Nueva cancion</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" placeholder="Artista">
-        <label for="floatingInput">Artista</label>
-      </div>
-      <div class="form-floating">
-        <input type="text" class="form-control" id="floatingPassword" placeholder="Album">
-        <label for="floatingPassword">Album</label>
-      </div>
-
+        <input type="text" class="form-control colorA" id="floatingInput" placeholder="Artista"
+               #Artista="ngModel" [(ngModel)]="cancionSubir.artista">
+        <input type="text" class="form-control colorA" id="floatingPassword" placeholder="Album"
+               #Album="ngModel" [(ngModel)]="cancionSubir.album">
       <div class="modal-body kmodal-body">
         <div class="mb-3">
           <label for="formFile" class="form-label">Selecionar archivo con la letra</label>
-          <input class="form-control" type="file" id="formFile">
+          <input class="form-control" type="file" id="formFile" (change)="onChange($event)">
         </div>
         <div class="mb-3">
           <label for="formFile" class="form-label">Selecionar archivo con la musica</label>
-          <input class="form-control" type="file" id="formFile2">
+          <input class="form-control" type="file" id="formFile2" (change)="uploadFileToBlob($event)"
+                 #nombreArchivo="ngModel" [(ngModel)]="cancionSubir.filename">
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn kbtn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn kbtn-primary">Aceptar</button>
+        <button type="button" class="btn kbtn-primary"  data-bs-dismiss="modal" (click)=crearCancion()>Aceptar</button>
       </div>
     </div>
   </div>
