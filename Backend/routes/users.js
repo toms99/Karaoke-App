@@ -29,7 +29,6 @@ router.get('/:username', cors(app.corsOptions), async function(req, res, next) {
 
 router.post('/', cors(app.corsOptions), async function(req, res, next) {
     // Se obtienen los parametros de entrada
-    let password = req.body.password
     let username = req.body.username
     try{
       // Se verifica si el usuario ya existe en la base de datos
@@ -63,7 +62,7 @@ router.post('/', cors(app.corsOptions), async function(req, res, next) {
           res.status(502).jsonp({message:"An error ocurred on the creation of the users storage space. The registration was unsuccessful"});
         }else{
           // Se agrega el usuario a la base de datos
-          let result = await database.users.insertOne({username, password, key})
+          let result = await database.users.insertOne({username, key})
           if(result.insertedId ){
             res.status(201).jsonp({message:"Successfully registered."});
           }else{
@@ -75,7 +74,7 @@ router.post('/', cors(app.corsOptions), async function(req, res, next) {
       }
   
     }catch(error){
-      res.status(500).jsonp({error});
+      res.status(500).jsonp({error: "Internal Error"});
     }
     
   });
