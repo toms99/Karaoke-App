@@ -68,11 +68,12 @@ export class VistaPremiumComponent implements OnInit {
   }
   public ediarCancionLetra(){
     this.cancionActual.letra = this.playerAux.letra;
-    this.service.editarCancion(this.cancionActual._id,this.cancionActual)
+    this.service.editarCancion(this.cancionActual._id,this.cancionActual).subscribe(respuesta =>{
+      console.log(respuesta)
+    })
   }
 
   public editarCancionMusica(): void{
-
     this.uploadFileToBlob();
   }
 
