@@ -350,7 +350,7 @@ router.post('/', cors(app.corsOptions), async function(req, res, next) {
     delete req.body._id
     req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
     let result = await database.songs.insertOne(req.body)
-    if(result.acknowledged){
+    if(result.insertedId){
       res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId});
     }else{
       res.status(502).jsonp({message:"An error ocurred. The song was not uploaded", result});
