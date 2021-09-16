@@ -7,6 +7,7 @@ var swaggerJsdoc = require("swagger-jsdoc")
 var swaggerUi = require("swagger-ui-express");
 const keycloak = require('./config/keycloak.js').initKeycloak();
 
+
 var songsRouter = require('./routes/songs');
 var usersRouter = require('./routes/users');
 
