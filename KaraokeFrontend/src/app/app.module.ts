@@ -9,6 +9,7 @@ import { ReproductionFileComponent } from './SelectComponents/reproduction-file/
 import { ScrollAnimationDirective } from './directives/scroll-animation.directive';
 import { StreamComponent } from './stream/stream.component';
 import { VistaPremiumComponent } from './PremiumComponent/vista-premium/vista-premium.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { VistaPremiumComponent } from './PremiumComponent/vista-premium/vista-pr
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

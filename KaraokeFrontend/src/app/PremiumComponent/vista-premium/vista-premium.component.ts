@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BlobServiceClient, ContainerClient} from "@azure/storage-blob";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-vista-premium',
@@ -9,15 +10,28 @@ import {Router} from "@angular/router";
 })
 export class VistaPremiumComponent implements OnInit {
 
-
   sasToken = 'sp=racwdl&st=2021-08-30T07:58:37Z&se=2021-11-17T15:58:37Z&sv=2020-08-04&sr=c&sig=%2BjC8VVk%2FWlIrm66FnLQKdm0bx31%2F8Plg3EaO3EGFLnQ%3D'; // Fill string with your SAS token
   containerName = 'user1';
   storageAccountName = 'soakaraokestorage';
-  constructor(private router: Router) { }
+  constructor(private router: Router, private player: PlayerService ) { }
 
   ngOnInit(): void {
 
   }
+
+  fileContent: string = '';
+
+  public onChange(event: any) {
+    let fileList = event.target.files;
+    let file = fileList[0];
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    fileReader.onloadend = function(x) {
+      self.player.fileContent = (fileReader.result) ? fileReader.result.toString() : "";
+    }
+    console.log(this.fileContent);
+    fileReader.readAsText(file);
+  }   
 
   public navigate(comprobacion: string): void {
     if(comprobacion === 'UsuarioPremium'){
@@ -27,6 +41,7 @@ export class VistaPremiumComponent implements OnInit {
 
   public IrAStrem(): void{
     this.router.navigateByUrl('/stream');
+    console.log(this.player.fileContent);
   }
 
   uploadFileToBlob = async (event: any): Promise<void> =>{

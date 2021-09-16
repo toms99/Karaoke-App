@@ -8,6 +8,13 @@
           <h6 class="card-subtitle mb-2 text-muted">Artista</h6>
           <h6 class="card-subtitle mb-2 text-muted">Album</h6>
           <p class="card-text">Pedacito de la cancion</p>
+
+          <div>
+            Select a text file: 
+            <input type="file" (change)="onChange($event)">
+          </div>
+
+
           <div class="btn-group" role="group" aria-label="Basic example">
             <button type="button" class="btn btnplay" data-bs-toggle="modal" data-bs-target="#EditarLetra">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
