@@ -9,7 +9,9 @@
   "dependencies": {
     "@azure/storage-blob": "^12.7.0",
     "@keycloak/keycloak-admin-client": "^15.0.2",
+    "chai": "^4.3.4",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "doasync": "^2.0.1",
     "express": "^4.16.4",

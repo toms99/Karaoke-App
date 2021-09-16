@@ -16,11 +16,11 @@ var keycloakConfig = {
 
 function initKeycloak() {
     if (_keycloak) {
-        console.warn("Trying to init Keycloak again!");
+        console.warn("No se ha podido conectar a keycloak, intente de nuevo");
         return _keycloak;
     } 
     else {
-        console.log("Initializing Keycloak...");
+        console.log("Iniciando Keycloak");
         var memoryStore = new session.MemoryStore();
         _keycloak = new Keycloak({ store: memoryStore }, keycloakConfig);
         return _keycloak;
@@ -29,7 +29,7 @@ function initKeycloak() {
 
 function getKeycloak() {
     if (!_keycloak){
-        console.error('Keycloak has not been initialized. Please called init first.');
+        console.error('Keycloak no ha sido inicializado');
     } 
     return _keycloak;
 }
