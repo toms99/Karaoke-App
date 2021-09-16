@@ -51,6 +51,8 @@ export class VistaPremiumComponent implements OnInit {
 
   public crearCancion(): void{
     this.cancionSubir.letra = this.playerAux.letra;
+    this.cancionSubir.owner = 'user1'
+    this.cancionSubir.filename = this.playerAux.nombreCancion;
     console.log(this.cancionSubir.filename);
     this.service.subirUnaCancion(this.cancionSubir).subscribe(respuesta => {
       console.log(respuesta);
@@ -75,7 +77,8 @@ export class VistaPremiumComponent implements OnInit {
 
   uploadFileToBlob = async (event: any): Promise<void> =>{
     let file = event.target.files[0]
-    console.log(file)
+    this.playerAux.nombreCancion = file.name;
+    console.log(file.name)
     if (!file) return ;
 
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
