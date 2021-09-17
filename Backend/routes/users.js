@@ -10,11 +10,76 @@ const accountKey = "DRhzPgINTEWI8IeQ9MjMBQol/vEnLbECZDYI53+2yCkQAT8qva6BbbUnFWha
 const credential = new StorageSharedKeyCredential(accountName, accountKey)
 
 
+
+/**
+ * @swagger
+ *    components:
+ *        schemas:
+ *           User:
+ *             type: object
+ *             properties:
+ *               _id:
+ *                   type: string
+ *                   description: El ID del objeto.
+ *                   example: 613b14eadd11665197679c14
+ *               username:
+ *                   type: string
+ *                   description: El nombre de usuario.
+ *                   example: Despacito
+ *               key:
+ *                   type: string
+ *                   description: La clave para el storage personal del usuario
+*/
+
+ /**
+ * @swagger
+ * /users/{username}:
+ *   get:
+ *     tags: [Users]
+ *     summary: Endpoint para obtener un usuario.
+ *     description: Endpoint para obtener un usuario.
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         description: Indica el username a solicitar.
+ *         example: user1
+ *         schema:
+ *           type: string  
+ *     responses:
+ *       200:
+ *         description: El usuario.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/User'
+ *       404:
+ *         description: No se encontró el usuario.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Mensaje de error
+ *                    example: No user found
+ *       500:
+ *         description: Error desconocido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: Error generado.
+ * */
+
 router.get('/:username', cors(app.corsOptions), async function(req, res, next) {
     try{
       let query = {username: req.params.username}
       let user = await database.users.findOne(query);
-      delete user.password
       if(user ){
         res.jsonp(user);
       }else{
@@ -26,6 +91,75 @@ router.get('/:username', cors(app.corsOptions), async function(req, res, next) {
       res.status(500).jsonp({error});
     }
   });
+
+
+ /**
+ * @swagger
+ * /users:
+ *   post:
+ *     tags: [Users]
+ *     summary: Endpoint para registrarse.
+ *     description: Endpoint para registrarse.
+ *     parameters:
+ *       - in: body
+ *         name: username
+ *         required: true
+ *         description: Indica el nombre de usuario.
+ *         schema:
+ *           type: string
+ *           example: user1
+ *       - in: body
+ *         name: password
+ *         required: true
+ *         description: Indica la contraseña.
+ *         schema:
+ *           type: string
+ *           example: 12345
+ *     responses:
+ *       201:
+ *         description: Mensaje de exito.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Mensaje de exito
+ *                    example: Successfully registered
+ *       409:
+ *         description: Error de usuario ya existente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Mensaje de error
+ *                    example: The username is already in use
+ *       502:
+ *         description: Error externo.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Mensaje de error
+ *                    example: An error ocurred on the creation of the users storage space. The registration was unsuccessful
+ *       500:
+ *         description: Error desconocido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: Error generado.
+ * */
 
 router.post('/', cors(app.corsOptions), async function(req, res, next) {
     // Se obtienen los parametros de entrada

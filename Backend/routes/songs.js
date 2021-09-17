@@ -8,12 +8,6 @@ var cors = require('cors')
 var app = require('../app')
 var uuid = require('uuid');
 
- /**
- * @swagger
- * tags:
- * name: Songs
- * description: API to manage songs.
- */
 
 /**
  * @swagger
@@ -349,9 +343,11 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
 
  router.post('/', cors(app.corsOptions), async function(req, res, next) {
   try{
+    const query = {username: req.body.owner}
+    const user = await database.users.findOne(query);
     delete req.body._id
     req.body.filename = uuid.v1();
-    req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
+    req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename+"?"+user.key
     let result = await database.songs.insertOne(req.body)
     if(result.insertedId){
       res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId, filename: req.body.filename});

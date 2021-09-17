@@ -101,6 +101,14 @@ describe('GET /songs/:id', function () {
  * Tests de POST /songs
  */
 describe('POST /songs', function () {
+    before(async () => {
+        try {
+          await DataBaseInterface.users.insertOne({ username: "test", key: "test", test:"true"});
+        } catch (err) {
+          console.error(err);
+        }
+      });      
+
     /**
      * Se prueba la creacion de una cancion
      */
@@ -127,6 +135,7 @@ describe('POST /songs', function () {
     after(async () => {
         try {
           await DataBaseInterface.songs.deleteOne({ test: "true" });
+          await DataBaseInterface.users.deleteOne({ test: "true"});
         } catch (err) {
           console.error(err);
         }
