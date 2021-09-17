@@ -16,6 +16,11 @@ router.get('/user', keycloak.protect('user'), function(req, res){
 
 const qs = require('qs')
 const https = require('http');
+
+
+
+
+
 router.post('/key', function(req, res){
     let data =  {
         grant_type:"password",
@@ -60,7 +65,22 @@ router.post('/key', function(req, res){
 });
 
 
-router.post('/admin', function(req, res){
+router.post('/create_user', function(req, res){
+    get_admin_token(function(token){
+        create_user(req.body.username,token,function(rest){
+            get_userid(req.body.username,token,function(userid){
+                set_rol(userid,req.body.rol,token,function(a){})
+                set_password(userid,req.body.password,token,function(b){
+                    res.status(200).jsonp(b)
+                })
+            })
+        })
+
+    })
+
+})
+
+function get_admin_token (callback){
     let data =  {
         grant_type:"password",
         client_id:"nodejs-microservice",
@@ -81,7 +101,7 @@ router.post('/admin', function(req, res){
     }
     
     const reqs =  https.request(options,  rest => {
-    console.log(`statusCode: ${res.statusCode}`)
+    console.log(`statusCode: ${rest.statusCode}`)
     let s=""
     rest.on('data',  d => {
         s =  JSON.parse(d.toString());
@@ -89,7 +109,7 @@ router.post('/admin', function(req, res){
         })
 
         rest.on('end', function () {
-            res.status(res.statusCode).jsonp(s)
+            callback(s.access_token)
           });
     })
     
@@ -99,16 +119,12 @@ router.post('/admin', function(req, res){
     })
     reqs.write(data)
     reqs.end()
-    
+}
 
-});
-
-
-router.post('/create', function(req, res){
+function create_user(username,token,callback){
     let data =  {
-        enabled:"true", username:"test_user"
+        enabled:"true", username
       }
-
     data= JSON.stringify(data)
     const options = {
     hostname: 'localhost',
@@ -117,12 +133,11 @@ router.post('/create', function(req, res){
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization':'Bearer '+req.body.bearer
+        'Authorization':'Bearer '+token
     }
     }
-    
     const reqs =  https.request(options,  rest => {
-    console.log(`statusCode: ${res.statusCode}`)
+    console.log(`statusCode: ${rest.statusCode}`)
     let s=""
     rest.on('data',  d => {
         s =  JSON.parse(d.toString());
@@ -130,7 +145,7 @@ router.post('/create', function(req, res){
         })
 
         rest.on('end', function () {
-            res.status(res.statusCode).jsonp(s)
+           callback(s)
           });
     })
     
@@ -140,30 +155,25 @@ router.post('/create', function(req, res){
     })
     reqs.write(data)
     reqs.end()
-    
+}
 
-});
-
-
-router.get('/get_user', function(req, res){
-    let data =  {
-        enabled:"true", username:"test_user"
-      }
-
+function get_userid(username,token,callback){
+    let data =  {}
     data= JSON.stringify(data)
+
     const options = {
     hostname: 'localhost',
     port: 8080,
-    path: '/auth/admin/realms/Karaoke-Realm/users?username=test_user',
+    path: '/auth/admin/realms/Karaoke-Realm/users?username='+username,
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization':'Bearer '+req.body.bearer
+        'Authorization':'Bearer '+token
     }
     }
     
     const reqs =  https.request(options,  rest => {
-    console.log(`statusCode: ${res.statusCode}`)
+    console.log(`statusCode: ${rest.statusCode}`)
     let s=""
     rest.on('data',  d => {
         s =  JSON.parse(d.toString());
@@ -171,7 +181,7 @@ router.get('/get_user', function(req, res){
         })
 
         rest.on('end', function () {
-            res.status(res.statusCode).jsonp(s)
+            callback(s[0].id)
           });
     })
     
@@ -183,27 +193,34 @@ router.get('/get_user', function(req, res){
     reqs.end()
     
 
-});
+}
 
-router.get('/set_role', function(req, res){
-    let data =  [{
-        id:"fa1e9362-4dc4-4b65-ba98-b9e774b49516", name:"app-user"
-      }]
+function set_rol(userid,rol,token,callback){
+    let data = []
+    if (rol =="user") {
+        data =  [{
+            id:"fa1e9362-4dc4-4b65-ba98-b9e774b49516", name:"app-user"
+          }]
+    }else if (rol == "premium"){
+        data =  [{
+            id:"fa1e9362-4dc4-4b65-ba98-b9e774b49516", name:"app-user"
+          }]
+    }
 
     data= JSON.stringify(data)
     const options = {
     hostname: 'localhost',
     port: 8080,
-    path: '/auth/admin/realms/Karaoke-Realm/users/'+ req.body.userid+'/role-mappings/realm',
+    path: '/auth/admin/realms/Karaoke-Realm/users/'+ userid+'/role-mappings/realm',
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization':'Bearer '+req.body.bearer
+        'Authorization':'Bearer '+token
     }
     }
     
     const reqs =  https.request(options,  rest => {
-    console.log(`statusCode: ${res.statusCode}`)
+    console.log(`statusCode: ${rest.statusCode}`)
     let s=""
     rest.on('data',  d => {
         s =  JSON.parse(d.toString());
@@ -211,7 +228,7 @@ router.get('/set_role', function(req, res){
         })
 
         rest.on('end', function () {
-            res.status(res.statusCode).jsonp(s)
+            callback(s)
           });
     })
     
@@ -221,29 +238,26 @@ router.get('/set_role', function(req, res){
     })
     reqs.write(data)
     reqs.end()
-    
+}
 
-});
+function set_password(userid,password,token,callback){
 
-
-
-router.get('/set_pass', function(req, res){
-    let data =  { type: "password", temporary: false, value: req.body.password }
+    let data =  { type: "password", temporary: false, value: password }
 
     data= JSON.stringify(data)
     const options = {
     hostname: 'localhost',
     port: 8080,
-    path: '/auth/admin/realms/Karaoke-Realm/users/'+ req.body.userid+'/reset-password',
+    path: '/auth/admin/realms/Karaoke-Realm/users/'+ userid+'/reset-password',
     method: 'PUT',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization':'Bearer '+req.body.bearer
+        'Authorization':'Bearer '+token
     }
     }
     
     const reqs =  https.request(options,  rest => {
-    console.log(`statusCode: ${res.statusCode}`)
+    console.log(`statusCode: ${rest.statusCode}`)
     let s=""
     rest.on('data',  d => {
         s =  JSON.parse(d.toString());
@@ -251,8 +265,8 @@ router.get('/set_pass', function(req, res){
         })
 
         rest.on('end', function () {
-            res.status(res.statusCode).jsonp(s)
-          });
+            callback(s)
+            });
     })
     
     reqs.on('error', error => {
@@ -261,7 +275,10 @@ router.get('/set_pass', function(req, res){
     })
     reqs.write(data)
     reqs.end()
-});
+}
+
+
+
 
 
 
