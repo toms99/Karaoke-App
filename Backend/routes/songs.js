@@ -121,6 +121,20 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
     }else{
       query = { owner:"public"};
     }
+    if (req.query.artista){
+      query.artista=new RegExp(req.query.artista,"i")
+    }
+    if (req.query.nombre){
+      query.nombre=new RegExp(req.query.nombre,"i")
+    }
+    if (req.query.album){
+      query.album=new RegExp(req.query.album,"i")
+    }
+    if (req.query.letra){
+      query["letra.words"]=new RegExp(req.query.letra,"i")
+    }
+
+
     let data = await database.songs.find(query)
     let songs = []
     await data.forEach(song => {
