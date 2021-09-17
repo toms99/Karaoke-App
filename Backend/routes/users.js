@@ -26,6 +26,8 @@ router.get('/:username', cors(app.corsOptions), async function(req, res, next) {
 
 const qs = require('qs')
 const https = require('http');
+
+
 router.post('/login', function(req, res){
     let data =  {
         grant_type:"password",
@@ -46,25 +48,9 @@ router.post('/login', function(req, res){
     }
     }
     
-    const reqs =  https.request(options,  rest => {
-    console.log(`statusCode: ${res.statusCode}`)
-    let s=""
-    rest.on('data',  d => {
-        s =  JSON.parse(d.toString());
-            process.stdout.write(d);
-        })
-
-        rest.on('end', function () {
-            res.status(res.statusCode).jsonp(s)
-          });
+    request(data,options,function(d){
+      callback(d.access_token)
     })
-    
-    reqs.on('error', error => {
-        s=error
-        console.error(error)
-    })
-    reqs.write(data)
-    reqs.end()
     
 
 });
@@ -103,28 +89,10 @@ function get_admin_token (callback){
       'Content-Type': 'application/x-www-form-urlencoded',
   }
   }
-  
-  const reqs =  https.request(options,  rest => {
-  console.log(`statusCode: ${rest.statusCode}`)
-  let s=""
-  rest.on('data',  d => {
-    s += String(d);
-          process.stdout.write(d);
-      })
-
-      rest.on('end', function () {
-        s=JSON.parse(s.toString())
-          callback(s.access_token)
-        });
+  request(data,options,function(d){
+    callback(d.access_token)
   })
 
-
-  reqs.on('error', error => {
-      s=error
-      console.error(error)
-  })
-  reqs.write(data)
-  reqs.end()
 }
 
 function create_user(username,token,callback){
@@ -142,26 +110,9 @@ function create_user(username,token,callback){
       'Authorization':'Bearer '+token
   }
   }
-  const reqs =  https.request(options,  rest => {
-    
-  console.log(`statusCode: ${rest.statusCode}`)
-  let s=""
-  rest.on('data',  d => {
-      s = d;
-          process.stdout.write(d);
-      })
-
-      rest.on('end', function () {
-         callback(s)
-        });
+  request(data,options,function(d){
+    callback(d)
   })
-  
-  reqs.on('error', error => {
-      s=error
-      console.error(error)
-  })
-  reqs.write(data)
-  reqs.end()
 }
 
 function get_userid(username,token,callback){
@@ -179,25 +130,10 @@ function get_userid(username,token,callback){
   }
   }
   
-  const reqs =  https.request(options,  rest => {
-  console.log(`statusCode: ${rest.statusCode}`)
-  let s=""
-  rest.on('data',  d => {
-    s += String(d);
-          process.stdout.write(d);
-      })
-
-      rest.on('end', function () {
-          callback(JSON.parse(s.toString())[0].id)
-        });
-  })
   
-  reqs.on('error', error => {
-      s=error
-      console.error(error)
+  request(data,options,function(d){
+    callback(d[0].id)
   })
-  reqs.write(data)
-  reqs.end()
   
 
 }
@@ -226,25 +162,9 @@ function set_rol(userid,rol,token,callback){
   }
   }
   
-  const reqs =  https.request(options,  rest => {
-  console.log(`statusCode: ${rest.statusCode}`)
-  let s=""
-  rest.on('data',  d => {
-      s =  d;
-          process.stdout.write(d);
-      })
-
-      rest.on('end', function () {
-          callback(s)
-        });
+  request(data,options,function(d){
+    callback(d)
   })
-  
-  reqs.on('error', error => {
-      s=error
-      console.error(error)
-  })
-  reqs.write(data)
-  reqs.end()
 }
 
 function set_password(userid,password,token,callback){
@@ -263,25 +183,39 @@ function set_password(userid,password,token,callback){
   }
   }
   
+  request(data,options,function(d){
+    callback(d)
+  })
+}
+
+
+function request(data,options,callback){
+ 
   const reqs =  https.request(options,  rest => {
   console.log(`statusCode: ${rest.statusCode}`)
   let s=""
   rest.on('data',  d => {
-      s =  d;
+    s += String(d);
           process.stdout.write(d);
       })
 
       rest.on('end', function () {
+        try {
+          s=JSON.parse(s.toString())
+        } catch (error) {
+          
+        }
           callback(s)
-          });
+        });
   })
-  
+
   reqs.on('error', error => {
       s=error
       console.error(error)
   })
   reqs.write(data)
   reqs.end()
+
 }
 
   module.exports = router;
