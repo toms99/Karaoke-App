@@ -10,6 +10,7 @@ import { StreamComponent } from './stream/stream.component';
 import { VistaPremiumComponent } from './PremiumComponent/vista-premium/vista-premium.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {CookieService} from "ngx-cookie-service";
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {FormsModule} from "@angular/forms";
     ScrollAnimationDirective,
     StreamComponent,
     VistaPremiumComponent,
+
   ],
     imports: [
         BrowserModule,
@@ -28,8 +30,9 @@ import {FormsModule} from "@angular/forms";
         HttpClientModule,
         FormsModule,
 
+
     ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 
 })

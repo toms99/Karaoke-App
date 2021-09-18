@@ -8,13 +8,14 @@ import {User} from "../Clases/user";
   providedIn: 'root'
 })
 export class LoginService {
-  URL = 'http://localhost:3000/songs'
+  URL = 'http://localhost:3000/users'
   constructor(private http: HttpClient) { }
 
   public hacerLogin(user: User):Observable<Object>{
-    let options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    };
-    return this.http.post(this.URL, user, options);
+    return this.http.post(this.URL + "/login", user);
+  }
+
+  public registraUsuario(user: User):Observable<Object>{
+    return this.http.post(this.URL , user);
   }
 }

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {LoginService} from "../../services/login.service";
 import {User} from "../../Clases/user";
+import {CancionesService} from "../../services/canciones.service";
+import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-login-component',
@@ -10,8 +13,14 @@ import {User} from "../../Clases/user";
 })
 export class LoginComponentComponent implements OnInit {
 
-  constructor(private router: Router , private service: LoginService) { }
+  constructor(private router: Router , private service: LoginService, private cancionesService: CancionesService,
+  private cookieService: CookieService) {
+
+
+}
+  esPremiun = false;
   usuario: User = new User();
+  UsuarioNuevo: User = new User();
   ngOnInit(): void {
   }
   public navegation(): void{
@@ -20,9 +29,16 @@ export class LoginComponentComponent implements OnInit {
 
   public login(user: User): void{
     this.service.hacerLogin(user).subscribe(response =>{
-      console.log(response);
       // @ts-ignore
       if(response.token){
+        // @ts-ignore
+        this.cookieService.set("token", response.token);
+        console.log(this.cookieService.get("token"));
+
+        // @ts-ignore
+        this.cookieService.set("user", JSON.stringify(this.usuario));
+        console.log(this.cookieService.get("user"));
+
         this.router.navigate(['/Usuario'])
       }
       else{
