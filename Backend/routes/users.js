@@ -53,25 +53,13 @@ router.post('/login', function(req, res){
     }
     
     request(data,options,function(d){
-      callback(d.access_token)
+      res.status(200).jsonp({token:d.access_token})
     })
     
 
 });
 
 router.post('/create_user', function(req, res){
-  get_admin_token(function(token){
-      create_user(req.body.username,token,function(rest){
-          get_userid(req.body.username,token,function(userid){
-              set_rol(userid,req.body.rol,token,function(a){})
-              set_password(userid,req.body.password,token,function(b){
-                  res.status(200).jsonp(b)
-              })
-          })
-      })
-
-  })
-
 })
 
 function get_admin_token (callback){
@@ -294,6 +282,7 @@ function request(data,options,callback){
 router.post('/', cors(app.corsOptions), async function(req, res, next) {
     // Se obtienen los parametros de entrada
     let username = req.body.username
+    let rol = req.body.rol
     try{
       // Se verifica si el usuario ya existe en la base de datos
       let user = await database.users.findOne({username});  
@@ -301,6 +290,19 @@ router.post('/', cors(app.corsOptions), async function(req, res, next) {
       if(user){
         res.status(409).jsonp({message:"The username is already in use."});
       }else{
+
+        // Se genera el usuario en keycloak
+        await get_admin_token(function(token){
+          create_user(req.body.username,token,function(rest){
+              get_userid(req.body.username,token,function(userid){
+                  set_rol(userid,req.body.rol,token,function(a){})
+                  set_password(userid,req.body.password,token,function(b){
+                  })
+              })
+          })
+        })
+    
+
         // Se genera la carpeta del usuario en el storage
         let key
         let containerClient
@@ -326,7 +328,7 @@ router.post('/', cors(app.corsOptions), async function(req, res, next) {
           res.status(502).jsonp({message:"An error ocurred on the creation of the users storage space. The registration was unsuccessful"});
         }else{
           // Se agrega el usuario a la base de datos
-          let result = await database.users.insertOne({username, key})
+          let result = await database.users.insertOne({username, key, rol})
           if(result.insertedId ){
             res.status(201).jsonp({message:"Successfully registered."});
           }else{
