@@ -346,3 +346,4 @@ router.post('/', cors(app.corsOptions), async function(req, res, next) {
   });
 
   module.exports = router;
+  module.exports.request = request;

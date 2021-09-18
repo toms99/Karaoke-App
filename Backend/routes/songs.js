@@ -7,6 +7,7 @@ const AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountN
 var cors = require('cors')
 var app = require('../app')
 var uuid = require('uuid');
+const keycloak = require('../config/keycloak.js').getKeycloak();
 
 
 /**
@@ -108,7 +109,8 @@ var uuid = require('uuid');
  *                    description: Error generado.
  * */
 
-router.get('/', cors(app.corsOptions), async function(req, res, next) {
+router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(req, res, next) {
+  console.log(req.kauth.grant.access_token.content.preferred_username)
   try{
     let query
     if(req.query.user){
@@ -193,7 +195,7 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
- router.get('/:id', cors(app.corsOptions), async function(req, res, next) {
+ router.get('/:id',  keycloak.protect('user'), cors(app.corsOptions), async function(req, res, next) {
   try{
     let query = {_id: new ObjectId(req.params.id)}
     let song = await database.songs.findOne(query);
@@ -279,7 +281,7 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
-  router.put('/:id', cors(app.corsOptions), async function(req, res, next) {
+  router.put('/:id',  keycloak.protect('premium'), cors(app.corsOptions), async function(req, res, next) {
     try{
       const id = req.params.id
       delete req.body._id
@@ -355,7 +357,7 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
- router.post('/', cors(app.corsOptions), async function(req, res, next) {
+ router.post('/',  keycloak.protect('premium'), cors(app.corsOptions), async function(req, res, next) {
   try{
     const query = {username: req.body.owner}
     const user = await database.users.findOne(query);
@@ -440,7 +442,7 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
-router.delete('/:id', cors(app.corsOptions), async function(req, res, next) {
+router.delete('/:id',  keycloak.protect('premium'), cors(app.corsOptions), async function(req, res, next) {
   try{
     // Se busca la cancion en la base de datos
     let data = await database.songs.find({_id: new ObjectId(req.params.id)})
