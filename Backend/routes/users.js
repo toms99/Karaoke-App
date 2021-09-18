@@ -151,7 +151,7 @@ const https = require('http');
  *                    type: object
  *                    description: Error generado.
  * */
-router.post('/login', function(req, res){
+router.post('/login',  cors(app.corsOptions), function(req, res){
     try{
       let data =  {
           grant_type:"password",
