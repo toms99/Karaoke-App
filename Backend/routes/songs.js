@@ -288,6 +288,10 @@ router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(
       delete req.body.url
       delete req.body.owner
       delete req.body.filename
+      if(req.body.letra){
+        req.body.letraCruda = "";
+        req.body.letra.forEach(content => req.body.letraCruda +=" "+ content.words)
+      }  
       const result = await database.songs.updateOne({_id: new ObjectId(id)},{"$set":req.body})
       if(result.matchedCount === 1 ){
         res.jsonp({message:"Successfully edited one song.", result});
@@ -364,6 +368,10 @@ router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(
     delete req.body._id
     req.body.filename = uuid.v1();
     req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename+"?"+user.key
+    if(req.body.letra){
+      req.body.letraCruda = "";
+      req.body.letra.forEach(content => req.body.letraCruda +=" "+ content.words)
+    }
     let result = await database.songs.insertOne(req.body)
     if(result.insertedId){
       res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId, filename: req.body.filename});
