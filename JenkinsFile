@@ -50,7 +50,7 @@ node {
                 stage("deploy") {
         sshagent(credentials : ['teamsoakey']){
         sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && export PORT=5000 && pm2 --name api start npm -- start"'
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend && pm2 start "npm run ng serve --host 0.0.0.0 --port 3000" --name "Frontend""'
+        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend && export PORT=5000 && pm2 start "npm run ng serve" --name "Frontend""'
         }
             }
             }
