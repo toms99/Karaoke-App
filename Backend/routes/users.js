@@ -11,23 +11,6 @@ const accountName = "soakaraokestorage";
 const accountKey = "DRhzPgINTEWI8IeQ9MjMBQol/vEnLbECZDYI53+2yCkQAT8qva6BbbUnFWhaqkA/t4H6omWvlJ1bobcR7O8ETg==";
 const credential = new StorageSharedKeyCredential(accountName, accountKey)
 
-
-router.get('/:username', cors(app.corsOptions), async function(req, res, next) {
-    try{
-      let query = {username: req.params.username}
-      let user = await database.users.findOne(query);
-      if(user ){
-        res.jsonp(user);
-      }else{
-        res.status(404).jsonp({message:"No user found"});
-      }
-    }
-    catch(error){
-      console.log(error)
-      res.status(500).jsonp({error});
-    }
-  });
-
 const qs = require('qs')
 const https = require('http');
 
