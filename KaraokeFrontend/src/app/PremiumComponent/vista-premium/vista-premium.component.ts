@@ -88,7 +88,7 @@ export class VistaPremiumComponent implements OnInit {
 
     // get BlobService = notice `?` is pulled out of sasToken - if created in Azure portal
     const blobService = new BlobServiceClient(
-      "https://" + this.storageAccountName + ".blob.core.windows.net/?" + JSON.parse(this.cookieService.get('user')).key
+      "https://" + this.storageAccountName + ".blob.core.windows.net/?" + this.cookieService.get('key')
     );
 
     // get Container - full public read access

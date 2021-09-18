@@ -36,6 +36,10 @@ export class LoginComponentComponent implements OnInit {
         console.log(this.cookieService.get("token"));
 
         // @ts-ignore
+        this.cookieService.set("key", response.key);
+        console.log(this.cookieService.get("key"));
+
+        // @ts-ignore
         this.cookieService.set("user", JSON.stringify(this.usuario));
         console.log(this.cookieService.get("user"));
 
