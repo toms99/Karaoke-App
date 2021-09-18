@@ -6,15 +6,15 @@
     <div class="row">
       <form>
         <div class="row">
-          <input type="email" name="email" class="kinput-main" id="InputEmail1" placeholder="Correo Electronico"
-                 aria-label="CorreoElectronico" required="">
+          <input type="email" name="email" class="kinput-main" id="InputEmail1" placeholder="Usuario"
+                 aria-label="CorreoElectronico" required="" #usario="ngModel" [(ngModel)]="usuario.username">
         </div>
         <div class="row ">
           <input type="password" name="password" class="kinput-main" id="InputPassword" placeholder="Contraseña"
-                 aria-label="contraseña" required="">
+                 aria-label="contraseña" required="" #password="ngModel" [(ngModel)]="usuario.password">
         </div>
         <div class="row">
-          <button class="btn kbtn-primary" type="submit"  (click)="navegation()">Aceptar</button>
+          <button class="btn kbtn-primary" type="submit" (click)="login(usuario)">Aceptar</button>
         </div>
       </form>
     </div>
