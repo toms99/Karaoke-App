@@ -15,9 +15,9 @@ node {
     }
         stage ('Build') {
         sshagent(credentials : ['teamsoakey']){
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-app && git pull"'
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-app/Backend &&  npm ci"'
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-app/KaraokeFrontend &&  npm ci"'
+        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App && git pull"'
+        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend &&  npm ci"'
+        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm ci"'
         }
     }
     stage ('Unit_test') {
@@ -49,8 +49,8 @@ node {
             "deploy": {
                 stage("deploy") {
         sshagent(credentials : ['teamsoakey']){
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-app/Backend && export PORT=5000 && pm2 --name api start npm -- start"'
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-app/KaraokeFrontend && export PORT=3000 && pm2 --name frontend start npm -- start"'
+        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && export PORT=5000 && pm2 --name api start npm -- start"'
+        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend && export PORT=3000 && pm2 --name frontend start npm -- start"'
         }
             }
             }
