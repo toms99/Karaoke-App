@@ -122,35 +122,33 @@ const keycloak = require('../config/keycloak.js').getKeycloak();
 
 router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(req, res, next) {
   try{
-      let query
-      if(req.query.user){
-        if(req.kauth.grant.access_token.content.preferred_username === req.query.user){
-          query = { owner: req.query.user};
-        }else{
-          res.status(403).jsonp({message: "Access Denied to the requested resources"});
-          return
-        }
+    let query = {}
+    if(req.query.user){
+      if(req.kauth.grant.access_token.content.preferred_username === req.query.user){
+        query.owner = req.query.user;
       }else{
-        query = { owner:"public"};
+        res.status(403).jsonp({message: "Access Denied to the requested resources"});
+        return
       }
-      if (req.query.artista){
-        query.artista=new RegExp(req.query.artista,"i")
-      }
-      if (req.query.nombre){
-        query.nombre=new RegExp(req.query.nombre,"i")
-      }
-      if (req.query.album){
-        query.album=new RegExp(req.query.album,"i")
-      }
-      if (req.query.letra){
-        query["letra.words"]=new RegExp(req.query.letra,"i")
-      }
-      let data = await database.songs.find(query)
-      let songs = []
-      await data.forEach(song => {
-        if(req.query.lyrics !== "true"){
-          delete song.letra
-        }
+    }else{
+      query = { owner:"public"};
+    }
+    if (req.query.artista){
+      query.artista=new RegExp(req.query.artista,"i")
+    }
+    if (req.query.nombre){
+      query.nombre=new RegExp(req.query.nombre,"i")
+    }
+    if (req.query.album){
+      query.album=new RegExp(req.query.album,"i")
+    }
+    if (req.query.letraCruda){
+      query.letraCruda=new RegExp(req.query.letraCruda,"i")
+    }
+
+    let data = await database.songs.find(query)
+    let songs = []
+    await data.forEach(song => {
         songs.push(song)
       });
       console.log(songs)
