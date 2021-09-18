@@ -17,13 +17,52 @@ img{
   width: 40%;
 
 }
-/* .checkBox{
-  margin-top: 25px;
-  margin-left: 20px;
+.kbtn-primary {
+  color: var(--k-light);
+  background-color: var(--k-primary);
+  margin-top: 5%;
+  margin-left: 25%;
+  width: 50%;
+  border-radius: 15px;
+  box-shadow: 0px 0px 20px var(--k-primary-complementary);
 }
-.Aux{
-  margin-left: 10px;
-} */
+
+.kbtn-primary:hover {
+  color: var(--k-light);
+  background-color: var(--k-primary-complementary) ;
+  margin-top: 5%;
+  margin-left: 25%;
+  width: 50%;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px var(--k-primary-complementary);
+}
+
+.kbtn-secondary {
+  color: var(--k-light);
+  background-color: var(--k-secondary);
+  margin-top: 5%;
+  margin-left: 25%;
+  width: 50%;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px var(--k-secondary);
+}
+
+.kbtn-secondary:hover {
+  color: var(--k-light);
+  background-color: var(--k-secondary-complementary);
+  margin-top: 5%;
+  margin-left: 25%;
+  width: 50%;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px var(--k-secondary-complementary);
+}
+
+.kselect{
+  background: #FFBE0B;
+  width: 50%;
+  margin-top: 10px;
+  margin-left: 25%;
+}
 
 
 

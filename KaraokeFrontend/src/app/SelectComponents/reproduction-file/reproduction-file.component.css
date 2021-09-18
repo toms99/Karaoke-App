@@ -4,10 +4,12 @@
   margin-right: auto;
 }
 .btnplay{
-  color: black;
-  background-color: var(--k-secondary-complementary);
-  margin-top: 5%;
-  margin-left: 25%;
-  width: 50%;
-  border-radius: 5px;
+  color: var(--k-tertiary);
+  background-color: transparent;
+  width: 33%;
+  margin-left: 33%;
+}
+.btnplay:hover{
+  color: var(--k-light);
+  background-color: var(--k-tertiary);
 }
