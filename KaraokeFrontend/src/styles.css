@@ -1,0 +1,141 @@
+:root {
+    --k-dark: #12001D;
+    --k-light: white;
+
+    --k-primary: #FE006F;
+    --k-secondary: #FEBE0B;
+    --k-tertiary: #FB5708;
+    --k-cuaternary: #1AD39F;
+
+    --k-primary-complementary: #A30057;
+    --k-secondary-complementary: #FF3233;
+    --k-tertiary-complementary: #FE006F;
+    --k-cuaternary-complementary: #0EA900;
+
+    --k-dark-rgb: rgba(18, 0, 29, 1);
+    --k-light-rgb: rgb(255,255,255);
+
+    --k-primary-rgb: rgba(254, 0, 111,1);
+    --k-secondary-rgb: rgba(254, 190, 11,1);
+    --k-tertiary-rgb: rgb(251, 87, 8);
+    --k-cuaternary-rgb: rgba(26, 211, 159,1);
+
+    --k-primary-complementary-rgb: rgb(163, 0, 87);
+    --k-secondary-complementary-rgb: rgb(255, 50, 51);
+    --k-tertiary-complementary-rgb: rgb(254, 0, 111);
+    --k-cuaternary-complementary-rgb: rgb(14, 169, 0);
+
+
+/* 
+
+    --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); */
+}
+
+.fondo{
+    background: #12001D;
+  }
+
+.kbtn-primary {
+    color: var(--k-light);
+    background-color: var(--k-primary);
+    margin-top: 5%;
+    margin-left: 25%;
+    width: 50%;
+    border-radius: 15px; 
+    box-shadow: 0px 0px 20px var(--k-primary-complementary);
+  }
+
+.kbtn-primary:hover {
+    color: var(--k-light);
+    background-color: var(--k-primary-complementary) ;
+    margin-top: 5%;
+    margin-left: 25%;
+    width: 50%;
+    border-radius: 5px; 
+    box-shadow: 0px 0px 20px var(--k-primary-complementary);
+  }
+
+.kbtn-secondary {
+    color: var(--k-light);
+    background-color: var(--k-secondary);
+    margin-top: 5%;
+    margin-left: 25%;
+    width: 50%;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px var(--k-secondary);
+  }
+
+.kbtn-secondary:hover {
+    color: var(--k-light);
+    background-color: var(--k-secondary-complementary);
+    margin-top: 5%;
+    margin-left: 25%;
+    width: 50%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px var(--k-secondary-complementary);
+  }
+
+.kinput-main {
+    background: transparent;
+    color: var(--k-light);
+    border-color: var(--k-primary);
+    padding: 2%;
+    margin-top: 2%;
+    margin-left: 25%;
+    width: 50%;
+    border-radius: 15px;
+    font-size: small;
+    box-shadow: 0px 0px 20px var(--k-primary);
+
+  }
+
+  .kinput-primary {
+    background: transparent;
+    color: var(--k-light);
+    border-color: var(--k-primary);
+    padding: 2%;
+    margin-top: 2%;
+    margin-left: 5%;
+    width: 90%;
+    border-radius: 15px;
+    font-size: small;
+
+  }
+
+  .kcheckBox{
+  margin-top: 25px;
+  margin-left: 20px;
+}
+
+.kmodal{
+    background: linear-gradient(45deg, var(--k-primary-rgb), var(--k-cuaternary-rgb));
+
+}
+
+
+
+.kmodal-content{
+    background-color: var(--k-dark);
+    color: var(--k-light);
+    border-radius: 50px; 
+    padding: 5%;
+    box-shadow: 0px 0px 20px var(--k-primary);
+}
+
+.kmodal-body{
+    background-color: var(--k-dark);
+    width: auto;
+    border-radius: 25px;
+  }
+
+.kmodal-header {
+    background-color: var(--k-dark);
+    width: auto;
+    border-radius: 25px;
+  }
+
+.kdropdown{
+    color: var(--k-light);
+}

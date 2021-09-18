@@ -1,0 +1,27 @@
+p {
+    font-family: Lato;
+  }
+  
+  .container {
+    background-color: lightgoldenrodyellow;
+    width: 80vw;
+    height: 30vh;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    align-content: center;
+    text-align: center;
+    color: blueviolet
+  
+  }
+  
+  .an-1 {
+    font-weight: 900;
+    font-size: 7vw;
+    
+  }
+  
+  .an-1 .letter {
+    display: inline-block;
+    line-height: 1em;
+  }
