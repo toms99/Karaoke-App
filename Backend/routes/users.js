@@ -12,6 +12,71 @@ const accountKey = "DRhzPgINTEWI8IeQ9MjMBQol/vEnLbECZDYI53+2yCkQAT8qva6BbbUnFWha
 const credential = new StorageSharedKeyCredential(accountName, accountKey)
 
 
+/**
+ * @swagger
+ *    components:
+ *        schemas:
+ *           User:
+ *             type: object
+ *             properties:
+ *               _id:
+ *                   type: string
+ *                   description: El ID del objeto.
+ *                   example: 613b14eadd11665197679c14
+ *               username:
+ *                   type: string
+ *                   description: El nombre de usuario.
+ *                   example: Despacito
+ *               key:
+ *                   type: string
+ *                   description: La clave para el storage personal del usuario
+*/
+
+ /**
+ * @swagger
+ * /users/{username}:
+ *   get:
+ *     tags: [Users]
+ *     summary: Endpoint para obtener un usuario.
+ *     description: Endpoint para obtener un usuario.
+ *     parameters:
+ *       - in: path
+ *         name: username
+ *         required: true
+ *         description: Indica el username a solicitar.
+ *         example: user1
+ *         schema:
+ *           type: string  
+ *     responses:
+ *       200:
+ *         description: El usuario.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                $ref: '#/components/schemas/User'
+ *       404:
+ *         description: No se encontró el usuario.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Mensaje de error
+ *                    example: No user found
+ *       500:
+ *         description: Error desconocido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: Error generado.
+ * */
+
 router.get('/:username', cors(app.corsOptions), async function(req, res, next) {
     try{
       let query = {username: req.params.username}
@@ -31,32 +96,91 @@ router.get('/:username', cors(app.corsOptions), async function(req, res, next) {
 const qs = require('qs')
 const https = require('http');
 
-
-router.post('/login', function(req, res){
-    let data =  {
-        grant_type:"password",
-        client_id:"karaoke-client",
-        client_secret:"ba2939cf-e64c-4706-b578-349675e249b4",
-        username:req.body.username,
-        password:req.body.password
+ /**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     tags: [Users]
+ *     summary: Endpoint para loggearse.
+ *     description: Endpoint para loggearse.
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         required: true
+ *         description: Indica el username.
+ *         example: user1
+ *         schema:
+ *           type: string  
+ *       - in: query
+ *         name: password
+ *         required: true
+ *         description: Indica la contrasena.
+ *         example: 1234
+ *         schema:
+ *           type: string  
+ *     responses:
+ *       200:
+ *         description: El token de autenticacion.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  token:
+ *                    type: string
+ *                    description: Token de autenticacion
+ *       401:
+ *         description: Login fallido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: string
+ *                    description: Mensaje de error
+ *                    example: No user found
+ *       500:
+ *         description: Error desconocido.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  error:
+ *                    type: object
+ *                    description: Error generado.
+ * */
+router.post('/login',  cors(app.corsOptions), function(req, res){
+    try{
+      let data =  {
+          grant_type:"password",
+          client_id:"karaoke-client",
+          client_secret:"ba2939cf-e64c-4706-b578-349675e249b4",
+          username:req.body.username,
+          password:req.body.password
+        }
+      data=qs.stringify(data)
+        
+      const options = {
+      hostname: '168.62.39.210',
+      port: 8080,
+      path: '/auth/realms/Karaoke-Realm/protocol/openid-connect/token',
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
       }
-    data=qs.stringify(data)
+      }
       
-    const options = {
-    hostname: '168.62.39.210',
-    port: 8080,
-    path: '/auth/realms/Karaoke-Realm/protocol/openid-connect/token',
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-    }
-    }
-    
-    request(data,options,function(d){
-      res.status(200).jsonp({token:d.access_token})
-    })
-    
-
+      request(data,options,function(d){
+        res.status(200).jsonp({token:d.access_token})
+      })
+      
+  }
+  catch(error){
+    console.log(error)
+    res.status(500).jsonp({error});
+  }
 });
 
 router.post('/create_user', function(req, res){
@@ -347,3 +471,6 @@ router.post('/', cors(app.corsOptions), async function(req, res, next) {
 
   module.exports = router;
   module.exports.request = request;
+  
+  router.options('/login', cors(app.corsOptions)) // enable pre-flight request for DELETE request
+  router.options('/', cors(app.corsOptions)) // enable pre-flight request for DELETE request

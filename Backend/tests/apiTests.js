@@ -147,7 +147,20 @@ describe('POST /songs', function () {
     it('Post a song', function (done) {
         let song = {
             "nombre": "nombre",
-            "letra": "letra",
+            "letra": [
+                {
+                  "second": 0,
+                  "words": "When I met you in the summer"
+                },
+                {
+                  "second": 3,
+                  "words": "To my heartbeat sound"
+                },
+                {
+                  "second": 7,
+                  "words": "We fell in love"
+                }
+              ],
             "tipo": "tipo",
             "artista": "artista",
             "album": "album",
@@ -189,7 +202,20 @@ describe('PUT /songs', function () {
         try {
             let song = {
                 "nombre": "nombre",
-                "letra": "letra",
+                "letra": [
+                    {
+                      "second": 0,
+                      "words": "When I met you in the summer"
+                    },
+                    {
+                      "second": 3,
+                      "words": "To my heartbeat sound"
+                    },
+                    {
+                      "second": 7,
+                      "words": "We fell in love"
+                    }
+                  ],
                 "tipo": "tipo",
                 "artista": "artista",
                 "album": "album",
@@ -210,7 +236,20 @@ describe('PUT /songs', function () {
     it('Update a song', function (done) {
         song = {
             "nombre": "nombre2",
-            "letra": "letra2",
+            "letra": [
+                {
+                  "second": 0,
+                  "words": "When I met you in the summer"
+                },
+                {
+                  "second": 3,
+                  "words": "To my heartbeat sound"
+                },
+                {
+                  "second": 7,
+                  "words": "We fell in love"
+                }
+              ],
         }    
         request(app)
             .put('/songs/'+insertedId)
@@ -218,27 +257,6 @@ describe('PUT /songs', function () {
             .set('Accept', 'application/json')
             .set('Authorization', token )
             .expect(200, done);
-    });
-
-
-    /**
-     * Test para confirmar que no se puede editar una cancion que no existe
-     */
-    it('cannot edit a song that does not exist', function (done) {
-        let song = {
-            "nombre": "vncvn",
-            "letra": "cvnbc",
-            "tipo": "dsfgs",
-            "artista": "jhkjhgk",
-            "album": "",
-            "owner":"a"
-        }
-        request(app)
-            .put('/songs/61746a9e05dfeff4990dc6ad')
-            .send(song)
-            .set('Accept', 'application/json')
-            .set('Authorization', token )
-            .expect(404, done);
     });
 
     /**
