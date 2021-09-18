@@ -7,13 +7,8 @@ const AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountN
 var cors = require('cors')
 var app = require('../app')
 var uuid = require('uuid');
+const keycloak = require('../config/keycloak.js').getKeycloak();
 
- /**
- * @swagger
- * tags:
- * name: Songs
- * description: API to manage songs.
- */
 
 /**
  * @swagger
@@ -102,6 +97,17 @@ var uuid = require('uuid');
  *                   type: array
  *                   items:
  *                      $ref: '#/components/schemas/Song'
+ *       403:
+ *         description: Credenciales no validos para las canciones solicitadas.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: object
+ *                    description: Error generado.
+ *                    example: Access Denied to the requested resources
  *       500:
  *         description: Error desconocido.
  *         content:
@@ -114,25 +120,42 @@ var uuid = require('uuid');
  *                    description: Error generado.
  * */
 
-router.get('/', cors(app.corsOptions), async function(req, res, next) {
+router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(req, res, next) {
   try{
-    let query
-    if(req.query.user){
-      query = { owner: req.query.user};
-    }else{
-      query = { owner:"public"};
-    }
-    let data = await database.songs.find(query)
-    let songs = []
-    await data.forEach(song => {
-      if(req.query.lyrics !== "true"){
-        delete song.letra
+      let query
+      if(req.query.user){
+        if(req.kauth.grant.access_token.content.preferred_username === req.query.user){
+          query = { owner: req.query.user};
+        }else{
+          res.status(403).jsonp({message: "Access Denied to the requested resources"});
+          return
+        }
+      }else{
+        query = { owner:"public"};
       }
-      songs.push(song)
-    });
-    console.log(songs)
-    songs = songs.slice(req.query.offset).slice(0,req.query.limit);
-    res.jsonp(songs);
+      if (req.query.artista){
+        query.artista=new RegExp(req.query.artista,"i")
+      }
+      if (req.query.nombre){
+        query.nombre=new RegExp(req.query.nombre,"i")
+      }
+      if (req.query.album){
+        query.album=new RegExp(req.query.album,"i")
+      }
+      if (req.query.letra){
+        query["letra.words"]=new RegExp(req.query.letra,"i")
+      }
+      let data = await database.songs.find(query)
+      let songs = []
+      await data.forEach(song => {
+        if(req.query.lyrics !== "true"){
+          delete song.letra
+        }
+        songs.push(song)
+      });
+      console.log(songs)
+      songs = songs.slice(req.query.offset).slice(0,req.query.limit);
+      res.jsonp(songs);
   }
   catch(error){
     console.log(error)
@@ -173,6 +196,17 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    type: string
  *                    description: Mensaje de error
  *                    example: No songs matched the id
+ *       403:
+ *         description: Credenciales no validos para las canciones solicitadas.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: object
+ *                    description: Error generado.
+ *                    example: Access Denied to the requested resources
  *       500:
  *         description: Error desconocido.
  *         content:
@@ -185,12 +219,17 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
- router.get('/:id', cors(app.corsOptions), async function(req, res, next) {
+ router.get('/:id',  keycloak.protect('user'), cors(app.corsOptions), async function(req, res, next) {
   try{
     let query = {_id: new ObjectId(req.params.id)}
     let song = await database.songs.findOne(query);
     if(song ){
-      res.jsonp(song);
+      if(req.kauth.grant.access_token.content.preferred_username === song.owner || song.owner === "public"){
+        res.jsonp(song);
+      }else{
+        res.status(403).jsonp({message: "Access Denied to the requested resources"});
+        return
+      }
     }else{
       res.status(404).jsonp({message:"No songs matched the id"});
     }
@@ -245,6 +284,17 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                  result:
  *                    type: object
  *                    description: Respuesta de la base de datos
+ *       403:
+ *         description: Credenciales no validos para las canciones solicitadas.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: object
+ *                    description: Error generado.
+ *                    example: Access Denied to the requested resources
  *       404:
  *         description: Mensaje de error.
  *         content:
@@ -271,18 +321,33 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
-  router.put('/:id', cors(app.corsOptions), async function(req, res, next) {
+  router.put('/:id',  keycloak.protect('premium'), cors(app.corsOptions), async function(req, res, next) {
     try{
       const id = req.params.id
+      const query = {_id: new ObjectId(id)}
       delete req.body._id
       delete req.body.url
       delete req.body.owner
       delete req.body.filename
-      const result = await database.songs.updateOne({_id: new ObjectId(id)},{"$set":req.body})
-      if(result.matchedCount === 1 ){
-        res.jsonp({message:"Successfully edited one song.", result});
+      if(req.body.letra){
+        req.body.letraCruda = "";
+        req.body.letra.forEach(content => req.body.letraCruda +=" "+ content.words)
+      }  
+      let song = await database.songs.findOne(query);
+      if(song ){
+        if(req.kauth.grant.access_token.content.preferred_username === song.owner){
+          const result = await database.songs.updateOne(query,{"$set":req.body})
+          if(result.matchedCount === 1 ){
+            res.jsonp({message:"Successfully edited one song.", result});
+          }else{
+            res.status(404).jsonp({message:"No songs matched the query. Edited 0 songs.", result});
+          }       
+        }else{
+          res.status(403).jsonp({message: "Access Denied to the requested resources"});
+          return
+        }
       }else{
-        res.status(404).jsonp({message:"No songs matched the query. Edited 0 songs.", result});
+        res.status(404).jsonp({message:"No songs matched the query. Edited 0 songs."});
       }
     }catch(error){
       console.log(error)
@@ -347,11 +412,18 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
- router.post('/', cors(app.corsOptions), async function(req, res, next) {
+ router.post('/',  keycloak.protect('premium'), cors(app.corsOptions), async function(req, res, next) {
   try{
+    const query = {username: req.body.owner}
+    const user = await database.users.findOne(query);
     delete req.body._id
+    req.body.owner = req.kauth.grant.access_token.content.preferred_username
     req.body.filename = uuid.v1();
-    req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename
+    req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename+"?"+user.key
+    if(req.body.letra){
+      req.body.letraCruda = "";
+      req.body.letra.forEach(content => req.body.letraCruda +=" "+ content.words)
+    }
     let result = await database.songs.insertOne(req.body)
     if(result.insertedId){
       res.status(201).jsonp({message:"Successfully added one song.", _id: result.insertedId, filename: req.body.filename});
@@ -404,6 +476,17 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                  result:
  *                    type: object
  *                    description: Respuesta de la base de datos
+ *       403:
+ *         description: Credenciales no validos para las canciones solicitadas.
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: object
+ *                properties:
+ *                  message:
+ *                    type: object
+ *                    description: Error generado.
+ *                    example: Access Denied to the requested resources
  *       404:
  *         description: No se encontró la canción.
  *         content:
@@ -430,14 +513,20 @@ router.get('/', cors(app.corsOptions), async function(req, res, next) {
  *                    description: Error generado.
  * */
 
-router.delete('/:id', cors(app.corsOptions), async function(req, res, next) {
+router.delete('/:id',  keycloak.protect('premium'), cors(app.corsOptions), async function(req, res, next) {
   try{
     // Se busca la cancion en la base de datos
-    let data = await database.songs.find({_id: new ObjectId(req.params.id)})
-    let song
-    await data.forEach(file => {
-      song = file
-    });
+    let query = {_id: new ObjectId(req.params.id)}
+    let song = await database.songs.findOne(query);
+    if(song ){
+      if(req.kauth.grant.access_token.content.preferred_username !== song.owner){
+        res.status(403).jsonp({message: "Access Denied to the requested resources"});
+        return
+      }
+    }else{
+      res.status(404).jsonp({message:"No songs matched the query. Deleted 0 songs"});
+      return
+    }
     // Se elimina la cancion del almacenamiento de azure
     let storageDeleteError = false 
     try{

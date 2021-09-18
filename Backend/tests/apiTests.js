@@ -1,15 +1,45 @@
 const request = require('supertest');
-const app = require('../app'); 
+const app = require('../app');
+const requesthttp = require('../routes/users').request; 
 const expect = require("chai").expect;
 const server = require('../bin/www');
 var DataBaseInterface = require('../public/javascripts/DataBaseInterface');
+const qs = require('qs')
+
+var token = ""
 
 /**
  * Tiempo de espera para la conexion a la base de datos
  */
 before(
     function(done) {
-        setTimeout(done, 1900);
+        let data =  {
+            grant_type:"password",
+            client_id:"karaoke-client",
+            client_secret:"ba2939cf-e64c-4706-b578-349675e249b4",
+            username:"test",
+            password:"testpassword"
+          }
+
+        data=qs.stringify(data)
+          
+        const options = {
+            hostname: '168.62.39.210',
+            port: 8080,
+            path: '/auth/realms/Karaoke-Realm/protocol/openid-connect/token',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }
+        
+        requesthttp(data,options,function(d){
+            token = "bearer " + d.access_token
+            setTimeout(done, 1500);
+        })
+
+    },
+    function(done) {
     }
 );
 
@@ -24,6 +54,7 @@ describe('GET /songs', function () {
         request(app)
             .get('/songs')
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect('Content-Type', /json/)
             .expect(200)
             .then((res) => {
@@ -72,6 +103,7 @@ describe('GET /songs/:id', function () {
         request(app)
             .get('/songs/'+insertedId)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect('Content-Type', /json/)
             .expect(200)
             .then((res) => {
@@ -101,13 +133,34 @@ describe('GET /songs/:id', function () {
  * Tests de POST /songs
  */
 describe('POST /songs', function () {
+    before(async () => {
+        try {
+          await DataBaseInterface.users.insertOne({ username: "test", key: "test", test:"true"});
+        } catch (err) {
+          console.error(err);
+        }
+      });      
+
     /**
      * Se prueba la creacion de una cancion
      */
     it('Post a song', function (done) {
         let song = {
             "nombre": "nombre",
-            "letra": "letra",
+            "letra": [
+                {
+                  "second": 0,
+                  "words": "When I met you in the summer"
+                },
+                {
+                  "second": 3,
+                  "words": "To my heartbeat sound"
+                },
+                {
+                  "second": 7,
+                  "words": "We fell in love"
+                }
+              ],
             "tipo": "tipo",
             "artista": "artista",
             "album": "album",
@@ -118,6 +171,7 @@ describe('POST /songs', function () {
             .post('/songs')
             .send(song)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect(201, done);
     });
 
@@ -127,6 +181,7 @@ describe('POST /songs', function () {
     after(async () => {
         try {
           await DataBaseInterface.songs.deleteOne({ test: "true" });
+          await DataBaseInterface.users.deleteOne({ test: "true"});
         } catch (err) {
           console.error(err);
         }
@@ -147,7 +202,20 @@ describe('PUT /songs', function () {
         try {
             let song = {
                 "nombre": "nombre",
-                "letra": "letra",
+                "letra": [
+                    {
+                      "second": 0,
+                      "words": "When I met you in the summer"
+                    },
+                    {
+                      "second": 3,
+                      "words": "To my heartbeat sound"
+                    },
+                    {
+                      "second": 7,
+                      "words": "We fell in love"
+                    }
+                  ],
                 "tipo": "tipo",
                 "artista": "artista",
                 "album": "album",
@@ -168,33 +236,27 @@ describe('PUT /songs', function () {
     it('Update a song', function (done) {
         song = {
             "nombre": "nombre2",
-            "letra": "letra2",
+            "letra": [
+                {
+                  "second": 0,
+                  "words": "When I met you in the summer"
+                },
+                {
+                  "second": 3,
+                  "words": "To my heartbeat sound"
+                },
+                {
+                  "second": 7,
+                  "words": "We fell in love"
+                }
+              ],
         }    
         request(app)
             .put('/songs/'+insertedId)
             .send(song)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect(200, done);
-    });
-
-
-    /**
-     * Test para confirmar que no se puede editar una cancion que no existe
-     */
-    it('cannot edit a song that does not exist', function (done) {
-        let song = {
-            "nombre": "vncvn",
-            "letra": "cvnbc",
-            "tipo": "dsfgs",
-            "artista": "jhkjhgk",
-            "album": "",
-            "owner":"a"
-        }
-        request(app)
-            .put('/songs/61746a9e05dfeff4990dc6ad')
-            .send(song)
-            .set('Accept', 'application/json')
-            .expect(404, done);
     });
 
     /**
@@ -245,6 +307,8 @@ describe('DELETE /songs:id', function () {
         request(app)
             .delete('/songs/'+insertedId)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
+            .set('Authorization', token )
             .expect(200, done);
     });
 
@@ -256,6 +320,7 @@ describe('DELETE /songs:id', function () {
         request(app)
             .delete('/songs/dfgdfgdf')
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect(500, done);
     });
 });
