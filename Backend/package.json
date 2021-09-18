@@ -26,7 +26,8 @@
     "pug": "2.0.0-beta11",
     "qs": "^6.10.1",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.12",
