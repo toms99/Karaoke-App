@@ -27,6 +27,17 @@ export class LoginComponentComponent implements OnInit {
     this.router.navigate(['/Usuario']);
   }
 
+  public crearUsuario():void{
+    this.service.registraUsuario(this.UsuarioNuevo).subscribe(res => {
+      console.log(res);
+    },
+      error => {
+      console.log(error);
+      alert(error.error.message)
+      }
+    );
+  }
+
   public login(user: User): void{
     this.service.hacerLogin(user).subscribe(response =>{
       // @ts-ignore

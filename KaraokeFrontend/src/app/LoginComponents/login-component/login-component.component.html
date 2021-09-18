@@ -43,15 +43,15 @@
               <input type="password" name="password" class="kinput-primary" id="CrearCuentaPassword" placeholder="Contraseña"
                      aria-label="contraseña" required="" #passwordN="ngModel" [(ngModel)]="UsuarioNuevo.password">
             </div>
-            <select class="form-select" aria-label="Default select example" name="hourMode"  #hourMode="ngModel" [(ngModel)]="UsuarioNuevo.rol">
-              <option value="am">AM</option>
-              <option value="pm">PM</option>
+            <select class="form-select kselect"  aria-label="Default select example" name="hourMode"  #hourMode="ngModel" [(ngModel)]="UsuarioNuevo.rol">
+              <option class="kselect" value="premium">Premium</option>
+              <option class="kselect" value="user">Standard</option>
             </select>
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn kbtn-primary" type="submit">Aceptar</button>
+        <button class="btn kbtn-primary" type="submit" data-bs-dismiss="modal" (click)="crearUsuario()">Aceptar</button>
       </div>
     </div>
   </div>
