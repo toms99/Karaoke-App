@@ -1,15 +1,45 @@
 const request = require('supertest');
-const app = require('../app'); 
+const app = require('../app');
+const requesthttp = require('../routes/users').request; 
 const expect = require("chai").expect;
 const server = require('../bin/www');
 var DataBaseInterface = require('../public/javascripts/DataBaseInterface');
+const qs = require('qs')
+
+var token = ""
 
 /**
  * Tiempo de espera para la conexion a la base de datos
  */
 before(
     function(done) {
-        setTimeout(done, 1900);
+        let data =  {
+            grant_type:"password",
+            client_id:"karaoke-client",
+            client_secret:"ba2939cf-e64c-4706-b578-349675e249b4",
+            username:"test",
+            password:"testpassword"
+          }
+
+        data=qs.stringify(data)
+          
+        const options = {
+            hostname: '168.62.39.210',
+            port: 8080,
+            path: '/auth/realms/Karaoke-Realm/protocol/openid-connect/token',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        }
+        
+        requesthttp(data,options,function(d){
+            token = "bearer " + d.access_token
+            setTimeout(done, 1500);
+        })
+
+    },
+    function(done) {
     }
 );
 
@@ -24,6 +54,7 @@ describe('GET /songs', function () {
         request(app)
             .get('/songs')
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect('Content-Type', /json/)
             .expect(200)
             .then((res) => {
@@ -72,6 +103,7 @@ describe('GET /songs/:id', function () {
         request(app)
             .get('/songs/'+insertedId)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect('Content-Type', /json/)
             .expect(200)
             .then((res) => {
@@ -126,6 +158,7 @@ describe('POST /songs', function () {
             .post('/songs')
             .send(song)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect(201, done);
     });
 
@@ -183,6 +216,7 @@ describe('PUT /songs', function () {
             .put('/songs/'+insertedId)
             .send(song)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect(200, done);
     });
 
@@ -203,6 +237,7 @@ describe('PUT /songs', function () {
             .put('/songs/61746a9e05dfeff4990dc6ad')
             .send(song)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect(404, done);
     });
 
@@ -254,6 +289,8 @@ describe('DELETE /songs:id', function () {
         request(app)
             .delete('/songs/'+insertedId)
             .set('Accept', 'application/json')
+            .set('Authorization', token )
+            .set('Authorization', token )
             .expect(200, done);
     });
 
@@ -265,6 +302,7 @@ describe('DELETE /songs:id', function () {
         request(app)
             .delete('/songs/dfgdfgdf')
             .set('Accept', 'application/json')
+            .set('Authorization', token )
             .expect(500, done);
     });
 });
