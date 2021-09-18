@@ -1,6 +1,6 @@
 node {
     stage('Initialize') {
-            git branch: main, changelog: true, poll: true, url: 'https://github.com/toms99/Karaoke-App'
+            git branch: 'main', changelog: true, poll: true, url: 'https://github.com/toms99/Karaoke-App'
     }
     stage ('Prepare') {
 
