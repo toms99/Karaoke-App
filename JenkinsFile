@@ -3,11 +3,6 @@ node {
             git branch: 'main', changelog: true, poll: true, url: 'https://github.com/toms99/Karaoke-App'
     }
     stage ('Prepare') {
-
-        catchError {
-            sshagent(credentials : ['teamsoakey']){
-            sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 delete 1"}
-        }
         catchError {
             sshagent(credentials : ['teamsoakey']){
             sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 delete 0"}
