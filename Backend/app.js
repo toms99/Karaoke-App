@@ -6,7 +6,7 @@ var logger = require('morgan');
 var swaggerJsdoc = require("swagger-jsdoc")
 var swaggerUi = require("swagger-ui-express");
 const keycloak = require('./config/keycloak.js').initKeycloak();
-
+var session = require('express-session');
 
 var songsRouter = require('./routes/songs');
 var usersRouter = require('./routes/users');
@@ -19,6 +19,14 @@ var corsOptions = {
 
 var app = express();
 
+var memoryStore = new session.MemoryStore();
+
+app.use(session({
+  secret: 'some secret',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore
+}));
 
 app.use(keycloak.middleware());
 
