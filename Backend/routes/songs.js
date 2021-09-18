@@ -127,8 +127,8 @@ router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(
     if (req.query.album){
       query.album=new RegExp(req.query.album,"i")
     }
-    if (req.query.letra){
-      query["letra.words"]=new RegExp(req.query.letra,"i")
+    if (req.query.letraCruda){
+      query.letraCruda=new RegExp(req.query.letraCruda,"i")
     }
 
 
