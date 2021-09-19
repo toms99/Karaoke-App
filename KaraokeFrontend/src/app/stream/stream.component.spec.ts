@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { StreamComponent } from './stream.component';
 
@@ -8,7 +9,9 @@ describe('StreamComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StreamComponent ]
+      declarations: [StreamComponent],
+      imports: [ RouterTestingModule ]
+
     })
     .compileComponents();
   });
@@ -19,7 +22,23 @@ describe('StreamComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should start playing', () => {
+    component.stopAudio();
+    component.playAudio()
+    expect(component.isPlaying).toBeTruthy();
+    component.stopAudio();
+  });
+
+  it('should stop playing', () => {
+    component.stopAudio();
+    expect(component.isPlaying).toBeFalsy();
+  });
+
+
+
+
 });
