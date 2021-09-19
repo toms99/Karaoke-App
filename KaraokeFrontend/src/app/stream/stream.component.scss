@@ -1,27 +1,72 @@
-p {
-    font-family: Lato;
-  }
-  
-  .container {
-    background-color: lightgoldenrodyellow;
-    width: 80vw;
-    height: 30vh;
-    margin-left: auto;
-    margin-right: auto;
-    display: grid;
-    align-content: center;
+@import url("../../styles.css");
+
+
+h2 {
+    margin-top: 15%;
+    font-size: 70px;
     text-align: center;
-    color: blueviolet
-  
-  }
-  
-  .an-1 {
-    font-weight: 900;
-    font-size: 7vw;
-    
-  }
-  
-  .an-1 .letter {
-    display: inline-block;
-    line-height: 1em;
-  }
+    width: 75%;
+    margin-left: 12.5%;
+    vertical-align:middle;
+    color: var(--k-primary);
+}
+
+p {
+    margin-top: 5%;
+    font-size: 35px;
+    text-align: center;
+    width: 75%;
+    margin-left: 12.5%;
+    vertical-align:middle;
+    color: var(--k-primary-complementary);
+}
+
+.play-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin-left: 47%;
+}
+
+.play-button:hover {
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin-left: 47%;
+}
+
+.close-button{
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    margin: 0px;
+    margin-top: 7%;
+    margin-left: 2%;
+}
+
+.close-button:hover{
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+  margin: 0px;
+  margin-top: 7%;
+  margin-left: 2%;
+}
+
+.stop-button{
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+  margin: 0px;
+  margin-top: 7%;
+  margin-left: -14%;
+}
+
+.stop-button:hover{
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+  margin: 0px;
+  margin-top: 7%;
+  margin-left: -14%;
+}

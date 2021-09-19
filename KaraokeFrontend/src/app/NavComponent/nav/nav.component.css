@@ -24,9 +24,22 @@ input{
   margin: 0%;
 }
 
+select{
+  margin-right: 5px;
+  background: #FFBE0B;
+  width: 40%;
+}
 
 
 
 .dropdown-toggle{
   margin-right: 100px;
+}
+
+.ksearch-bar{
+  border-radius: 25px;
+  border-color: transparent;
+  box-shadow: 0px 0px 10px var(--k-light);
+  font-size: small;
+  color: var(--k-dark);
 }

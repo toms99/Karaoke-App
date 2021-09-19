@@ -6,15 +6,15 @@
     <div class="row">
       <form>
         <div class="row">
-          <input type="email" name="email" class="kinput-main" id="InputEmail1" placeholder="Correo Electronico"
-                 aria-label="CorreoElectronico" required="">
+          <input type="email" name="email" class="kinput-main" id="InputEmail1" placeholder="Usuario"
+                 aria-label="CorreoElectronico" required="" #usario="ngModel" [(ngModel)]="usuario.username">
         </div>
         <div class="row ">
           <input type="password" name="password" class="kinput-main" id="InputPassword" placeholder="Contraseña"
-                 aria-label="contraseña" required="">
+                 aria-label="contraseña" required="" #password="ngModel" [(ngModel)]="usuario.password">
         </div>
         <div class="row">
-          <button class="btn kbtn-primary" type="submit"  (click)="navegation()">Aceptar</button>
+          <button class="btn kbtn-primary" type="submit" (click)="login(usuario)">Aceptar</button>
         </div>
       </form>
     </div>
@@ -36,20 +36,22 @@
           <p>Ingresa tus datos para que puedas ser registrado.</p>
           <form>
             <div class="row">
-              <input type="email" name="email" class="kinput-primary" id="CrearCuentaEmail" placeholder="Correo Electronico"
-                     aria-label="CorreoElectronico" required="">
+              <input type="email" name="email" class="kinput-primary" id="CrearCuentaEmail" placeholder="Usuario"
+                     aria-label="CorreoElectronico" required="" #usuarioN="ngModel" [(ngModel)]="UsuarioNuevo.username">
             </div>
             <div class="row ">
               <input type="password" name="password" class="kinput-primary" id="CrearCuentaPassword" placeholder="Contraseña"
-                     aria-label="contraseña" required="">
+                     aria-label="contraseña" required="" #passwordN="ngModel" [(ngModel)]="UsuarioNuevo.password">
             </div>
-              <input type="checkbox" id="Premium" name="PremiumA" value="PremiumAux" class="kcheckBox">
-              <label class="Aux" for="Premium">  Deseo una cuenta premium.  </label><br>
+            <select class="form-select kselect"  aria-label="Default select example" name="hourMode"  #hourMode="ngModel" [(ngModel)]="UsuarioNuevo.rol">
+              <option class="kselect" value="premium">Premium</option>
+              <option class="kselect" value="user">Standard</option>
+            </select>
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn kbtn-primary" type="submit">Aceptar</button>
+        <button class="btn kbtn-primary" type="submit" data-bs-dismiss="modal" (click)="crearUsuario()">Aceptar</button>
       </div>
     </div>
   </div>
