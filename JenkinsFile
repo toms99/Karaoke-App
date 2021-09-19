@@ -17,7 +17,9 @@ node {
         }
     }
     stage ('Unit_test') {
+        sshagent(credentials : ['teamsoakey']){
         sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && npm test"'
+        }
     }
 
      stage('SonarCloud and deploy') {
