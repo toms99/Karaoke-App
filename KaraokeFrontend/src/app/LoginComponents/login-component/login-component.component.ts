@@ -9,8 +9,8 @@ import { LyricsParserService } from 'src/app/services/lyrics-parser.service';
 })
 export class LoginComponentComponent implements OnInit {
 
+  
   constructor(private router: Router, private parser: LyricsParserService) { }
-
   ngOnInit(): void {
     this.parser.tomsify();
   }
