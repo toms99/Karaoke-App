@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "rxjs": "^7.3.0",
     "source-map": "^0.7.3"
   }
 }

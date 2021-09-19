@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
 import {Cancion} from "../Clases/Cancion";
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ListaCancionesAuxService {
-  seBuscoAlgo = false
-  listaDeCacniones: Cancion[] = [];
-  tipoVistaP = false
-  constructor() {
+  private listaCanciones = new BehaviorSubject([new Cancion()]);
+  sharedListaCanciones = this.listaCanciones.asObservable();
 
+  constructor() { }
+
+  nextListaDeCanciones(listaCanciones: Cancion[]) {
+    this.listaCanciones.next(listaCanciones)
   }
-  public guardarDatos(lista: Cancion[]): void{
-    this.listaDeCacniones = lista;
-    this.seBuscoAlgo = true;
-  }
-
-
 }

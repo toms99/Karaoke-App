@@ -15,7 +15,7 @@ export class BusquedaService {
 
   URL = 'http://localhost:3000/songs'
 
-  public busqueda(busqueda: Busqueda): Observable<ArrayBuffer> {
+  public busqueda(busqueda: Busqueda): Observable<Cancion[]> {
     // @ts-ignore
     return this.http.get<Cancion[]>(this.URL, {params: busqueda,
       headers: new HttpHeaders().set('Authorization', 'bearer ' + this.cookieService.get("token"))});
