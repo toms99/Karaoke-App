@@ -17,7 +17,7 @@ node {
         }
     }
     stage ('Unit_test') {
-        sh "echo “Tests will back”"
+        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend &&  npm test"'
     }
 
      stage('SonarCloud and deploy') {
