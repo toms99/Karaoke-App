@@ -7,6 +7,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import * as fs from 'fs';
 import {PlayerService} from "../../services/player.service";
 import {CookieService} from "ngx-cookie-service";
+import { ListaCancionesAuxService } from 'src/app/services/lista-canciones-aux.service';
 
 @Component({
   selector: 'app-vista-premium',
@@ -19,9 +20,10 @@ export class VistaPremiumComponent implements OnInit {
   cancionActual: Cancion = new Cancion();
   cancionSubir: Cancion = new  Cancion();
   constructor(private router: Router,  private service: CancionesService, private playerAux: PlayerService,
-  private cookieService: CookieService) { }
+  private cookieService: CookieService, private listaCancionesService: ListaCancionesAuxService) { }
 
   ngOnInit(): void {
+    this.listaCancionesService.sharedListaCanciones.subscribe(listaCanciones => this.listaDeCacniones = listaCanciones)
     this.service.obtenerListaCancionesPrivadas().subscribe(lista =>
     {this.listaDeCacniones = lista;
       console.log(lista)

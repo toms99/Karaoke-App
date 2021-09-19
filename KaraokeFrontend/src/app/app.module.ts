@@ -11,6 +11,7 @@ import { VistaPremiumComponent } from './PremiumComponent/vista-premium/vista-pr
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {CookieService} from "ngx-cookie-service";
+import { BehaviorSubject } from 'rxjs';
 
 
 @NgModule({
@@ -21,16 +22,14 @@ import {CookieService} from "ngx-cookie-service";
     ReproductionFileComponent,
     ScrollAnimationDirective,
     StreamComponent,
-    VistaPremiumComponent,
+    VistaPremiumComponent
 
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        FormsModule,
-
-
+        FormsModule
     ],
   providers: [CookieService],
   bootstrap: [AppComponent]

@@ -115,7 +115,7 @@ router.post('/login',  cors(app.corsOptions), async function(req, res){
             }
 
             request(data,options,function(d){
-                res.status(200).jsonp({token:d.access_token, username: user.username, key: user.key})
+                res.status(200).jsonp({token:d.access_token, username: user.username, key: user.key, rol: user.rol})
             })
         }else{
             res.status(404).jsonp({message:"No user found"});
