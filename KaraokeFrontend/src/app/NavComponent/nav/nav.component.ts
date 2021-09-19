@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
 import {Busqueda} from "../../Clases/busqueda";
 import {templateJitUrl} from "@angular/compiler";
+import {BusquedaService} from "../../services/busqueda.service";
 
 @Component({
   selector: 'app-nav',
@@ -11,7 +12,7 @@ import {templateJitUrl} from "@angular/compiler";
 })
 export class NavComponent implements OnInit {
 
-  constructor(private router: Router, private cookieService: CookieService) { }
+  constructor(private router: Router, private cookieService: CookieService, private busquedaService: BusquedaService) { }
   vistaPremium = false
   premium = true
 
@@ -25,38 +26,37 @@ export class NavComponent implements OnInit {
   }
 
   public tipoUsuario(): void{
-    this.premium = JSON.parse(this.cookieService.get('user')).rol === 'premium';
+    this.premium = (this.cookieService.get('rol') === 'premium')
 
   }
 
   public buscarCancionN():void{
     if(this.tipoBusqueda === "Artista"){
-      if(this.vistaPremium){
-
-      }
       this.busqueda.artista = this.informacionBusqueda
     }
-    if(this.tipoBusqueda === "Nombre"){
-      if(this.vistaPremium){
-
-      }
+    else if(this.tipoBusqueda === "Nombre"){
       this.busqueda.nombre = this.informacionBusqueda
     }
-    if(this.tipoBusqueda === "Album"){
-      if(this.vistaPremium){
-
-      }
+    else if(this.tipoBusqueda === "Album"){
       this.busqueda.album = this.informacionBusqueda
     }
-    if(this.tipoBusqueda === "Letra"){
-      if(this.vistaPremium){
-
-      }
+    else if(this.tipoBusqueda === "Letra"){
       this.busqueda.letraCruda = this.informacionBusqueda
-    }else{
-      alert('Debe selecionar un tipo de busqueda')
     }
+    else{
+      alert('Debe selecionar un tipo de busqueda')
+      return
+    }
+    if(this.vistaPremium){
+      this.busqueda.user = JSON.parse(this.cookieService.get('user')).username
+    }
+    this.busquedaService.busqueda(this.busqueda).subscribe(resp =>{
+      this.busqueda = new Busqueda()
+      console.log(resp)
+    });
   }
+
+
   public navigate(comprobacion: string): void {
     if(comprobacion === 'UsuarioPremium'){
       this.vistaPremium = true;

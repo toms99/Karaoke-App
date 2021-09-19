@@ -3,4 +3,5 @@ export class Busqueda {
   album: string = ''
   nombre: string = ''
   letraCruda: string = ''
+  user: string = ''
 }

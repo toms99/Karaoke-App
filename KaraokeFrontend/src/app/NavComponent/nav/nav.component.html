@@ -15,7 +15,7 @@
         </select>
         <input class="form-control me-2 ksearch-bar" type="search" placeholder="Search" aria-label="Search"
                #hourMode="ngModel" name="info" [(ngModel)]="this.informacionBusqueda">
-        <button class="btn btnsearch kbtn-secondary" type="submit">Buscar</button>
+        <button class="btn btnsearch kbtn-secondary" type="submit" (click)="buscarCancionN()">Buscar</button>
       </form>
 
       <button class="nav-item dropdown btn">

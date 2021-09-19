@@ -44,16 +44,12 @@ export class LoginComponentComponent implements OnInit {
       if(response.token){
         // @ts-ignore
         this.cookieService.set("token", response.token);
-        console.log(this.cookieService.get("token"));
-
         // @ts-ignore
         this.cookieService.set("key", response.key);
-        console.log(this.cookieService.get("key"));
-
+        // @ts-ignore
+        this.cookieService.set("rol", response.rol);
         // @ts-ignore
         this.cookieService.set("user", JSON.stringify(this.usuario));
-        console.log(this.cookieService.get("user"));
-
         this.router.navigate(['/Usuario'])
       }
       else{
