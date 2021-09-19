@@ -1,59 +1,60 @@
 node {
     stage('Initialize') {
-            git branch: 'main', changelog: true, poll: true, url: 'https://github.com/toms99/Karaoke-App'
+        git branch: 'main', changelog: true, poll: true, url: 'https://github.com/toms99/Karaoke-App'
     }
     stage ('Prepare') {
         catchError {
             sshagent(credentials : ['teamsoakey']){
-            sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 delete 0"}
+                sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 delete 0"
+            }
         }
     }
-        stage ('Build') {
+    stage ('Build') {
         sshagent(credentials : ['teamsoakey']){
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App && git pull"'
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend &&  npm ci"'
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm ci"'
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm run build"'
+            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App && git pull"'
+            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend &&  npm ci"'
+            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm ci"'
+            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm run build"'
         }
     }
     stage ('Unit_test') {
-        sshagent(credentials : ['teamsoakey']){
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && npm test"'
+        catchError {
+            sshagent(credentials : ['teamsoakey']){
+            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && npm test"'
+            }
         }
     }
 
-     stage('SonarCloud and deploy') {
+    stage('SonarCloud and deploy') {
          
-                 parallel(
+        parallel(
             "sonarcloud": {
                 stage("sonarcloud") {
-                            catchError {
-        def SCANNER_HOME = tool 'sonar'
-        def ORGANIZATION = "team-soa"
-        def PROJECT_NAME = "toms99_Karaoke-App"
+                    catchError {
+                        def SCANNER_HOME = tool 'sonar'
+                        def ORGANIZATION = "team-soa"
+                        def PROJECT_NAME = "toms99_Karaoke-App"
 
-            withSonarQubeEnv('SonarQube') {
-                sh """
-                    ${SCANNER_HOME}/bin/sonar-scanner \
-                    -Dsonar.organization=${ORGANIZATION} \
-                    -Dsonar.projectKey=${PROJECT_NAME} \
-                    -Dsonar.sources=. \
-                    -Dsonar.host.url=https://sonarcloud.io/
-                """
-            }
-                }
+                        withSonarQubeEnv('SonarQube') {
+                            sh """
+                                ${SCANNER_HOME}/bin/sonar-scanner \
+                                -Dsonar.organization=${ORGANIZATION} \
+                                -Dsonar.projectKey=${PROJECT_NAME} \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=https://sonarcloud.io/
+                            """
+                        }
+                    }
                 }
             },
             "deploy": {
                 stage("deploy") {
-        sshagent(credentials : ['teamsoakey']){
-        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && export PORT=5000 && pm2 --name api start npm -- start"'
-        }
-            }
+                    sshagent(credentials : ['teamsoakey']){
+                        sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && export PORT=5000 && pm2 --name api start npm -- start"'
+                    }
+                }
             }
         )
-    
-
     }
    currentBuild.result = 'SUCCESS'
    return
