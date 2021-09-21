@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PlayerService {
-  public fileContent = "";
-
-
+  public letra: string = ''
+  public fileName: string = ''
 }

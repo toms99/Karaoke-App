@@ -1,22 +1,14 @@
 <div class="container">
   <button class="btn btnAux" data-bs-toggle="modal" data-bs-target="#SubirCancion">Subir cancion </button>
   <div class="row">
-    <div class="col">
+    <div class="col" *ngFor="let item of listaDeCacniones">
       <div class="card" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">Nombre de la cancion</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Artista</h6>
-          <h6 class="card-subtitle mb-2 text-muted">Album</h6>
-          <p class="card-text">Pedacito de la cancion</p>
-
-          <div>
-            Select a text file: 
-            <input type="file" (change)="onChange($event)">
-          </div>
-
-
+          <h5 class="card-title">{{item.nombre}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{item.artista}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{item.album}}</h6>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btnplay" data-bs-toggle="modal" data-bs-target="#EditarLetra">
+            <button type="button" class="btn btnplay" data-bs-toggle="modal" data-bs-target="#EditarLetra" (click)="itemActual(item)">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -28,11 +20,17 @@
                 <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
               </svg>
             </button>
-            <button type="button" class="btn btnplay" data-bs-toggle="modal" data-bs-target="#EditarMusica">
+            <button type="button" class="btn btnplay" data-bs-toggle="modal" data-bs-target="#EditarMusica" (click)="itemActual(item)">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-music" viewBox="0 0 16 16">
               <path d="M10.304 3.13a1 1 0 0 1 1.196.98v1.8l-2.5.5v5.09c0 .495-.301.883-.662 1.123C7.974 12.866 7.499 13 7 13c-.5 0-.974-.134-1.338-.377-.36-.24-.662-.628-.662-1.123s.301-.883.662-1.123C6.026 10.134 6.501 10 7 10c.356 0 .7.068 1 .196V4.41a1 1 0 0 1 .804-.98l1.5-.3z"/>
               <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
             </svg>
+            </button>
+            <button type="button" class="btn btnplay" data-bs-toggle="modal" data-bs-target="#eliminarCancion" (click)="itemActual(item)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+              </svg>
             </button>
           </div>
         </div>
@@ -49,28 +47,26 @@
         <h5 class="modal-title" id="SubirCancionLabel">Nueva cancion</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" placeholder="Artista">
-        <label for="floatingInput">Artista</label>
-      </div>
-      <div class="form-floating">
-        <input type="text" class="form-control" id="floatingPassword" placeholder="Album">
-        <label for="floatingPassword">Album</label>
-      </div>
-
+      <input type="text" class="form-control colorA" id="Nombre" placeholder="Nombre de la cancion"
+             #Nombre="ngModel" [(ngModel)]="cancionSubir.nombre">
+        <input type="text" class="form-control colorA" id="floatingInput" placeholder="Artista"
+               #Artista="ngModel" [(ngModel)]="cancionSubir.artista">
+        <input type="text" class="form-control colorA" id="floatingPassword" placeholder="Album"
+               #Album="ngModel" [(ngModel)]="cancionSubir.album">
       <div class="modal-body kmodal-body">
         <div class="mb-3">
           <label for="formFile" class="form-label">Selecionar archivo con la letra</label>
-          <input class="form-control" type="file" id="formFile">
+          <input class="form-control" type="file" id="formFile" (change)="onChange($event)">
         </div>
         <div class="mb-3">
           <label for="formFile" class="form-label">Selecionar archivo con la musica</label>
-          <input class="form-control" type="file" id="formFile2">
+          <input class="form-control" type="file" id="formFile2" (change)="actualizarFile($event)"
+                 #nombreArchivo="ngModel" [(ngModel)]="cancionSubir.filename">
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn kbtn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn kbtn-primary">Aceptar</button>
+        <button type="button" class="btn kbtn-primary"  data-bs-dismiss="modal" (click)=crearCancion()>Aceptar</button>
       </div>
     </div>
   </div>
@@ -81,19 +77,42 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content kmodal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="EditarLetraLabel">Remplazar la letra de la canción</h5>
+        <h5 class="modal-title" id="EditarLetraLabel">Remplazar la letra de la canción {{cancionActual.nombre}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body kmodal-body">
         <div class="mb-3">
           <label for="formFile" class="form-label">Selecionar archivo con la letra</label>
-          <input class="form-control" type="file" id="formFileEdit">
+          <input class="form-control" type="file" id="formFileEdit"  (change)="onChange($event)">
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn kbtn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn kbtn-primary">Aceptar</button>
+        <button type="button" class="btn kbtn-primary" data-bs-dismiss="modal" (click)="ediarCancionLetra()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade kmodal" id="EditarMusica" tabindex="-1" aria-labelledby="EditarMusicaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content kmodal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="EditarMusicaLabel">Remplazar la letra de la musica de la cancion {{cancionActual.nombre}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body kmodal-body">
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Selecionar Archivo con la musica</label>
+          <input class="form-control" type="file" id="formmusiscEdit" (change)="actualizarFile($event)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn kbtn-secondary width=50%" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn kbtn-primary"  data-bs-dismiss="modal" (click)="editarCancionMusica()">Aceptar</button>
       </div>
     </div>
   </div>
@@ -101,23 +120,17 @@
 
 
 <!-- Modal -->
-<div class="modal fade kmodal" id="EditarMusica" tabindex="-1" aria-labelledby="EditarMusicaLabel" aria-hidden="true">
+<div class="modal fade kmodal" id="eliminarCancion" tabindex="-1" aria-labelledby="eliminarCancionLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content kmodal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="EditarMusicaLabel">Remplazar la letra de la musica</h5>
+        <h5 class="modal-title" id="eliminarCancionLabel">Eliminar Cancion {{cancionActual.nombre}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <div class="modal-body kmodal-body">
-        <div class="mb-3">
-          <label for="formFile" class="form-label">Selecionar Archivo con la musica</label>
-          <input class="form-control" type="file" id="formmusiscEdit">
-        </div>
-      </div>
+      <h3>Esta seguro que desea eliminar esta cacion</h3>
       <div class="modal-footer">
         <button type="button" class="btn kbtn-secondary width=50%" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn kbtn-primary">Aceptar</button>
+        <button type="button" class="btn kbtn-primary" data-bs-dismiss="modal" (click)="eliminarCancion()">Aceptar</button>
       </div>
     </div>
   </div>

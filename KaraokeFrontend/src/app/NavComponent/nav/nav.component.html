@@ -5,14 +5,17 @@
 
       <form class="d-flex">
 
-        <select class="form-select kselect" aria-label="Default select example">
-          <option class="kselect-option" selected>Tipo de busqueda</option>
+        <select class="form-select kselect" aria-label="Default select example" name="sele" #hourMode="ngModel"
+                [(ngModel)]="this.tipoBusqueda">
+          <option class="kselect-option" selected >Tipo de busqueda</option>
+          <option class="kselect-option" value="Nombre">Nombre</option>
           <option class="kselect-option" value="Artista">Artista</option>
           <option class="kselect-option" value="Album">Album</option>
           <option class="kselect-option" value="Letra">Letra</option>
         </select>
-        <input class="form-control me-2 ksearch-bar" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btnsearch kbtn-secondary" type="submit">Buscar</button>
+        <input class="form-control me-2 ksearch-bar" type="search" placeholder="Search" aria-label="Search"
+               #hourMode="ngModel" name="info" [(ngModel)]="this.informacionBusqueda">
+        <button class="btn btnsearch kbtn-secondary" type="submit" (click)="buscarCancionN()">Buscar</button>
       </form>
 
       <button class="nav-item dropdown btn">
@@ -22,7 +25,6 @@
           </svg>
         </a>
         <ul class="dropdown-menu " aria-labelledby="navbarDropdown1">
-          <li *ngIf="!premium"><a class="dropdown-item btn">Subir a cuenta premium</a></li>
           <li><a class="dropdown-item btn" (click)="navigate('Inicio')">Inicio</a></li>
           <li *ngIf="premium"><a class="dropdown-item btn" (click)="navigate('UsuarioPremium')">Lista de reproduccion</a></li>
           <li><a class="dropdown-item btn" (click)="navigate('CerrarSesion')">Cerrar sesión</a></li>
