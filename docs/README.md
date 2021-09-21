@@ -51,10 +51,39 @@ Then follow instructions in the original GitHub repo linked below. The `README.m
 </div>
 
 
-## Preview
+## Tecnología de Bases de Datos: MongoDB
 
-_TODO: Complete with your content - such as a screenshot of your app or command-line usage. You can also rename Preview to Sample._
+Se optó por utilizar una base de datos no relacional usando el motor de base de datos MongoDB.
+Esta decisión se toma debido a las siguientes razones:
 
+- Los datos a almacenar son sencillos y se pueden agrupar en tan solo dos collecciones: Canciones y Usuarios. Además, la relación entre estas dos colecciones es simple. Por lo cual es innecesario optar por un modelo relacional.
+- MongoDB es un motor de bases de datos ampliamente conocido y utilizado, lo que genera confianza en su calidad y conveniencia. 
+- Es muy sencillo inicializar una base de datos MongoDB y conectarse a ella desde Node.js.
+- A pesar de su sencillez, es posible realizar queries en MongoDB, lo que es beneficioso para el realizar el filtrado de canciones por sus características (Artista, Nombre, Letra, ...)
+
+## Diseño de la base de datos
+
+El diseño de la base de datos sigue el formato presentado en el siguiente diagrama relacional:
+
+<div align="center">
+    <a href="https://ibb.co/R9Y9rfP">
+        <img src="https://i.ibb.co/f2q26ft/Diagramas.png" alt="Diagramas" border="0">
+    </a>
+</div>
+
+
+## Organización del Proyecto de Código
+
+Se decidió mantener el código del API y el proyecto del FrontEnd en un mismo repositorio. Esto se decidió debido a:
+
+- Mantener todo el proyecto en un mismo repositorio simplifica el flujo de integracion continua.
+- Mantener todo el proyecto en un mismo repositorio simplifica el control de versiones.
+
+La organización en el repositorio se da por carpetas de la siguiente manera: 
+
+- Backend: Carpeta en la cual se encuentra el API desarrollado en Node.js mediante Express.
+- KaraokeFrontend: En esta carpeta se encuentra el Frontend del projecto desarrollado con el framework Angular.
+- docs: En esta carpeta se encuentra la documentación del proyecto a mostrar en la página del proyecto.
 
 ## Installation
 
