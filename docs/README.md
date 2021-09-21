@@ -1,10 +1,8 @@
 <!-- TODO: Update with your values. -->
-# DocsifyJS Template
-> Starter template for a Markdown-based docs site
+# Karaoke Docs
+> Descripción de las decisiones sobre la arquitectura de la aplicación Karaoke.
 
  <!-- TODO: Update repo links and change license type if needed. -->
-[![GitHub tag](https://img.shields.io/github/tag/MichaelCurrin/docsify-js-template.svg)](https://GitHub.com/MichaelCurrin/docsify-js-template/tags/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/MichaelCurrin/docsify-js-template/blob/master/README#license)
 
 [![Made with latest Docsify](https://img.shields.io/npm/v/docsify/latest?label=docsify)](https://docsify.js.org/)
 
@@ -12,6 +10,9 @@
 <!-- TODO: You can delete the About and Create a Docsify site sections if you create a new project from this template -->
 
 ## About
+
+Karaoke consiste en una aplicación web que permite a los usuarios reproducir canciones sincronizadas con la letra. Ofrece un diseño 
+atractivo y hace uso de tecnologías como _Jenkins_, _Angular_, _Keycloack_, entre otras. 
 
 This is a template for a simple but elegant docs site built on _Docsify_ which magically turns your markdown in your `docs` directory into a docs site. 
 
