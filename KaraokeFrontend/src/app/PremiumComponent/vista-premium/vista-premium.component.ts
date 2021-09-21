@@ -75,8 +75,10 @@ export class VistaPremiumComponent implements OnInit {
   }
 
 
-  public IrAStrem(): void {
+  public IrAStrem(item: Cancion): void {
+    this.playerAux.cancion = item;
     this.router.navigateByUrl('/stream');
+
   }
 
   fileSelected: any;
