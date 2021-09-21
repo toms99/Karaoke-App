@@ -50,6 +50,13 @@ Then follow instructions in the original GitHub repo linked below. The `README.m
     </a>
 </div>
 
+## Cloud Provider: Azure
+
+Se seleccionó Azure como proveedor de servicios en la nube para las máquinas virtuales y para el almacenamiento de las canciones. Esta elección se dió dado que:
+
+- Azure es un proveedor de servicios en la nube ampliamente conocido y con una gran relevancia en la actualidad.
+- Azure provee un crédito de 100 dolares a estudiantes universitarios
+
 
 ## Tecnología de Bases de Datos: MongoDB
 
