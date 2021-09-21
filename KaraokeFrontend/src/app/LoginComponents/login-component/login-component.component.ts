@@ -4,6 +4,7 @@ import {LoginService} from "../../services/login.service";
 import {User} from "../../Clases/user";
 import {CancionesService} from "../../services/canciones.service";
 import { CookieService } from 'ngx-cookie-service';
+import { LyricsParserService } from 'src/app/services/lyrics-parser.service';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class LoginComponentComponent implements OnInit {
 
   constructor(private router: Router , private service: LoginService, private cancionesService: CancionesService,
-  private cookieService: CookieService) {
+  private cookieService: CookieService, private parser: LyricsParserService) {
 
 
 }

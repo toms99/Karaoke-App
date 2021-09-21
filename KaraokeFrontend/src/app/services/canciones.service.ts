@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Cancion} from "../Clases/Cancion";
-import {Observable} from "rxjs";
 import {User} from "../Clases/user";
 import {CookieService} from "ngx-cookie-service";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,8 @@ export class CancionesService {
     return this.http.get<Cancion[]>(this.URL, {params: {user: JSON.parse(this.cookieService.get("user")).username} , headers:new HttpHeaders().set('Authorization', 'bearer '
         + this.cookieService.get("token"))});
   }
-  public subirUnaCancion(cancion: Cancion):Observable<Object>{
+  public subirUnaCancion(cancion: Cancion): Observable<Object>{
+    console.log(cancion);
     let options = {
       headers: new HttpHeaders().set('Authorization', 'bearer ' + this.cookieService.get("token"))
     };

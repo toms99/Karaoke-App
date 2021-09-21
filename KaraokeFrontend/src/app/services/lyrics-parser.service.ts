@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { resourceLimits } from 'worker_threads';
+import { Cancion } from '../Clases/Cancion';
 import { Lyric } from './Lyric';
 
 @Injectable({
@@ -68,7 +69,7 @@ export class LyricsParserService {
   constructor() { }
 
   tomsify() {
-    let result = new Lyric();
+    let result = new Cancion();
     let lines = this.lyrics.split("\n");
 
     lines.forEach(line => {
@@ -81,42 +82,38 @@ export class LyricsParserService {
     return result;
   }
 
-  selectMainData(line: string, result: Lyric) {
+  selectMainData(line: string, result: Cancion) {
     let originalLine = line;
     line = line.replace('[', '');
     line = line.replace(']', '');
     let tmp = line.split(':');
     if (tmp[0] == "ar") {
-      result.artist = tmp[1];
+      result.artista = tmp[1];
     } else if (tmp[0] == "al") {
       result.album = tmp[1]
     } else if (tmp[0] == "ti") {
-      result.song = tmp[1]
-    } else if (tmp[0] == "length") {
-      result.length.mins = parseInt(tmp[1]);
-      result.length.secs = parseFloat(tmp[2]);
+      result.nombre = tmp[1]
     } else { result = this.splitLyrics(originalLine, result) }
     return result;
   }
 
 
-  splitLyrics(line: string, result: Lyric) {
+  splitLyrics(line: string, result: Cancion) {
     line = line.replace('[', "");
     let tmp = line.split("]");
     let regexpNumber = new RegExp('^[+0-9]{2}:[+0-9]{2}[.][+0-9]{2}$');
     if (regexpNumber.test(tmp[0])) {
       let tmpTime = tmp[0].split(':');
       let secsPos: number = parseFloat((parseInt(tmpTime[0]) * 60 + parseFloat(tmpTime[1])).toFixed(2));
-      result.timedLyrics.push({ "second": secsPos, "words": tmp[1] });
-      result.completeLyrics += tmp[1] +"  "
+      result.letra.push({ "second": secsPos, "words": tmp[1] });
     };
     
     return result;
   }
 
-  finalTouches(result: Lyric) {
-    let tmpCont = result.timedLyrics.length;
-    result.timedLyrics.push({ "second": result.timedLyrics[tmpCont-1].second + 1, "words": "" })
+  finalTouches(result: Cancion) {
+    let tmpCont = result.letra.length;
+    result.letra.push({ "second": result.letra[tmpCont-1].second + 1, "words": "" })
     return result;
   }
 }
