@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Cancion } from '../Clases/Cancion';
 
 
 
@@ -6,6 +7,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PlayerService {
-  public letra: string = ''
+  public letra: {words:string, second:number}[] = []
   public fileName: string = ''
+
+  public cancion: Cancion= new Cancion();
+
 }

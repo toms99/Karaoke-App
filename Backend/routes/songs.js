@@ -327,7 +327,6 @@ router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(
       delete req.body.url
       delete req.body.owner
       delete req.body.filename
-      req.body.letra = JSON.parse(req.body.letra)
       if(req.body.letra){
         req.body.letraCruda = "";
         req.body.letra.forEach(content => req.body.letraCruda +=" "+ content.words)
@@ -419,7 +418,6 @@ router.get('/', keycloak.protect('user'), cors(app.corsOptions), async function(
     req.body.owner = req.kauth.grant.access_token.content.preferred_username
     req.body.filename = uuid.v1();
     req.body.url = 'https://soakaraokestorage.blob.core.windows.net/'+req.body.owner+'/'+req.body.filename+"?"+user.key
-    req.body.letra = JSON.parse(req.body.letra)
     if(req.body.letra){
       req.body.letraCruda = "";
       req.body.letra.forEach(content => req.body.letraCruda +=" "+ content.words)
