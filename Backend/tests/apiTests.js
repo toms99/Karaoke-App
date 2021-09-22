@@ -147,7 +147,7 @@ describe('POST /songs', function () {
     it('Post a song', function (done) {
         let song = {
             "nombre": "nombre",
-            "letra": '[{"second": 0,"words": "When I met you in the summer"},{"second": 3,"words": "To my heartbeat sound"},{"second": 7,"words": "We fell in love"}]',
+            "letra": [{"second": 0,"words": "When I met you in the summer"},{"second": 3,"words": "To my heartbeat sound"},{"second": 7,"words": "We fell in love"}],
             "tipo": "tipo",
             "artista": "artista",
             "album": "album",
@@ -189,7 +189,7 @@ describe('PUT /songs', function () {
         try {
             let song = {
                 "nombre": "nombre",
-                "letra": '[{"second": 0,"words": "When I met you in the summer"},{"second": 3,"words": "To my heartbeat sound"},{"second": 7,"words": "We fell in love"}]',
+                "letra": [{"second": 0,"words": "When I met you in the summer"},{"second": 3,"words": "To my heartbeat sound"},{"second": 7,"words": "We fell in love"}],
                 "tipo": "tipo",
                 "artista": "artista",
                 "album": "album",
@@ -210,7 +210,7 @@ describe('PUT /songs', function () {
     it('Update a song', function (done) {
         song = {
             "nombre": "nombre2",
-            "letra": '[{"second": 0,"words": "When I met you in the summer"},{"second": 3,"words": "To my heartbeat sound"},{"second": 7,"words": "We fell in love"}]',
+            "letra": [{"second": 0,"words": "When I met you in the summer"},{"second": 3,"words": "To my heartbeat sound"},{"second": 7,"words": "We fell in love"}],
         }    
         request(app)
             .put('/songs/'+insertedId)
