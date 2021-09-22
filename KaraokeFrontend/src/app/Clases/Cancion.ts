@@ -2,7 +2,7 @@
 export class Cancion{
   _id: string = '';
   nombre: string = '';
-  letra: string = '';
+  letra: {words:string, second:number}[] = [];
   artista: string = '';
   album: string = '';
   owner: string = '';

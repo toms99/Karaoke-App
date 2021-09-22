@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {BlobServiceClient, ContainerClient} from "@azure/storage-blob";
-import {Router} from "@angular/router";
-import {Cancion} from "../../Clases/Cancion";
-import {CancionesService} from "../../services/canciones.service";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import { Router } from "@angular/router";
+import { Cancion } from "../../Clases/Cancion";
+import { CancionesService } from "../../services/canciones.service";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import * as fs from 'fs';
-import {PlayerService} from "../../services/player.service";
-import {CookieService} from "ngx-cookie-service";
+import { PlayerService } from "../../services/player.service";
+import { CookieService } from "ngx-cookie-service";
 import { ListaCancionesAuxService } from 'src/app/services/lista-canciones-aux.service';
+import { LyricsParserService } from 'src/app/services/lyrics-parser.service';
 
 @Component({
   selector: 'app-vista-premium',
@@ -18,14 +19,14 @@ export class VistaPremiumComponent implements OnInit {
   storageAccountName = 'soakaraokestorage';
   listaDeCacniones: Cancion[] = [];
   cancionActual: Cancion = new Cancion();
-  cancionSubir: Cancion = new  Cancion();
-  constructor(private router: Router,  private service: CancionesService, private playerAux: PlayerService,
-  private cookieService: CookieService, private listaCancionesService: ListaCancionesAuxService) { }
+  cancionSubir: Cancion = new Cancion();
+  constructor(private router: Router, private service: CancionesService, private playerAux: PlayerService,
+    private cookieService: CookieService, private listaCancionesService: ListaCancionesAuxService, private parser: LyricsParserService) { }
 
   ngOnInit(): void {
     this.listaCancionesService.sharedListaCanciones.subscribe(listaCanciones => this.listaDeCacniones = listaCanciones)
-    this.service.obtenerListaCancionesPrivadas().subscribe(lista =>
-    {this.listaDeCacniones = lista;
+    this.service.obtenerListaCancionesPrivadas().subscribe(lista => {
+      this.listaDeCacniones = lista;
       console.log(lista)
     })
   }
@@ -33,7 +34,7 @@ export class VistaPremiumComponent implements OnInit {
   fileContent: string = '';
 
 
-  public crearCancion(): void{
+  public crearCancion(): void {
     this.cancionSubir.letra = this.playerAux.letra;
     this.cancionSubir.owner = JSON.parse(this.cookieService.get('user')).username
     this.service.subirUnaCancion(this.cancionSubir).subscribe(respuesta => {
@@ -42,45 +43,47 @@ export class VistaPremiumComponent implements OnInit {
       this.cancionSubir.filename = respuesta.filename;
       this.uploadFileToBlob(this.cancionSubir.filename);
       this.ngOnInit()
-    },error => console.log(error))
+    }, error => console.log(error))
   }
 
-  public itemActual(item: Cancion){
+  public itemActual(item: Cancion) {
     this.cancionActual = item;
   }
-  public ediarCancionLetra(){
+  public ediarCancionLetra() {
     this.cancionActual.letra = this.playerAux.letra;
-    this.service.editarCancion(this.cancionActual._id,this.cancionActual).subscribe(respuesta =>{
+    this.service.editarCancion(this.cancionActual._id, this.cancionActual).subscribe(respuesta => {
       console.log(respuesta)
       this.ngOnInit();
     })
   }
 
-  public editarCancionMusica(): void{
+  public editarCancionMusica(): void {
     this.uploadFileToBlob(this.cancionActual.filename);
     this.ngOnInit();
   }
 
-  public eliminarCancion(): void{
-    this.service.eliminarCancion(this.cancionActual._id).subscribe(respuesta =>{
+  public eliminarCancion(): void {
+    this.service.eliminarCancion(this.cancionActual._id).subscribe(respuesta => {
       console.log(respuesta)
       this.ngOnInit();
     })
   }
 
   public navigate(comprobacion: string): void {
-    if(comprobacion === 'UsuarioPremium'){
+    if (comprobacion === 'UsuarioPremium') {
     }
   }
 
 
-  public IrAStrem(): void{
+  public IrAStrem(item: Cancion): void {
+    this.playerAux.cancion = item;
     this.router.navigateByUrl('/stream');
+
   }
 
   fileSelected: any;
 
-  actualizarFile = async (event: any): Promise<void> =>{
+  actualizarFile = async (event: any): Promise<void> => {
     this.fileSelected = event.target.files[0]
   }
 
@@ -96,7 +99,7 @@ export class VistaPremiumComponent implements OnInit {
     // get Container - full public read access
     const containerClient: ContainerClient = blobService.getContainerClient(JSON.parse(this.cookieService.get('user')).username);
 
-    await this.createBlobInContainer(containerClient, file , fileName);
+    await this.createBlobInContainer(containerClient, file, fileName);
   };
 
   createBlobInContainer = async (containerClient: ContainerClient, file: File, fileName: string) => {
@@ -116,8 +119,9 @@ export class VistaPremiumComponent implements OnInit {
     let file = fileList[0];
     let fileReader: FileReader = new FileReader();
     let self = this;
-    fileReader.onloadend = function(x) {
-      self.playerAux.letra = (fileReader.result) ? fileReader.result.toString() : "";
+    fileReader.onloadend = function (x) {
+      self.parser.lyrics = (fileReader.result) ? fileReader.result.toString() : "";
+      self.playerAux.letra = self.parser.tomsify().letra;
     }
     fileReader.readAsText(file);
   }
