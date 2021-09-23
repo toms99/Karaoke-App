@@ -14,7 +14,31 @@
 Karaoke consiste en una aplicación web que permite a los usuarios reproducir canciones sincronizadas con la letra. Ofrece un diseño 
 atractivo y hace uso de tecnologías como _Jenkins_, _Angular_, _Keycloack_, entre otras. 
 
+## Diseño de la arquitectura.
+Se hizo uso del estándar C4 para diseño y diagramación de la arquitectura de Karaoke Web App.
 
+### Primer nivel
+<div align="center">
+        <img src="assets/img/C4_primerNivel.png" width=1000 alt="angular logo" border="0">
+</div>
+
+### Segundo nivel
+<div align="center">
+        <img src="assets/img/C4_segundoNivel.png" width=1000 alt="angular logo" border="0">
+</div>
+
+<div align="center">
+        <img src="assets/img/C4_DBsegundoNivel.png" width=1000 alt="angular logo" border="0">
+</div>
+
+### Tercer nivel
+<div align="center">
+        <img src="assets/img/C4_APItercerNivel.png" width=1000 alt="angular logo" border="0">
+</div>
+
+<div align="center">
+        <img src="assets/img/C4_UItercerNivel.png" width=1000 alt="angular logo" border="0">
+</div>
 
 ## Frameworks utilizados
 
@@ -25,27 +49,42 @@ Express es deliberadamente un framework de aplicaciones web muy ligero, por lo q
 ### Angular.
 
 Angular es un framework opensource desarrollado por Google para facilitar la creación y programación de aplicaciones web de una sola página, las webs SPA, separa completamente el frontend y el backend en la aplicación, evita escribir código repetitivo y mantiene todo más ordenado gracias a su patrón MVC.
+<div align="center">
+        <img src="https://th.bing.com/th/id/R.170271fc9a82462fee346c7a33a190fe?rik=5jtv%2fbOq3A6ISw&pid=ImgRaw&r=0" width=500 alt="angular logo" border="0">
+</div>
 
-![enter image description here](https://th.bing.com/th/id/R.170271fc9a82462fee346c7a33a190fe?rik=5jtv%2fbOq3A6ISw&pid=ImgRaw&r=0)
 ### Swagger.
 
 Es un framework para documentar APIs Rest desde muy diferentes fuentes: Archivos de configuración, XML, C#, Javascript, Ruby, PHP, Java, Scala entre otros, este framework  es utilizado puesto que con el se puede describir, producir, consumir y visualizar la API.
-![enter image description here](https://www.scottbrady91.com/img/logos/swagger-banner.png)
+<div align="center">
+        <img src="https://www.scottbrady91.com/img/logos/swagger-banner.png" width=500 alt="swagger logo" border="0">
+</div>
+
 
 ## Toolkits.
 
 ### Mongo DB Node Driver.
 
 MongoDB Node driver es un controlador el cual cuenta con una API asincrónica quese  puede usar para acceder a los valores de retorno del método a través de Promesas o especificar devoluciones de llamada para acceder a ellos cuando se comunica con MongoDB.
-![enter image description here](https://download.logo.wine/logo/MongoDB/MongoDB-Logo.wine.png)
+<div align="center">
+        <img src="https://download.logo.wine/logo/MongoDB/MongoDB-Logo.wine.png" width=500 alt="mongodb logo" border="0">
+</div>
+
 ### Keycloack.
 
 Keycloack es un producto de software de código abierto que permite el inicio de sesión único (IdP) con Identity Management y Access Management para aplicaciones y servicios modernos, este toolkit nos permite identificar los métodos de autenticación y haga que evolucionen sin modificar las aplicaciones.
-![enter image description here](https://th.bing.com/th/id/OIP.yiFbD9DVA3reJa0EhJHj1gHaHa?pid=ImgDet&rs=1)
+<div align="center">
+        <img src="https://th.bing.com/th/id/OIP.yiFbD9DVA3reJa0EhJHj1gHaHa?pid=ImgDet&rs=1" width=500 alt="Keycloack logo" border="0">
+</div>
+
+
 
 ## Lenguaje de programación.
 En función de la decisión de desarrollar la aplicación web usando Angular, se usó **Type Script** como principal lenguaje de programación en el front-end. Además, como complemento para Express, se hizo uso de **Java Script** para escribir el back-end. 
-![Typescript logo](https://th.bing.com/th/id/R.f2ac8107186f5221c7820480534f74bb?rik=Ig8/7gNT4dzB4g&pid=ImgRaw&r=0)
+<div align="center">
+        <img src="https://th.bing.com/th/id/R.f2ac8107186f5221c7820480534f74bb?rik=Ig8/7gNT4dzB4g&pid=ImgRaw&r=0" width=500 alt="JS and TS" border="0">
+</div>
+
 ## Cloud Provider: Azure
 
 Se seleccionó Azure como proveedor de servicios en la nube para las máquinas virtuales y para el almacenamiento de las canciones. Esta elección se dió dado que:
@@ -88,11 +127,3 @@ La organización en el repositorio se da por carpetas de la siguiente manera:
 - KaraokeFrontend: En esta carpeta se encuentra el Frontend del projecto desarrollado con el framework Angular.
 - docs: En esta carpeta se encuentra la documentación del proyecto a mostrar en la página del proyecto.
 
-## Installation
-
-_TODO: Add your instructions here or link to an installation.md page._
-
-
-## Usage
-
-_TODO: Add your instructions here or link to a usage.md page._
