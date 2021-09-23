@@ -9,58 +9,38 @@
 
 <!-- TODO: You can delete the About and Create a Docsify site sections if you create a new project from this template -->
 
-## About
+## Sobre Karaoke
 
 Karaoke consiste en una aplicación web que permite a los usuarios reproducir canciones sincronizadas con la letra. Ofrece un diseño 
 atractivo y hace uso de tecnologías como _Jenkins_, _Angular_, _Keycloack_, entre otras. 
 
-This is a template for a simple but elegant docs site built on _Docsify_ which magically turns your markdown in your `docs` directory into a docs site. 
-
-This is a statically-built site - just commit and push and your Github Pages site will re-deploy.
-
-_Docsify.js_ runs as a _Single-Page Application_ on `index.html` - it relies on JavaScript to pull in content from markdown file, within the app shell. This gives a modern progressive web-app experience for instant page loads. But, this **not** SEO-friendly as crawlers don't like to or can't load JavaScript. So use a static site instead if you need to be found on search engines.
-
-If you want learn about _Docsify_ and how to customize a docs like this, follow this tutorial:
-
-<div align="center">
- 
-[![Teach me - DocsifyJS tutorial](https://img.shields.io/badge/Teach_me-DocsifyJS_tutorial-blue)](https://michaelcurrin.github.io/docsify-js-tutorial/#/)
-
-</div>
 
 
-## Create a Docsify site
-> How to create your own docs site like this one
+## Frameworks utilizados
 
-Click the button below to create your own copy of this repo.
-
-<div align="center">
-    <a href="https://github.com/MichaelCurrin/docsify-js-template/generate">
-        <img src="https://img.shields.io/badge/Generate-Use_this_template-2ea44f?style=for-the-badge" alt="Use this template">
-    </a>
-</div>
-
-<br>
-
-Then follow instructions in the original GitHub repo linked below. The `README.md` file covers how to set up docs site like this one.
-
-<div align="center">
-    <a href="https://github.com/MichaelCurrin/docsify-js-template">
-        <img src="https://img.shields.io/static/v1?label=MichaelCurrin&message=docsify-js-template&color=blue&style=for-the-badge&logo=github" alt="MichaelCurrin - docsify-js-template">
-    </a>
-</div>
+### Express: 
+Express es deliberadamente un framework de aplicaciones web muy ligero, por lo que gran parte de sus beneficios y potencial proviene de bibliotecas y características de terceros.
 
 
-## Preview
+### Angular: 
 
-_TODO: Complete with your content - such as a screenshot of your app or command-line usage. You can also rename Preview to Sample._
+Angular es un framework opensource desarrollado por Google para facilitar la creación y programación de aplicaciones web de una sola página, las webs SPA, separa completamente el frontend y el backend en la aplicación, evita escribir código repetitivo y mantiene todo más ordenado gracias a su patrón MVC
+![enter image description here](https://th.bing.com/th/id/OIP.JWcKdjkJlUbPCu8Z2lKHzgHaH3?pid=ImgDet&rs=1 =900x)
+### Swagger:
 
+Es un framework para documentar APIs Rest desde muy diferentes fuentes: Archivos de configuración, XML, C#, Javascript, Ruby, PHP, Java, Scala entre otros, este framework  es utilizado puesto que con el se puede describir, producir, consumir y visualizar la API.
+![enter image description here](https://www.scottbrady91.com/img/logos/swagger-banner.png =900x)
+# Toolkits
 
-## Installation
+### Mongo DB Node Driver :
 
-_TODO: Add your instructions here or link to an installation.md page._
+MongoDB Node driver es un controlador el cual cuenta con una API asincrónica quese  puede usar para acceder a los valores de retorno del método a través de Promesas o especificar devoluciones de llamada para acceder a ellos cuando se comunica con MongoDB.
+![enter image description here](https://download.logo.wine/logo/MongoDB/MongoDB-Logo.wine.png =900x)
+### Keycloack:
 
+Keycloack es un producto de software de código abierto que permite el inicio de sesión único (IdP) con Identity Management y Access Management para aplicaciones y servicios modernos, este toolkit nos permite identificar los métodos de autenticación y haga que evolucionen sin modificar las aplicaciones.
+![enter image description here](https://th.bing.com/th/id/OIP.yiFbD9DVA3reJa0EhJHj1gHaHa?pid=ImgDet&rs=1 =900x)
 
-## Usage
-
-_TODO: Add your instructions here or link to a usage.md page._
+## Lenguaje de programación 
+En función de la decisión de desarrollar la aplicación web usando Angular, se usó **Type Script** como principal lenguaje de programación en el front-end. Además, como complemento para Express, se hizo uso de **Java Script** para escribir el back-end. 
+![Typescript logo](https://th.bing.com/th/id/R.f2ac8107186f5221c7820480534f74bb?rik=Ig8/7gNT4dzB4g&pid=ImgRaw&r=0 =900x)

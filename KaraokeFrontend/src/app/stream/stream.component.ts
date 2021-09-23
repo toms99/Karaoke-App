@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cancion } from '../Clases/Cancion';
 import { PlayerService } from '../services/player.service';
-
+import file from '../../assets/songLyrics.json'
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-stream',
@@ -12,6 +13,7 @@ import { PlayerService } from '../services/player.service';
 export class StreamComponent implements OnInit {
 
   public isPlaying = false;
+  public isAudioLoaded = false;
   public song: Cancion = new Cancion();
   public lyrics = "hi";
   public nextLyrics = "bye";
@@ -22,25 +24,29 @@ export class StreamComponent implements OnInit {
   constructor(private router: Router, private player: PlayerService) { }
 
   ngOnInit() {
-    console.log("vacio?", this.player.cancion)
-    this.song = this.player.cancion;
+    // this.song = this.player.cancion;
+    this.song.letra = file.timedLyrics;
+    console.log("vacio?", this.song)
     this.loadAudio();
   }
 
   loadLyrics() {
-    let lyrics = this.song.letra;
+    // let lyrics = this.song.letra;
+    let lyrics = file.timedLyrics;
     this.lyrics = lyrics[0].words;
     this.nextLyrics = lyrics[1].words;
   }
 
   loadAudio() {
     this.loadLyrics();
-    this.audio.src = this.song.url;
+    // this.audio.src = this.song.url;
+    this.audio.src = '../../assets/videoplayback.m4a';
     this.audio.load();
+    setTimeout(() => { this.isAudioLoaded = true }, 1300);
   }
 
   playAudio() {
-    if (!this.isPlaying) {
+    if (!this.isPlaying && this.isAudioLoaded) {
       this.audio.play();
       this.isPlaying = true;
       this.Run();
@@ -67,25 +73,27 @@ export class StreamComponent implements OnInit {
 
 
   refresh() {
-    let currentPos = 0.0;
+    let currentPos = this.currentSecs;
     let lyrics = this.song.letra;
     let self = this;
     const interval = setInterval(() => {
-      currentPos = parseFloat(currentPos.toFixed(2));
-      self.currentSecs = currentPos;
-      console.log(currentPos);
+      if (self.isPlaying) {
+        currentPos = parseFloat(currentPos.toFixed(2));
+        self.currentSecs = currentPos;
+        lyrics.forEach(song => {
+          if (song.second == currentPos && currentPos > 1) {
+            this.lyrics = song.words;
+            let tmpIndex = lyrics.findIndex(tmpsong => (tmpsong.second == song.second))
+            this.nextLyrics = (lyrics[tmpIndex + 1]) ? lyrics[tmpIndex + 1].words : "";
+          }
+        })
+        currentPos += 0.01;
+      } else if (this.lyrics === "") {
+        clearInterval(interval); this.stopAudio()
+      } else {
+        clearInterval(interval);
+      }
 
-      console.log("Im in")
-      lyrics.forEach(song => {
-        if (song.second == currentPos && currentPos > 1) {
-          this.lyrics = song.words;  
-          let tmpIndex = lyrics.findIndex(tmpsong => (tmpsong.second == song.second))
-          this.nextLyrics = (lyrics[tmpIndex+1]) ? lyrics[tmpIndex+1].words : "";
-          // this.lyrics = song.words;
-        } 
-      })
-      currentPos += 0.01;
-      if (this.lyrics === ""){clearInterval(interval); this.stopAudio()}
     }, 10);
   }
 
