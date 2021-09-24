@@ -127,3 +127,27 @@ La organización en el repositorio se da por carpetas de la siguiente manera:
 - KaraokeFrontend: En esta carpeta se encuentra el Frontend del projecto desarrollado con el framework Angular.
 - docs: En esta carpeta se encuentra la documentación del proyecto a mostrar en la página del proyecto.
 
+## Estandares de programación 
+### Backend (Nodejs)
+ - Se utiliza lower camelCase para los nombres.
+ - Todo nombre inicia con una letra.
+ - Se deja espacios entre cada operador y las comas.
+ - Se realiza una indentación de 4 espacios para cada bloque de código.
+ - Al declarar objetos se deja una linea por cada atributo y el corchete de cierre.
+ - Las variables  se declaran localmente.
+ - Se inicializa las variables cuando se declaran.
+ - Las constantes se declaran con `const`.
+ - No se tratan números, Strings ni Boolean como objetos.
+### Frontend (Angular)
+ - Los servicios y componentes están en distintos archivos.
+ - Cada archivo tiene un máximo de 400 líneas.
+ - Las funciones tienen un máximo de 75 líneas.
+ - Se utiliza la palabra `.service` en el nombre de los archivos para identificar servicios.
+ - Se utiliza `.component` en el nombre de los archivos para identificar componentes.
+ - Los nombres de los archivos coinciden con los nombres de los ficheros que lo contienen.
+ - La lógica de arranque de la aplicación se encuentra en el archivo `main.ts`.
+ - No hay lógica de aplicación en el archivo `main.ts`.
+ - Las constantes se declaran con `const`.
+ - Se usa el formato lower camelCase para definición de variables, funciones y clases.
+ - Los archivos de un mismo componente están agrupados en una única carpeta.
+ - El módulo raíz se encuentra en `src/app/app.module.ts`.
