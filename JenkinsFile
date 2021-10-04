@@ -12,7 +12,7 @@ node {
     stage ('Build') {
         dir('Karaoke-app') {
             sh 'git pull origin main'
-            dir('/Backend') {
+            dir('./Backend') {
                sh  'echo "This is $(pwd)'
             }
             
