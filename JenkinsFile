@@ -11,7 +11,7 @@ node {
     }
     stage ('Build') {
         dir('Karaoke-app') {
-            sh 'git pull'
+            sh 'git pull origin master'
             sh 'cd Backend &&  npm ci'
             sh 'cd KaraokeFrontend &&  npm ci'
             sh 'cd KaraokeFrontend &&  npm run build'
