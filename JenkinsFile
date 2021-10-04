@@ -10,7 +10,7 @@ node {
         }
     }
     stage ('Build') {
-
+            sh 'cd'
             sh 'cd Karaoke-App && git pull'
             sh 'cd Karaoke-App/Backend &&  npm ci'
             sh 'cd Karaoke-App/KaraokeFrontend &&  npm ci'
