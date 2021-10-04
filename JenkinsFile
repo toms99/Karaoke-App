@@ -49,7 +49,8 @@ node {
                     sshagent(credentials : ['teamsoakey']){
                         sh 'scp -o StrictHostKeyChecking=no -r Backend teamsoa@168.62.39.210:Karaoke-App'
                         sh 'scp -o StrictHostKeyChecking=no -r KaraokeFrontend/dist teamsoa@168.62.39.210:Karaoke-App/KaraokeFrontend'
-                        sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 delete all"
+                         catchError {
+                        sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 stop all"}
                         sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && export PORT=5000 && pm2 --name api start npm -- start"'
                     }
                 }
