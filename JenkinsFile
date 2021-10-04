@@ -12,6 +12,12 @@ node {
     stage ('Build') {
         dir('Karaoke-app') {
             sh 'git pull origin main'
+                    sh script:'''
+          #!/bin/bash
+          cd ./Backend
+          npm ci
+          echo "This is $(pwd)"
+        '''
             sh 'cd Backend &&  npm ci'
             sh 'cd KaraokeFrontend &&  npm ci'
             sh 'cd KaraokeFrontend &&  npm run build'
