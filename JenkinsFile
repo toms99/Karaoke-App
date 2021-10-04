@@ -10,18 +10,16 @@ node {
         }
     }
     stage ('Build') {
-        sshagent(credentials : ['teamsoakey']){
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App && git pull"'
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend &&  npm ci"'
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm ci"'
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm run build"'
-        }
+
+            sh 'cd Karaoke-App && git pull'
+            sh 'cd Karaoke-App/Backend &&  npm ci'
+            sh 'cd Karaoke-App/KaraokeFrontend &&  npm ci'
+            sh 'cd Karaoke-App/KaraokeFrontend &&  npm run build'
+        
     }
     stage ('Unit_test') {
         catchError {
-            sshagent(credentials : ['teamsoakey']){
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && npm test"'
-            }
+            sh 'cd Karaoke-App/Backend && npm test'
         }
     }
 
