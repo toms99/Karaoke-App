@@ -26,8 +26,6 @@ node {
                 sh 'npm test'
             }
             dir('./KaraokeFrontend') {
-                sh 'npm test'
-
             }
         }
     }
