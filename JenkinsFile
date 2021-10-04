@@ -10,7 +10,7 @@ node {
         }
     }
     stage ('Build') {
-        dir('../../../../../Karaoke-app') {
+        dir('../../../../Karaoke-app') {
             sh 'git pull origin main'
             dir('./Backend') {
                 sh 'npm i'
