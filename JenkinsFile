@@ -11,7 +11,7 @@ node {
     }
     stage ('Build') {
         dir('Karaoke-App') {
-            sh 'sudo git pull'
+            git pull
             dir('./Backend') {
                 sh 'npm i'
                 sh 'npm ci'
