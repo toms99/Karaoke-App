@@ -13,7 +13,7 @@ node {
         dir('Karaoke-app') {
             sh 'git pull origin main'
             dir('/Backend') {
-                echo "This is $(pwd)"
+               sh  'echo "This is $(pwd)'
             }
             
             sh 'cd KaraokeFrontend &&  npm ci'
