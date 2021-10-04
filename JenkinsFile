@@ -13,9 +13,11 @@ node {
         dir('Karaoke-app') {
             sh 'git pull origin main'
             dir('./Backend') {
-               sh  'npm ci'
+                sh 'npm i'
+                sh 'npm ci'
             }
             dir('./KaraokeFrontend') {
+                sh 'npm i'
                 sh 'npm ci'
                 sh 'npm run build'
             }
