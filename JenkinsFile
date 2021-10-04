@@ -10,20 +10,16 @@ node {
         }
     }
     stage ('Build') {
-        dir('Karaoke-App') {
-            git pull
-            dir('./Backend') {
-                sh 'npm i'
-                sh 'npm ci'
-            }
-            dir('./KaraokeFrontend') {
-                sh 'npm i'
-                sh 'npm ci'
-                sh 'mkdir prueba'
-                sh 'npm run build'
-            }
+        dir('./Backend') {
+            sh 'npm i'
+            sh 'npm ci'
         }
-        
+        dir('./KaraokeFrontend') {
+            sh 'npm i'
+            sh 'npm ci'
+            sh 'mkdir prueba'
+            sh 'npm run build'
+        }
     }
     stage ('Unit_test') {
         catchError {
