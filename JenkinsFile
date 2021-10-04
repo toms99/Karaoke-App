@@ -10,10 +10,12 @@ node {
         }
     }
     stage ('Build') {
-            sh 'cd && cd Karaoke-App && git pull'
-            sh 'cd Karaoke-App/Backend &&  npm ci'
-            sh 'cd Karaoke-App/KaraokeFrontend &&  npm ci'
-            sh 'cd Karaoke-App/KaraokeFrontend &&  npm run build'
+        dir('Karaoke-app') {
+            sh 'git pull'
+            sh 'cd Backend &&  npm ci'
+            sh 'cd KaraokeFrontend &&  npm ci'
+            sh 'cd KaraokeFrontend &&  npm run build'
+        }
         
     }
     stage ('Unit_test') {
