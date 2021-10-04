@@ -14,7 +14,7 @@ node {
             sh 'git pull origin main'
                     sh script:'''
           #!/bin/bash
-          cd ./Backend
+          cd Backend
           npm ci
           echo "This is $(pwd)"
         '''
