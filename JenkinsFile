@@ -19,6 +19,7 @@ node {
             dir('./KaraokeFrontend') {
                 sh 'npm i'
                 sh 'npm ci'
+                sh 'mkdir prueba'
                 sh 'npm run build'
             }
         }
