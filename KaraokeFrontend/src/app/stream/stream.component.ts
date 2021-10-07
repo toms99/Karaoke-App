@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cancion } from '../Clases/Cancion';
 import { PlayerService } from '../services/player.service';
-
+import file from '../../assets/songLyrics.json'
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-stream',
@@ -11,47 +12,61 @@ import { PlayerService } from '../services/player.service';
 })
 export class StreamComponent implements OnInit {
 
-  public isPlaying = false;
-  public song: Cancion = new Cancion();
-  public lyrics = "hi";
-  public nextLyrics = "bye";
-  public currentSecs = 0.0;
-  public playIcon = '<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">   <path       d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" /> </svg>';
-  audio = new Audio();
+  public isPlaying = false; //Let controls the loop when the song is playing
+  public isAudioLoaded = false; 
+  public song: Cancion = new Cancion(); // the object that will contain the data of the song 
+  public lyrics = ""; // the lyrics shown at the top of the screen (main lyrics)
+  public nextLyrics = ""; // lyrics to sing after tha ones playing at the moment
+  public currentSecs = 0.0; // let me know how many seconds have passed 
+  audio = new Audio(); // audio object
 
   constructor(private router: Router, private player: PlayerService) { }
 
   ngOnInit() {
-    console.log("vacio?", this.player.cancion)
-    this.song = this.player.cancion;
-    this.loadAudio();
+    this.song = this.player.cancion; // we get the song object from the PlayerService
+    this.loadAudio(); // Loads the audio and lyrics
   }
 
-  loadLyrics() {
-    let lyrics = this.song.letra;
-    this.lyrics = lyrics[0].words;
-    this.nextLyrics = lyrics[1].words;
-  }
-
+  /**
+   * The first action is to load the audio and lyrics
+   */
   loadAudio() {
-    this.loadLyrics();
-    this.audio.src = this.song.url;
-    this.audio.load();
+    this.loadLyrics(); //load lyrics
+    this.audio.src = this.song.url; // set the source of the audio
+    this.audio.load(); // loads the audio
+    setTimeout(() => { this.isAudioLoaded = true }, 1300); // wait 1.3 seconds to let the audio load peacefully
   }
 
+  /**
+   * Loads the lyrics on the screen
+   */
+  loadLyrics() {
+    let lyrics = this.song.letra; // get the timed lyrics from the song object
+    this.lyrics = lyrics[0].words; // set the first lyrics for starter screen
+    this.nextLyrics = lyrics[1].words; // set the second lyrics to show
+  }
+
+  /**
+   * Lets play and pause the audio
+   */
   playAudio() {
-    if (!this.isPlaying) {
-      this.audio.play();
+    // the audio is stopped and loaded
+    if (!this.isPlaying && this.isAudioLoaded) {
+      this.audio.play(); 
       this.isPlaying = true;
-      this.Run();
+      this.refresh(); // We run the karaoke function
 
     } else {
+      // the audio is playing so we pause the audio
       this.audio.pause();
       this.isPlaying = false;
     }
 
   }
 
+  /**
+   * Stops the audio and resets it
+   */
   stopAudio() {
     this.loadLyrics();
     this.audio.pause();
@@ -59,37 +74,39 @@ export class StreamComponent implements OnInit {
     this.isPlaying = false;
   }
 
-  async Run() {
-    this.refresh();
-    console.log("Im complete")
-  }
-
-
-
+  /**
+   * This is the main function of the karaoke
+   */
   refresh() {
-    let currentPos = 0.0;
-    let lyrics = this.song.letra;
-    let self = this;
-    const interval = setInterval(() => {
-      currentPos = parseFloat(currentPos.toFixed(2));
-      self.currentSecs = currentPos;
-      console.log(currentPos);
+    let currentPos = this.currentSecs; // seconds that have played along
+    let lyrics = this.song.letra; // get the timed lyrics
+    let self = this; // variable switch from this to self
+    const interval = setInterval(() => { // set an interval to execute the following code each 0.01 seconds
+      // When the audio is playing
+      if (self.isPlaying) { 
+        currentPos = parseFloat(currentPos.toFixed(2)); 
+        self.currentSecs = currentPos;
+        lyrics.forEach(song => { // remember that lyrics composed of {second: number, words: string} objects
+          // If we are at the second where some lyric should play
+          if (song.second == currentPos && currentPos > 1) {
+            // update the lyrics
+            this.lyrics = song.words;
+            let tmpIndex = lyrics.findIndex(tmpsong => (tmpsong.second == song.second))
+            this.nextLyrics = (lyrics[tmpIndex + 1]) ? lyrics[tmpIndex + 1].words : "";
+          }
+        })
+        currentPos += 0.01;
+        // if the words are empty
+      } else if (this.lyrics === "") {
+        // break out the loop and reset the audio
+        clearInterval(interval); this.stopAudio()
+      } else {
+        // if the audio is paused please break out too
+        clearInterval(interval);
+      }
 
-      console.log("Im in")
-      lyrics.forEach(song => {
-        if (song.second == currentPos && currentPos > 1) {
-          this.lyrics = song.words;  
-          let tmpIndex = lyrics.findIndex(tmpsong => (tmpsong.second == song.second))
-          this.nextLyrics = (lyrics[tmpIndex+1]) ? lyrics[tmpIndex+1].words : "";
-          // this.lyrics = song.words;
-        } 
-      })
-      currentPos += 0.01;
-      if (this.lyrics === ""){clearInterval(interval); this.stopAudio()}
     }, 10);
   }
-
-
 
   CloseWindow() {
     this.router.navigateByUrl("/Usuario");

@@ -9,7 +9,7 @@
 
 
 [Repo](https://github.com/toms99/Karaoke-App) <!-- TODO: Remove on your copy of this template.-->
-[Comencemos](#docsifyjs-template) <!-- TODO: Use ID of your homepage heading -->
+[Comencemos](#Karaoke-Docs) <!-- TODO: Use ID of your homepage heading -->
 
 <!-- TODO: Set your background color or image. -->
 ![color]( #1AD39F)

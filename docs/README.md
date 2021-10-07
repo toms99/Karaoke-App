@@ -9,45 +9,80 @@
 
 <!-- TODO: You can delete the About and Create a Docsify site sections if you create a new project from this template -->
 
-## About
+## Sobre Karaoke
 
 Karaoke consiste en una aplicación web que permite a los usuarios reproducir canciones sincronizadas con la letra. Ofrece un diseño 
 atractivo y hace uso de tecnologías como _Jenkins_, _Angular_, _Keycloack_, entre otras. 
 
-This is a template for a simple but elegant docs site built on _Docsify_ which magically turns your markdown in your `docs` directory into a docs site. 
+## Diseño de la arquitectura.
+Se hizo uso del estándar C4 para diseño y diagramación de la arquitectura de Karaoke Web App.
 
-This is a statically-built site - just commit and push and your Github Pages site will re-deploy.
+### Primer nivel
+<div align="center">
+        <img src="assets/img/C4_primerNivel.png" width=1000 alt="angular logo" border="0">
+</div>
 
-_Docsify.js_ runs as a _Single-Page Application_ on `index.html` - it relies on JavaScript to pull in content from markdown file, within the app shell. This gives a modern progressive web-app experience for instant page loads. But, this **not** SEO-friendly as crawlers don't like to or can't load JavaScript. So use a static site instead if you need to be found on search engines.
-
-If you want learn about _Docsify_ and how to customize a docs like this, follow this tutorial:
+### Segundo nivel
+<div align="center">
+        <img src="assets/img/C4_segundoNivel.png" width=1000 alt="angular logo" border="0">
+</div>
 
 <div align="center">
- 
-[![Teach me - DocsifyJS tutorial](https://img.shields.io/badge/Teach_me-DocsifyJS_tutorial-blue)](https://michaelcurrin.github.io/docsify-js-tutorial/#/)
+        <img src="assets/img/C4_DBsegundoNivel.png" width=1000 alt="angular logo" border="0">
+</div>
 
+### Tercer nivel
+<div align="center">
+        <img src="assets/img/C4_APItercerNivel.png" width=1000 alt="angular logo" border="0">
+</div>
+
+<div align="center">
+        <img src="assets/img/C4_UItercerNivel.png" width=1000 alt="angular logo" border="0">
+</div>
+
+## Frameworks utilizados
+
+### Express.
+Express es deliberadamente un framework de aplicaciones web muy ligero, por lo que gran parte de sus beneficios y potencial proviene de bibliotecas y características de terceros.
+
+
+### Angular.
+
+Angular es un framework opensource desarrollado por Google para facilitar la creación y programación de aplicaciones web de una sola página, las webs SPA, separa completamente el frontend y el backend en la aplicación, evita escribir código repetitivo y mantiene todo más ordenado gracias a su patrón MVC.
+<div align="center">
+        <img src="https://th.bing.com/th/id/R.170271fc9a82462fee346c7a33a190fe?rik=5jtv%2fbOq3A6ISw&pid=ImgRaw&r=0" width=500 alt="angular logo" border="0">
+</div>
+
+### Swagger.
+
+Es un framework para documentar APIs Rest desde muy diferentes fuentes: Archivos de configuración, XML, C#, Javascript, Ruby, PHP, Java, Scala entre otros, este framework  es utilizado puesto que con el se puede describir, producir, consumir y visualizar la API.
+<div align="center">
+        <img src="https://www.scottbrady91.com/img/logos/swagger-banner.png" width=500 alt="swagger logo" border="0">
 </div>
 
 
-## Create a Docsify site
-> How to create your own docs site like this one
+## Toolkits.
 
-Click the button below to create your own copy of this repo.
+### Mongo DB Node Driver.
 
+MongoDB Node driver es un controlador el cual cuenta con una API asincrónica quese  puede usar para acceder a los valores de retorno del método a través de Promesas o especificar devoluciones de llamada para acceder a ellos cuando se comunica con MongoDB.
 <div align="center">
-    <a href="https://github.com/MichaelCurrin/docsify-js-template/generate">
-        <img src="https://img.shields.io/badge/Generate-Use_this_template-2ea44f?style=for-the-badge" alt="Use this template">
-    </a>
+        <img src="https://download.logo.wine/logo/MongoDB/MongoDB-Logo.wine.png" width=500 alt="mongodb logo" border="0">
 </div>
 
-<br>
+### Keycloack.
 
-Then follow instructions in the original GitHub repo linked below. The `README.md` file covers how to set up docs site like this one.
-
+Keycloack es un producto de software de código abierto que permite el inicio de sesión único (IdP) con Identity Management y Access Management para aplicaciones y servicios modernos, este toolkit nos permite identificar los métodos de autenticación y haga que evolucionen sin modificar las aplicaciones.
 <div align="center">
-    <a href="https://github.com/MichaelCurrin/docsify-js-template">
-        <img src="https://img.shields.io/static/v1?label=MichaelCurrin&message=docsify-js-template&color=blue&style=for-the-badge&logo=github" alt="MichaelCurrin - docsify-js-template">
-    </a>
+        <img src="https://th.bing.com/th/id/OIP.yiFbD9DVA3reJa0EhJHj1gHaHa?pid=ImgDet&rs=1" width=500 alt="Keycloack logo" border="0">
+</div>
+
+
+
+## Lenguaje de programación.
+En función de la decisión de desarrollar la aplicación web usando Angular, se usó **Type Script** como principal lenguaje de programación en el front-end. Además, como complemento para Express, se hizo uso de **Java Script** para escribir el back-end. 
+<div align="center">
+        <img src="https://th.bing.com/th/id/R.f2ac8107186f5221c7820480534f74bb?rik=Ig8/7gNT4dzB4g&pid=ImgRaw&r=0" width=500 alt="JS and TS" border="0">
 </div>
 
 ## Cloud Provider: Azure
@@ -92,11 +127,27 @@ La organización en el repositorio se da por carpetas de la siguiente manera:
 - KaraokeFrontend: En esta carpeta se encuentra el Frontend del projecto desarrollado con el framework Angular.
 - docs: En esta carpeta se encuentra la documentación del proyecto a mostrar en la página del proyecto.
 
-## Installation
-
-_TODO: Add your instructions here or link to an installation.md page._
-
-
-## Usage
-
-_TODO: Add your instructions here or link to a usage.md page._
+## Estandares de programación 
+### Backend (Nodejs)
+ - Se utiliza lower camelCase para los nombres.
+ - Todo nombre inicia con una letra.
+ - Se deja espacios entre cada operador y las comas.
+ - Se realiza una indentación de 4 espacios para cada bloque de código.
+ - Al declarar objetos se deja una linea por cada atributo y el corchete de cierre.
+ - Las variables  se declaran localmente.
+ - Se inicializa las variables cuando se declaran.
+ - Las constantes se declaran con `const`.
+ - No se tratan números, Strings ni Boolean como objetos.
+### Frontend (Angular)
+ - Los servicios y componentes están en distintos archivos.
+ - Cada archivo tiene un máximo de 400 líneas.
+ - Las funciones tienen un máximo de 75 líneas.
+ - Se utiliza la palabra `.service` en el nombre de los archivos para identificar servicios.
+ - Se utiliza `.component` en el nombre de los archivos para identificar componentes.
+ - Los nombres de los archivos coinciden con los nombres de los ficheros que lo contienen.
+ - La lógica de arranque de la aplicación se encuentra en el archivo `main.ts`.
+ - No hay lógica de aplicación en el archivo `main.ts`.
+ - Las constantes se declaran con `const`.
+ - Se usa el formato lower camelCase para definición de variables, funciones y clases.
+ - Los archivos de un mismo componente están agrupados en una única carpeta.
+ - El módulo raíz se encuentra en `src/app/app.module.ts`.
