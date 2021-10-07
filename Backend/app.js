@@ -13,7 +13,7 @@ var usersRouter = require('./routes/users');
 
 var DataBaseInterface = require('./public/javascripts/DataBaseInterface');
 var corsOptions = {
-  origin: 'http://localhost:4200/',
+  origin: ['http://localhost:4200/', 'http://168.62.39.210:3000/'],
   optionsSuccessStatus: 200
 }
 
