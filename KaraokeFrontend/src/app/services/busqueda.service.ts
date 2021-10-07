@@ -13,7 +13,7 @@ export class BusquedaService {
 
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
-  URL = 'http://localhost:3000/songs'
+  URL = 'http://168.62.39.210:5000/songs'
 
   public busqueda(busqueda: Busqueda): Observable<Cancion[]> {
     // @ts-ignore

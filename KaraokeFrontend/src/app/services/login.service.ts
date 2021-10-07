@@ -8,7 +8,7 @@ import {User} from "../Clases/user";
   providedIn: 'root'
 })
 export class LoginService {
-  URL = 'http://localhost:3000/users'
+  URL = 'http://168.62.39.210:5000/users'
   constructor(private http: HttpClient) { }
 
   public hacerLogin(user: User):Observable<Object>{

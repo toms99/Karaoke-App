@@ -1,32 +1,30 @@
 node {
-    stage('Initialize') {
+    stage('Update Project') {
         git branch: 'main', changelog: true, poll: true, url: 'https://github.com/toms99/Karaoke-App'
     }
-    stage ('Prepare') {
-        catchError {
-            sshagent(credentials : ['teamsoakey']){
-                sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 delete 0"
-            }
-        }
-    }
     stage ('Build') {
-        sshagent(credentials : ['teamsoakey']){
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App && git pull"'
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend &&  npm ci"'
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm ci"'
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/KaraokeFrontend &&  npm run build"'
+        dir('./Backend') {
+            sh 'npm i'
+            sh 'npm ci'
+        }
+        dir('./KaraokeFrontend') {
+            sh 'npm i'
+            sh 'npm ci'
+            sh 'npm run build'
         }
     }
     stage ('Unit_test') {
         catchError {
-            sshagent(credentials : ['teamsoakey']){
-            sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && npm test"'
+            dir('./Backend') {
+                sh 'npm test'
+            }
+            dir('./KaraokeFrontend') {
+                sh 'npm test'
             }
         }
     }
 
     stage('SonarCloud and deploy') {
-         
         parallel(
             "sonarcloud": {
                 stage("sonarcloud") {
@@ -50,6 +48,9 @@ node {
             "deploy": {
                 stage("deploy") {
                     sshagent(credentials : ['teamsoakey']){
+                        sh 'scp -o StrictHostKeyChecking=no -r Backend teamsoa@168.62.39.210:Karaoke-App'
+                        sh 'scp -o StrictHostKeyChecking=no -r KaraokeFrontend/dist teamsoa@168.62.39.210:Karaoke-App/KaraokeFrontend'
+                        catchError {sh "ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 pm2 stop all"}
                         sh 'ssh -o StrictHostKeyChecking=no teamsoa@168.62.39.210 "cd Karaoke-App/Backend && export PORT=5000 && pm2 --name api start npm -- start"'
                     }
                 }
