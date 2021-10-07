@@ -109,6 +109,7 @@ export class StreamComponent implements OnInit {
   }
 
   CloseWindow() {
+    this.stopAudio();
     this.router.navigateByUrl("/Usuario");
   }
 
