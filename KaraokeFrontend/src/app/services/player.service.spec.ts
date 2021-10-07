@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LyricsParserService } from './lyrics-parser.service';
+import { PlayerService } from './player.service';
 
 describe('LyricsParserService', () => {
-  let service: LyricsParserService;
-
+  let service: PlayerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LyricsParserService);
+    service = TestBed.inject(PlayerService);
   });
 
 

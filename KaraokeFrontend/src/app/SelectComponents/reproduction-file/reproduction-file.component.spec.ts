@@ -1,53 +1,87 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CancionesService } from 'src/app/services/canciones.service';
+import { ListaCancionesAuxService } from 'src/app/services/lista-canciones-aux.service';
+import { PlayerService } from 'src/app/services/player.service';
 
 import { ReproductionFileComponent } from "./reproduction-file.component";;
 
-describe('TestComponent', () => {
+describe('ReproductionFileComponent', () => {
   let component: ReproductionFileComponent;
   let fixture: ComponentFixture<ReproductionFileComponent>;
-
+  let cancionesService: CancionesService;
+  let playerService: PlayerService;
+  let listaCacnionService: ListaCancionesAuxService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ReproductionFileComponent],
-      imports: [ RouterTestingModule ]
+      imports: [RouterTestingModule, HttpClientTestingModule],
+      providers: [CancionesService]
 
     })
       .compileComponents();
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ReproductionFileComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  // beforeEach(() => {
+  //   fixture = TestBed.createComponent(ReproductionFileComponent);
+  //   component = fixture.componentInstance;
+  //   cancionesService = TestBed.inject(CancionesService);
+  //   // listaCacnionService = TestBed.inject(ListaCancionesAuxService);
+  //   // playerService = TestBed.inject(PlayerService);
+  //   fixture.detectChanges();
+  // });
 
+  it(
+    'should get list of songs',
+    inject(
+      [HttpTestingController, CancionesService],
+      (httpMock: HttpTestingController, dataService: CancionesService) => {
+        const mockUsers = [
+          {
+            _id: '3',
+            nombre: 'Photograph',
+            letra: [
+              {
+                "second": 16.01,
+                "words": "Loving can hurt, loving can hurt sometimes"
+              },
+              {
+                "second": 24.79,
+                "words": "But it's the only thing that I know"
+              },
+              {
+                "second": 33.52,
+                "words": "When it gets hard, you know it can get hard sometimes"
+              }],
+            artista: 'Ed Sheeran',
+            album: 'X',
+            owner: 'Alfaro',
+            url: 'https://www.youtube.com/watch?v=i5rRH6OWt58',
+            filename: 'audio1',
+          }
+        ];
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+        dataService.obtenerListaCancionesPublicas().subscribe(lista => {
+          if (lista.length!=0 ){
+              expect(lista).toEqual(mockUsers);
+          }
+        });
 
-  it('should render text in a h5 tag', async(() => {
-    const fixture = TestBed.createComponent(ReproductionFileComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h5').textContent).toContain('Nombre de la cancion');
-  }));
+        const mockReq = httpMock.expectOne(dataService.URL);
 
-  it('should render text in a h6 tag', async(() => {
-    const fixture = TestBed.createComponent(ReproductionFileComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h6').textContent).toContain('Artista');
-  }));
+        expect(mockReq.cancelled).toBeFalsy();
+        expect(mockReq.request.responseType).toEqual('json');
+        mockReq.flush(mockUsers);
 
-  it('should render text in a p tag', async(() => {
-    const fixture = TestBed.createComponent(ReproductionFileComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('p').textContent).toContain('Pedacito de la cancion');
-  }));
+        httpMock.verify();
+      }
+    )
+  );
+
+  
+
 
 });

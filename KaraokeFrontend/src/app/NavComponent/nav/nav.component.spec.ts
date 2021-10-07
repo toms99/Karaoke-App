@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { NavComponent } from "./nav.component";;
 
-describe('TestComponent', () => {
+describe('NavComponent', () => {
   let component: NavComponent;
   let fixture: ComponentFixture<NavComponent>;
 
@@ -25,17 +25,5 @@ describe('TestComponent', () => {
   });
 
 
-  it("should  be boolean", () => {
-    if (component.premium) {
-      expect(component.premium).toBeTruthy();
-    } else {
-      expect(component.premium).toBeFalsy();
-    }
-
-  })
-
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
 
 });
