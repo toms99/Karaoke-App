@@ -14,16 +14,13 @@ node {
         }
     }
     stage ('Unit_test') {
-        catchError {
-            dir('./Backend') {
-                sh 'npm test'
-            }
-            dir('./KaraokeFrontend') {
-                sh 'npm test'
-            }
+        dir('./Backend') {
+            sh 'npm test'
+        }
+        dir('./KaraokeFrontend') {
+            sh 'npm test'
         }
     }
-
     stage('SonarCloud and deploy') {
         parallel(
             "sonarcloud": {
