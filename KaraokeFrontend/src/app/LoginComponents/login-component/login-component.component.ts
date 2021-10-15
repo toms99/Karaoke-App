@@ -14,9 +14,11 @@ import { LyricsParserService } from 'src/app/services/lyrics-parser.service';
 })
 export class LoginComponentComponent implements OnInit {
 
+  values = [{value: 'premium', nombre : 'Premium'}, {value: 'user', nombre : 'Estandar'}];
+  defaultValue = this.values[0].nombre;
   constructor(private router: Router , private service: LoginService, private cancionesService: CancionesService,
   private cookieService: CookieService, private parser: LyricsParserService) {
-
+  
 
 }
   esPremiun = false;
@@ -32,6 +34,7 @@ export class LoginComponentComponent implements OnInit {
   public crearUsuario():void{
     this.service.registraUsuario(this.UsuarioNuevo).subscribe(res => {
       console.log(res);
+      alert("Usuario creado con éxito.");
     },
       error => {
       console.log(error);
@@ -58,5 +61,6 @@ export class LoginComponentComponent implements OnInit {
         alert('Error al ingresar,Favor ingresar un usario y contraseña validos');
       }
     })
+    // this.loading = !this.loading;
   }
 }
