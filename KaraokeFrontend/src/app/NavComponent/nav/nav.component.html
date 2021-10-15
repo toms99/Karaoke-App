@@ -4,14 +4,12 @@
       <img class="logo btn" (click)="navigate('Inicio')" src="..\assets\imgs\Asset 3logo_mic.svg">
 
       <form class="d-flex">
-        <!-- <div class="kfiltros"> -->
-          <label for="myForm">Filtro:</label>
+          <label class="klabel" for="myForm">Filtro:</label>
           <select id="myForm" class="form-select kselect" [(ngModel)]="this.tipoBusqueda"
             [ngModelOptions]="{standalone: true}">
             <option class="kselect" *ngFor="let value of values" [ngValue]="value.value" [selected]="values[0].nombre">
               {{value.nombre}}</option>
           </select>
-        <!-- </div> -->
         <!-- <select class="form-select kselect" aria-label="Default select example" name="sele" #hourMode="ngModel"
                 [(ngModel)]="this.tipoBusqueda">
           <option class="kselect-option" [selected]>Tipo de busqueda</option>

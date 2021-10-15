@@ -46,7 +46,8 @@
                 placeholder="Contraseña" aria-label="contraseña" required="" #passwordN="ngModel"
                 [(ngModel)]="UsuarioNuevo.password">
             </div>
-            <select class="kselect" ng-init="value = premium" aria-label="Default select example"  name="hourMode" #hourMode="ngModel"
+            <label class="klabel" for="myForm">Tipo de usuario:</label>
+            <select class="form-select kselect" id="myForm" ng-init="value = premium" aria-label="Default select example"  name="hourMode" #hourMode="ngModel"
               [(ngModel)]="UsuarioNuevo.rol">
               <option class="kselect"  value="premium" selected >Premium</option>
               <option class="kselect" value="user" >Standard</option>
