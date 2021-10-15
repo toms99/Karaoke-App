@@ -20,6 +20,7 @@ export class VistaPremiumComponent implements OnInit {
   listaDeCacniones: Cancion[] = [];
   cancionActual: Cancion = new Cancion();
   cancionSubir: Cancion = new Cancion();
+  public loading = false;
   constructor(private router: Router, private service: CancionesService, private playerAux: PlayerService,
     private cookieService: CookieService, private listaCancionesService: ListaCancionesAuxService, private parser: LyricsParserService) { }
 
@@ -110,7 +111,9 @@ export class VistaPremiumComponent implements OnInit {
     // set mimetype as determined from browser with file upload control
     const options = { blobHTTPHeaders: { blobContentType: file.type } };
     // upload file
+    this.loading = true;
     await blobClient.uploadBrowserData(file, options);
+    this.loading = false;
   }
 
 

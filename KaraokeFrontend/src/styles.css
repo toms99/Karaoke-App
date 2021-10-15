@@ -172,3 +172,46 @@
   background: var(--k-light);
   color: var(--k-dark);
 }
+
+.loading{
+  width: 40%;
+  height: 20px;
+  margin-left: 45% ;
+  padding-top: 25%;
+}
+
+.dot{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-left: 4px;
+  display: inline-block;
+  box-shadow: 0px 0px 30px var(--k-primary-complementary);
+}
+
+.dot1{
+  background-color: var(--k-primary);
+  animation: jump-up 1s 0.1s linear infinite;
+
+}
+
+.dot2{
+  background-color: var(--k-secondary);
+  animation: jump-up 0.8s 0.3s linear infinite;
+
+}
+
+.dot3{
+  background-color: var(--k-tertiary);
+  animation: jump-up 0.6s 0.5s linear infinite;
+}
+
+@keyframes jump-up {
+  90%{
+    transform: translateY(-100px);
+  }
+}
+
+.kfiltros{
+  background-color: #12001D;
+}

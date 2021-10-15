@@ -1,5 +1,6 @@
 <div class="fondo">
-  <div class="container">
+
+  <div  class="container">
     <div class="row">
       <img src="..\assets\imgs\Asset 2@4x-8.png">
     </div>
@@ -7,11 +8,11 @@
       <form>
         <div class="row">
           <input type="email" name="email" class="kinput-main" id="InputEmail1" placeholder="Usuario"
-                 aria-label="CorreoElectronico" required="" #usario="ngModel" [(ngModel)]="usuario.username">
+            aria-label="CorreoElectronico" required="" #usario="ngModel" [(ngModel)]="usuario.username">
         </div>
         <div class="row ">
           <input type="password" name="password" class="kinput-main" id="InputPassword" placeholder="Contraseña"
-                 aria-label="contraseña" required="" #password="ngModel" [(ngModel)]="usuario.password">
+            aria-label="contraseña" required="" #password="ngModel" [(ngModel)]="usuario.password">
         </div>
         <div class="row">
           <button class="btn kbtn-primary" type="submit" (click)="login(usuario)">Aceptar</button>
@@ -19,7 +20,8 @@
       </form>
     </div>
     <div class="row">
-      <label type="button" class="btn kbtn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear Cuenta</label>
+      <label type="button" class="btn kbtn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear
+        Cuenta</label>
     </div>
   </div>
 </div>
@@ -37,16 +39,21 @@
           <form>
             <div class="row">
               <input type="email" name="email" class="kinput-primary" id="CrearCuentaEmail" placeholder="Usuario"
-                     aria-label="CorreoElectronico" required="" #usuarioN="ngModel" [(ngModel)]="UsuarioNuevo.username">
+                aria-label="CorreoElectronico" required="" #usuarioN="ngModel" [(ngModel)]="UsuarioNuevo.username">
             </div>
             <div class="row ">
-              <input type="password" name="password" class="kinput-primary" id="CrearCuentaPassword" placeholder="Contraseña"
-                     aria-label="contraseña" required="" #passwordN="ngModel" [(ngModel)]="UsuarioNuevo.password">
+              <input type="password" name="password" class="kinput-primary" id="CrearCuentaPassword"
+                placeholder="Contraseña" aria-label="contraseña" required="" #passwordN="ngModel"
+                [(ngModel)]="UsuarioNuevo.password">
             </div>
-            <select class="form-select kselect"  aria-label="Default select example" name="hourMode"  #hourMode="ngModel" [(ngModel)]="UsuarioNuevo.rol">
-              <option class="kselect" value="premium">Premium</option>
-              <option class="kselect" value="user">Standard</option>
+            <select class="kselect" ng-init="value = premium" aria-label="Default select example"  name="hourMode" #hourMode="ngModel"
+              [(ngModel)]="UsuarioNuevo.rol">
+              <option class="kselect"  value="premium" selected >Premium</option>
+              <option class="kselect" value="user" >Standard</option>
             </select>
+            <!-- <select class="form-control kselect" [(ngModel)]="UsuarioNuevo.rol">
+              <option class="kselect" *ngFor="let value of values" [ngValue]="value.value" [selected]="defaultValue">{{value.nombre}}</option>
+            </select> -->
           </form>
         </div>
       </div>

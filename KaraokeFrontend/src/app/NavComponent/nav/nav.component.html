@@ -4,29 +4,40 @@
       <img class="logo btn" (click)="navigate('Inicio')" src="..\assets\imgs\Asset 3logo_mic.svg">
 
       <form class="d-flex">
-
-        <select class="form-select kselect" aria-label="Default select example" name="sele" #hourMode="ngModel"
+        <!-- <div class="kfiltros"> -->
+          <label for="myForm">Filtro:</label>
+          <select id="myForm" class="form-select kselect" [(ngModel)]="this.tipoBusqueda"
+            [ngModelOptions]="{standalone: true}">
+            <option class="kselect" *ngFor="let value of values" [ngValue]="value.value" [selected]="values[0].nombre">
+              {{value.nombre}}</option>
+          </select>
+        <!-- </div> -->
+        <!-- <select class="form-select kselect" aria-label="Default select example" name="sele" #hourMode="ngModel"
                 [(ngModel)]="this.tipoBusqueda">
-          <option class="kselect-option" selected >Tipo de busqueda</option>
+          <option class="kselect-option" [selected]>Tipo de busqueda</option>
           <option class="kselect-option" value="Nombre">Nombre</option>
           <option class="kselect-option" value="Artista">Artista</option>
           <option class="kselect-option" value="Album">Album</option>
           <option class="kselect-option" value="Letra">Letra</option>
-        </select>
+        </select> -->
         <input class="form-control me-2 ksearch-bar" type="search" placeholder="Search" aria-label="Search"
-               #hourMode="ngModel" name="info" [(ngModel)]="this.informacionBusqueda">
+          #hourMode="ngModel" name="info" [(ngModel)]="this.informacionBusqueda">
         <button class="btn btnsearch kbtn-secondary" type="submit" (click)="buscarCancionN()">Buscar</button>
       </form>
 
       <button class="nav-item dropdown btn">
-        <a class="dropdown-toggle btn btnAux kdropdown"  id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+        <a class="dropdown-toggle btn btnAux kdropdown" id="navbarDropdown1" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+            class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+            <path
+              d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z" />
           </svg>
         </a>
         <ul class="dropdown-menu " aria-labelledby="navbarDropdown1">
           <li><a class="dropdown-item btn" (click)="navigate('Inicio')">Inicio</a></li>
-          <li *ngIf="premium"><a class="dropdown-item btn" (click)="navigate('UsuarioPremium')">Lista de reproduccion</a></li>
+          <li *ngIf="premium"><a class="dropdown-item btn" (click)="navigate('UsuarioPremium')">Lista de
+              reproduccion</a></li>
           <li><a class="dropdown-item btn" (click)="navigate('CerrarSesion')">Cerrar sesión</a></li>
         </ul>
       </button>
@@ -39,4 +50,3 @@
     <app-vista-premium></app-vista-premium>
   </div>
 </div>
-
