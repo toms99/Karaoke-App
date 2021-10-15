@@ -173,6 +173,12 @@
   color: var(--k-dark);
 }
 
+.klabel{
+  margin-right: 15px;
+  color: var(--k-light);
+  font-size: large;
+}
+
 .loading{
   width: 40%;
   height: 20px;
@@ -212,6 +218,3 @@
   }
 }
 
-.kfiltros{
-  background-color: #12001D;
-}
