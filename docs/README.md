@@ -1,6 +1,10 @@
 <!-- TODO: Update with your values. -->
 # Karaoke Docs
-> Descripción de las decisiones sobre la arquitectura de la aplicación Karaoke.
+> Descripción de las decisiones sobre la arquitectura de la aplicación web Karaoke. Un proyecto desarrollado por:
+>- Brayan Alfaro
+>- Brayan León
+>- Juan Solís
+>- Tomás Segura
 
  <!-- TODO: Update repo links and change license type if needed. -->
 
