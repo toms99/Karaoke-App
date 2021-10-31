@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectId
-var database = require('../public/javascripts/DataBaseInterface');
+var database = require('../public/javascripts/httpRequests');
 const { BlobServiceClient } = require('@azure/storage-blob');
 const AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=soakaraokestorage;AccountKey=DRhzPgINTEWI8IeQ9MjMBQol/vEnLbECZDYI53+2yCkQAT8qva6BbbUnFWhaqkA/t4H6omWvlJ1bobcR7O8ETg==;EndpointSuffix=core.windows.net";
 var cors = require('cors')
