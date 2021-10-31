@@ -9,7 +9,6 @@ const keycloak = require('./config/keycloak.js').initKeycloak();
 var session = require('express-session');
 
 var songsRouter = require('./routes/songs');
-var usersRouter = require('./routes/users');
 
 var DataBaseInterface = require('./public/javascripts/DataBaseInterface');
 var corsOptions = {
@@ -74,10 +73,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var testController = require('./routes/testcontroller.js');
-app.use('/test', testController);
 app.use('/songs', songsRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
