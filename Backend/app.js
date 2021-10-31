@@ -3,8 +3,6 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var swaggerJsdoc = require("swagger-jsdoc")
-var swaggerUi = require("swagger-ui-express");
 const keycloak = require('./config/keycloak.js').initKeycloak();
 var session = require('express-session');
 
@@ -32,40 +30,6 @@ app.use(keycloak.middleware());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
-
-// app.js
-const swaggerJSDoc = require('swagger-jsdoc');
-
-const swaggerDefinition = {
-    openapi: '3.0.0',
-    info: {
-        title: 'API de Karaoke TEC',
-        version: '1.0.0',
-        description:
-            'Aplicacion para hacer CRUD de las canciones y autenticar al usuario',
-        license: {
-            name: 'Licensed Under MIT',
-            url: 'https://spdx.org/licenses/MIT.html',
-        }
-    },
-    servers: [
-        {
-            url: 'http://localhost:3000',
-            description: 'Development server',
-        },
-    ],
-};
-
-const options = {
-    swaggerDefinition,
-    // Paths to files containing OpenAPI definitions
-    apis: ['./routes/*.js'],
-};
-
-const swaggerSpec = swaggerJSDoc(options);
-
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(logger('dev'));
 app.use(express.json());
