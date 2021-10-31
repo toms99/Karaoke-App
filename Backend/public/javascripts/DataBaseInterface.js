@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient
-const connectionString =  'mongodb://admin:teamsoa@168.62.39.210:27017/karaoke'
+const connectionString =  'mongodb+srv://client:HzKRkF8M52TTjidj@cluster0.uaqcj.mongodb.net/test'
 
 /**
  * Clase para comunicarse con la base de datos
@@ -18,8 +18,8 @@ class DataBaseInterface{
         MongoClient.connect(connectionString, { useUnifiedTopology: true })
         .then(client => {
           console.log('Connected to Database')
-          const db = client.db("karaoke")
-          DataBaseInterface.users = db.collection('Users')
+          const db = client.db("users")
+          DataBaseInterface.users = db.collection('users')
       }).catch(e=> console.log(e))      
     }
 }
