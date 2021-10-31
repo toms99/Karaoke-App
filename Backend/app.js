@@ -3,14 +3,16 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var swaggerJsdoc = require("swagger-jsdoc")
+var swaggerUi = require("swagger-ui-express");
 const keycloak = require('./config/keycloak.js').initKeycloak();
 var session = require('express-session');
 
-var blobsRouter = require('./routes/blobs');
-var containersRouter = require('./routes/containers');
+var songsRouter = require('./routes/songs');
 
+var DataBaseInterface = require('./public/javascripts/DataBaseInterface');
 var corsOptions = {
-  origin: '*',
+  origin: ['http://localhost:4200/', 'http://168.62.39.210:3000/'],
   optionsSuccessStatus: 200
 }
 
@@ -32,6 +34,38 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 
+// app.js
+const swaggerJSDoc = require('swagger-jsdoc');
+
+const swaggerDefinition = {
+    openapi: '3.0.0',
+    info: {
+        title: 'API de Karaoke TEC',
+        version: '1.0.0',
+        description:
+            'Aplicacion para hacer CRUD de las canciones y autenticar al usuario',
+        license: {
+            name: 'Licensed Under MIT',
+            url: 'https://spdx.org/licenses/MIT.html',
+        }
+    },
+    servers: [
+        {
+            url: 'http://localhost:3000',
+            description: 'Development server',
+        },
+    ],
+};
+
+const options = {
+    swaggerDefinition,
+    // Paths to files containing OpenAPI definitions
+    apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -39,8 +73,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/blobs', blobsRouter);
-app.use('/containers', containersRouter);
+app.use('/songs', songsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -59,5 +92,7 @@ app.use(function(req, res, next) {
   });
   
   
+  // Se conecta a la base de datos
+  DataBaseInterface.connect()
   module.exports = app;
   module.exports.corsOptions = corsOptions;
