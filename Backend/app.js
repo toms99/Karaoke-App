@@ -8,7 +8,6 @@ var swaggerUi = require("swagger-ui-express");
 const keycloak = require('./config/keycloak.js').initKeycloak();
 var session = require('express-session');
 
-var songsRouter = require('./routes/songs');
 var usersRouter = require('./routes/users');
 
 var DataBaseInterface = require('./public/javascripts/DataBaseInterface');
@@ -76,7 +75,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var testController = require('./routes/testcontroller.js');
 app.use('/test', testController);
-app.use('/songs', songsRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

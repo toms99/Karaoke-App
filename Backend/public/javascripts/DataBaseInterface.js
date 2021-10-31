@@ -8,7 +8,6 @@ class DataBaseInterface{
     /**
      * Variables para acceder a las colecciones de la base de datos
      */
-    static songs = null
     static users = null
 
     /**
@@ -20,7 +19,6 @@ class DataBaseInterface{
         .then(client => {
           console.log('Connected to Database')
           const db = client.db("karaoke")
-          DataBaseInterface.songs = db.collection('Songs')
           DataBaseInterface.users = db.collection('Users')
       }).catch(e=> console.log(e))      
     }
