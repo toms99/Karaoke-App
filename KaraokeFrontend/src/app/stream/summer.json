@@ -1,7 +1,12 @@
 {
-  "song": "Summer",
-  "artist": "Calvin Harris",
-  "Lyrics": [
+  "_id": "435654",
+  "album":  "",
+  "owner":  "",
+  "url": "",
+  "filename":  "",
+  "nombre": "Summer",
+  "artista": "Calvin Harris",
+  "letra": [
     {
       "second": 0,
       "words": "When I met you in the summer"
