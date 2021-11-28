@@ -322,9 +322,9 @@ Load Test: Pruebas donde se ve el comportamiento de un sistema a picos súbitos 
 
 <img src="assets\img\segunda_progra\Leon1.png" width=1500 alt="c4_primernivel" border="0">
 
-<img src="assets\img\segunda_progra\Leon2.png" width=500 alt="c4_primernivel" border="0">
+<img src="assets\img\segunda_progra\leon2.png" width=500 alt="c4_primernivel" border="0">
 
-<img src="assets\img\segunda_progra\Leon3.png" width=1000 alt="c4_primernivel" border="0">
+<img src="assets\img\segunda_progra\leon3.png" width=1000 alt="c4_primernivel" border="0">
 
 En las imágenes anteriores se puede ver cómo se realiza, mediante el uso de un script, una prueba de 200 usuarios virtuales (VU) realizando peticiones cada segundo durante 20 segundos, es decir, 200 request por segundo. Se puede ver que en respuesta el sistema se escaló horizontalmente y realizó 4 copias de sí mismo con el fin de mantener el funcionamiento óptimo. 
 Con relación a lo anterior, debido a la naturaleza de kubernetes, y la implementación del auto escalado, no es necesario definir las réplicas manualmente ya que Kubernetes, de acuerdo a su naturaleza como orquestador, por sí solo va a realizar las réplicas necesarias para mantener el buen funcionamiento del sistema de acuerdo a los parámetros brindados el cual se colocara en un 90% de uso por réplica, además este realizara el balanceo de cargas entre réplicas para utilizar la menor cantidad de réplicas posible, por lo que se decidió utilizar 2 copias iniciales para aprovechar dicho balanceo de cargas, el cual irá escalando conforme se necesite.
