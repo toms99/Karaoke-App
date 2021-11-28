@@ -1,5 +1,12 @@
 
 
+# Karaoke Docs
+> Descripción de las decisiones sobre la arquitectura orientada a microservicios de la aplicación web Karaoke. Un proyecto desarrollado por:
+>- Brayan Alfaro
+>- Brayan León
+>- Juan Solís
+>- Tomás Segura
+
 
 # Análisis de Debilidades
 
