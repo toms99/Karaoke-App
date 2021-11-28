@@ -322,7 +322,7 @@ Load Test: Pruebas donde se ve el comportamiento de un sistema a picos súbitos 
 
 <img src="assets\img\segunda_progra\Leon1.png" width=1500 alt="c4_primernivel" border="0">
 
-<img src="assets\img\segunda_progra\leon2.png" width=500 alt="c4_primernivel" border="0">
+<img src="assets\img\segunda_progra\leon2.png" width=300 alt="c4_primernivel" border="0">
 
 <img src="assets\img\segunda_progra\leon3.png" width=1000 alt="c4_primernivel" border="0">
 
