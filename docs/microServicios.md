@@ -297,8 +297,39 @@ Como se mencionó anteriormente, la aplicación inicial es sumamente monolítica
 
 ## Monitoreo de la salud del sistema y de los componentes
 
+Con el fin de que un sistema se mantenga funcionando por largos periodos de tiempo prolongados es indispensable que este mismo se mantenga bajo un monitoreo constante y  esto aplica también para kubernetes. Con el fin de poder ver que el orquestador realice su trabajo de la mejor manera es totalmente necesario ver el estado de cada “pod” de manera individual y ver que los mismos estén “saludables”. Para la tarea anteriormente descrita existen una serie de herramientas, a continuación se procede a explicar las herramientas que el equipo usó para este proyecto en específico.
+Para realizar el monitoreo del sistema se va a utilizar las herramientas brindadas por el repositorio de  kube-prometheus el cual se instalará ayuda de Helm el cual es un package manager para Kubernetes, el cual integra varias funcionalidades para llevar un seguimiento a diferentes parámetros tanto del cluster de kubernetes como de los componentes que lo conforman como los pods en donde se encuentran los microservicios realizados y que se acopla fácilmente a este cluster. La primera de las herramientas es prometheus el cual permite tanto obtener métricas como crear métricas específicas para cada servicio, además de brindar alertas sobre el buen funcionamiento del sistema, luego dichas métricas son expuestas para poder ser consumida por la segunda principal herramienta que integra este repositorio el cual permite consumir dichos datos, además de las ya brindadas por Azure para mostrarlas y organizarlas por gráficos y estadísticas agradables para el usuario, además de permitir clasificarlas y crear nuevos gráficos a conveniencia lo que permitirá monitorear fácilmente el estado y el uso del sistema y sus componentes. Finalmente se utilizará las propias herramientas brindadas por azure para conocer el estado de cada pod.  
+
 ## Métodos para lograr alta disponibilidad
+
+Entre los métodos predilectos para lograr alta disponibilidad en un sistema siempre se considera buena idea realizar una división apropiada del trabajo dependiendo de los recursos disponibles.
+Cuando se tiene un sistema que esté realizando una serie de procesos o atendiendo request en tiempo real es recomendable mantener un monitoreo sobre la carga con el fin de que esta no sobrepase el límite que se le quiera establecer.
+Para ello se ha decido utilizar Kubernetes en este caso en específico los Cluster de Kubernetes de Azure el cual va a orquestar las imágenes de docker que se crearán para cada microservicio, ya que contiene varias herramientas o funciones que permite lograr una alta disponibilidad.
+Para el caso de Docker, o en mayor medida orquestadores como kubernetes, los cuales serán las herramientas principales de este proyecto,  permite hacer uso de la función de “pod auto scaling”. La función anteriormente mencionada permite, a grandes rasgos, informar al sistema que, después de cierto gasto de recursos inmediatamente realice una copia de sí mismo para evitar que el “pod” actual se sature.
+Para el caso de kubernetes las copias de un mismo pod se consideran escalabilidad horizontal por lo que se denomina al proceso “HPA” (Horizontal Pod Autoscaling) y está disponible de manera integrada con el orquestador.
+Otra función que es recomendable utilizar para mantener la alta disponibilidad es el “load balancer” el cual es una herramienta que cumple la función de monitorear el ciclo de trabajo, determinar las cargas y distribuirlas de manera equitativa en el sistema con el fin de darle el funcionamiento más óptimo.
+
 
 ## Réplicas por microservicio necesarias para que el sistema responda en un tiempo específico
 
+Con el fin de siempre tener a un sistema en buen estado es imperativo realizar pruebas del mismo, especialmente si este maneja procesos o “request” en tiempo real.
+De las pruebas más importantes que se pueden realizar a un sistema se pueden resaltar las siguientes:
+Stress Test: Pruebas donde se presiona a un sistema a su punto máximo por un periodo de tiempo prolongado.
+Load Test: Pruebas donde se ve el comportamiento de un sistema a picos súbitos y cortos de request.
+	Para el caso de este proyecto se realizaron una serie de “load test” con el fin de corroborar la función de HPA mencionada en el punto anterior y ver si la misma funcionaba de manera correcta para mantener al sistema en un estado óptimo.
+	A continuación se muestran las pruebas realizadas:
+
+
+<img src="assets\img\segunda_progra\Leon1.png" width=1500 alt="c4_primernivel" border="0">
+
+<img src="assets\img\segunda_progra\Leon2.png" width=500 alt="c4_primernivel" border="0">
+
+<img src="assets\img\segunda_progra\Leon3.png" width=1000 alt="c4_primernivel" border="0">
+
+En las imágenes anteriores se puede ver cómo se realiza, mediante el uso de un script, una prueba de 200 usuarios virtuales (VU) realizando peticiones cada segundo durante 20 segundos, es decir, 200 request por segundo. Se puede ver que en respuesta el sistema se escaló horizontalmente y realizó 4 copias de sí mismo con el fin de mantener el funcionamiento óptimo. 
+Con relación a lo anterior, debido a la naturaleza de kubernetes, y la implementación del auto escalado, no es necesario definir las réplicas manualmente ya que Kubernetes, de acuerdo a su naturaleza como orquestador, por sí solo va a realizar las réplicas necesarias para mantener el buen funcionamiento del sistema de acuerdo a los parámetros brindados el cual se colocara en un 90% de uso por réplica, además este realizara el balanceo de cargas entre réplicas para utilizar la menor cantidad de réplicas posible, por lo que se decidió utilizar 2 copias iniciales para aprovechar dicho balanceo de cargas, el cual irá escalando conforme se necesite.
+
+Repositorio de referencias utilizado para la documentación de herramientas: 
+
+> [Link](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 
