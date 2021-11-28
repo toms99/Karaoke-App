@@ -155,14 +155,57 @@ Nuestro proyecto ha crecido de manera exponencial por lo tanto el modelo monolí
 
 Con la necesidad de mejorar el rendimiento de la aplicación de karaoke como grupo se decide separa dicha aplicación monolítica a una aplicación de microservicios de la cual en el backend existen 6 microservicios que se encargaran del manejo de los datos en el frontend tendremos 7 micro frontends y 3 bases de datos que almacenan la información de de la aplicación, también utilizaremos 4 Apis externas que nos apoyaran con las funcionalidades de la aplicación:
 
-Features Frontend:
+### Frontend
 
 Se crearán 7 nuevas micro aplicación web las cuales cumplirán las funciones de: Nabar de Búsqueda el cual tendrá la obligación de redirigir la aplicación web a los diferentes micro aplicaciones en la web y aparte de esto debe de implementar las búsqueda por filtros, otra de las micro aplicaciones será la vista premium la cual deberá de cumplir con las funcionalidades de CRUD de canciones privadas, una de las nuevas de la funcionalidades es el dashboard el cual se encarga de mostrar las diferentes estadísticas dentro de la aplicación, la microapliacion de login se encarga de la parte visual de acceso y registro de usuarios , la vista principal tiene la obligación de mostrar todas las canciones publicas a usuarios premium o estándar, el stream se encarga de dos funciones una de las nuevas especificación como lo es la puntuación aparte de esto deberá reproducir la música y la letra del karaoke por último la última nueva funcionalidad es la búsqueda de información de wikipedia para esto tenemos una micro aplicación que se encarga de recibir los datos para mostrar la información más relevante del artista mostrada en wikipedia
 
-Features Backend:
 
 
-# Falta la parte de alfaro
+### Backend
+
+El backend de la aplicación se desarrolló mediante el uso de microservicios. Cada uno de los microservicios diseñados tiene completo control sobre su repositorio de datos. En particular, se tienen los microservicios de autenticación (de usuarios), estadísticas y canciones. Estos tres microservicios se encargan de realizar operaciones sobre su fuente de datos. Por otro lado, se encuentran los microservicios de reconocimiento de voz, de almacenamiento y de wiki. Estos tres microservicios se conectan con apis externos para convertir audio a texto, manejar el almacenamiento de canciones, y obtener datos de los artistas, respectivamente. También, se hace uso de keycloak para autenticación en todos los microservicios. Adicionalmente, la comunicación entre microservicios se da mediante el patrón Event Driven, mediante el Messaging Broker de RabbitMQ.. Los diferentes microservicios se comunicacion por medio de esta herramienta con otros servicios de la siguiente manera.
+
+  
+
+#### Microservicio de canciones:
+    
+- Le solicita al microservicio de usuarios la clave del almacenamiento del usuario, para generar la URL de cada canción.
+    
+-   Recibe del microservicio de usuarios un id de la canción a actualizar y su correspondiente token para actualizar el URL.
+    
+
+#### Microservicio de autenticación:
+    
+
+-   Le solicita al microservicio de almacenamiento que genere la carpeta de almacenamiento del usuario al registrarse.
+    
+-   Recibe del microservicio de almacenamiento el nombre de usuario y su token de almacenamiento, que debe actualizar en la base de datos.
+    
+
+#### Microservicio de estadísticas:
+    
+
+-   Recibe del microservicio de reconocimiento de voz los puntajes de las palabras cantadas.
+    
+
+####  Microservicio de reconocimiento de voz:
+    
+
+-   Envía al microservicio de reconocimiento de voz los puntajes de las palabras cantadas.
+    
+
+####  Microservicio de almacenamiento:
+    
+
+-   Recibe del microservicio de usuarios, el nombre de la carpeta a crear.
+    
+-   Envía al microservicio de usuarios el token de la carpeta creada.
+    
+
+####  Microservicio de wiki:
+    
+
+-   No interactúa con otros microservicios.
 
 Para un mejor entendimiento se adjunta los diagramas de modelo c4 del proyecto con la arquitectura de microservicios
 
@@ -246,7 +289,10 @@ Actualmente, se presenta el problema de que los strings de autenticación a serv
 
 
 
-# Falta un error por resolver
+##  Uso de arquitectura cebolla:
+    
+
+Como se mencionó anteriormente, la aplicación inicial es sumamente monolítica. Por lo cual, uno de los cambios propuestos es el uso de una arquitectura cebolla a lo interno de cada uno de los microservicios, esto dado que es una arquitectura natural al aplicar los principios SOLID. Adicionalmente, es importante aplicar una arquitectura de diseño para que la aplicación sea mantenible y extensible.
 
 
 ## Monitoreo de la salud del sistema y de los componentes
